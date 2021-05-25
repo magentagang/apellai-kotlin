@@ -11,7 +11,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardAlbum"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/corner_album_small">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
