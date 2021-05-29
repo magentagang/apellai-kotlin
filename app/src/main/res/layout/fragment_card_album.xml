@@ -1,70 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardAlbumRoot"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CardAlbum">
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardAlbum"
-        android:layout_width="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="album"
+            type="com.magentagang.apellai.model.Album" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/cardAlbumRoot"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/corner_album_small">
+        android:layout_margin="6dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardAlbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:cardCornerRadius="@dimen/corner_album_small">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/albumArtRoundedContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/fragment_album_padding"
-                android:layout_marginTop="@dimen/fragment_album_padding"
-                android:layout_marginEnd="@dimen/fragment_album_padding"
-                app:cardCornerRadius="@dimen/corner_album_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/albumArt"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/dummy_text"
-                    android:src="@drawable/placeholder_nocover" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/albumName"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/fragment_album_padding"
-                android:layout_marginTop="16dp"
-                android:text="@string/dummy_text"
-                android:textSize="@dimen/fragment_album_text_album"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/albumArtRoundedContainer" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/artistName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/fragment_album_padding"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="@dimen/fragment_album_padding"
-                android:text="@string/dummy_text"
-                android:textSize="@dimen/fragment_album_text_artist"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/albumName" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/albumArtRoundedContainer"
+                    android:layout_width="@dimen/album_cover_size_grid"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fragment_album_padding"
+                    android:layout_marginTop="@dimen/fragment_album_padding"
+                    android:layout_marginEnd="@dimen/fragment_album_padding"
+                    app:cardCornerRadius="@dimen/corner_album_small"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:id="@+id/albumArt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/dummy_text"
+                        android:src="@drawable/placeholder_nocover" />
+                </androidx.cardview.widget.CardView>
 
-</FrameLayout>
+                <TextView
+                    android:id="@+id/albumName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fragment_album_padding"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/dummy_text"
+                    android:textSize="@dimen/fragment_album_text_album"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/albumArtRoundedContainer"
+                    app:albumName="@{album}" />
+
+                <TextView
+                    android:id="@+id/artistName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fragment_album_padding"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="@dimen/fragment_album_padding"
+                    android:text="@string/dummy_text"
+                    android:textSize="@dimen/fragment_album_text_artist"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/albumName"
+                    app:albumArtist="@{album}" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+</layout>
+
