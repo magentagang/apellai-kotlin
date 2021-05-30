@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.magentagang.apellai.databinding.FragmentCardAlbumBinding
+import com.magentagang.apellai.databinding.FragmentListAlbumBinding
 import com.magentagang.apellai.model.Album
 
-class GridAlbumAdapter : ListAdapter<Album,
-        GridAlbumAdapter.ViewHolder>(GridAlbumDiffCallback()) {
+class ListAlbumAdapter : ListAdapter<Album,
+        ListAlbumAdapter.ViewHolder>(GridAlbumDiffCallback()) {
 
-    class ViewHolder private constructor(val binding: FragmentCardAlbumBinding)
+    class ViewHolder private constructor(val binding: FragmentListAlbumBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Album) {
@@ -22,7 +22,7 @@ class GridAlbumAdapter : ListAdapter<Album,
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = FragmentCardAlbumBinding.inflate(layoutInflater, parent, false)
+                val binding = FragmentListAlbumBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(binding)
             }

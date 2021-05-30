@@ -17,3 +17,10 @@ fun TextView.setAlbumArtist(item: Album?) {
         text = item.artist
     }
 }
+
+@BindingAdapter("albumYear")
+fun TextView.setAlbumYear(item: Album?) {
+    item?.let {
+        text = item.year.toString()
+    }
+}

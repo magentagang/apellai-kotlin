@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.magentagang.apellai.model.Album
 
-class GridAlbumViewModel(application: Application) : AndroidViewModel(application) {
+class ListAlbumViewModel(application: Application) : AndroidViewModel(application) {
     private var album = MutableLiveData<Album?>()
     private val _albums = MutableLiveData<List<Album>>().apply {
         postValue(listOf(

@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="gridAlbumViewModel"
-            type="com.magentagang.apellai.viewmodel.GridAlbumViewModel" />
+            name="listAlbumViewModel"
+            type="com.magentagang.apellai.viewmodel.ListAlbumViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,13 +14,13 @@
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/albumGrid"
+            android:id="@+id/albumVList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:clipChildren="false"
             android:clipToPadding="false"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

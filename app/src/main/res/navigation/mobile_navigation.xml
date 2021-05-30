@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_library"
-        android:name="com.magentagang.apellai.ui.fragments.GridAlbum"
+        android:name="com.magentagang.apellai.ui.fragments.ListAlbumVScroll"
         android:label="@string/title_library"
-        tools:layout="@layout/fragment_grid_album" />
+        tools:layout="@layout/fragment_list_album_v_scroll" />
 </navigation>
