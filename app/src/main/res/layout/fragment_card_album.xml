@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
+            app:cardBackgroundColor="@color/bg_card"
             app:cardCornerRadius="@dimen/corner_album_small">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,7 +56,7 @@
                     android:layout_marginStart="@dimen/fragment_album_padding"
                     android:layout_marginTop="12dp"
                     android:text="@string/dummy_text"
-                    android:textColor="@color/black"
+                    android:textColor="@color/primary_text"
                     android:textSize="@dimen/fragment_album_text_album"
                     android:textStyle="bold"
                     app:albumName="@{album}"
@@ -70,7 +71,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="@dimen/fragment_album_padding"
                     android:text="@string/dummy_text"
-                    android:textColor="@color/black"
+                    android:textColor="@color/primary_text"
                     android:textSize="@dimen/fragment_album_text_artist"
                     app:albumArtist="@{album}"
                     app:layout_constraintBottom_toBottomOf="parent"
