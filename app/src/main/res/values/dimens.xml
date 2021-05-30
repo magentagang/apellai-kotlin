@@ -4,9 +4,11 @@
     <dimen name="corner_album_small">12dp</dimen>
     <dimen name="fragment_album_text_album">16sp</dimen>
     <dimen name="fragment_album_text_artist">12sp</dimen>
-    <dimen name="fragment_album_text_album_list">20sp</dimen>
+    <dimen name="fragment_album_text_album_list">18sp</dimen>
     <dimen name="fragment_album_text_artist_list">16sp</dimen>
     <dimen name="fragment_album_text_year_list">12sp</dimen>
     <dimen name="album_item_size_grid">100dp</dimen>
     <dimen name="album_item_size_list">80dp</dimen>
+    <dimen name="header_top_margin">32dp</dimen>
+    <dimen name="footer_spacing">72dp</dimen>
 </resources>
