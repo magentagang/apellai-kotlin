@@ -3,7 +3,11 @@
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
     <string name="title_library">Library</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dummy_text">Dummy Text</string>
+    <string name="recently_added">Recently added</string>
+    <string name="random">Suggested for you</string>
+    <string name="recently_played">Recently played</string>
+    <string name="loved_albums">Albums you loved</string>
+    <string name="most_played">On repeat</string>
 </resources>

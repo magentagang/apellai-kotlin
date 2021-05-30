@@ -29,7 +29,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/albumArtRoundedContainer"
-                    android:layout_width="@dimen/album_cover_size_grid"
+                    android:layout_width="@dimen/album_item_size_grid"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/fragment_album_padding"
                     android:layout_marginTop="@dimen/fragment_album_padding"
@@ -55,11 +55,12 @@
                     android:layout_marginStart="@dimen/fragment_album_padding"
                     android:layout_marginTop="12dp"
                     android:text="@string/dummy_text"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/fragment_album_text_album"
                     android:textStyle="bold"
+                    app:albumName="@{album}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/albumArtRoundedContainer"
-                    app:albumName="@{album}" />
+                    app:layout_constraintTop_toBottomOf="@id/albumArtRoundedContainer" />
 
                 <TextView
                     android:id="@+id/artistName"
@@ -69,11 +70,12 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="@dimen/fragment_album_padding"
                     android:text="@string/dummy_text"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/fragment_album_text_artist"
+                    app:albumArtist="@{album}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/albumName"
-                    app:albumArtist="@{album}" />
+                    app:layout_constraintTop_toBottomOf="@id/albumName" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </FrameLayout>

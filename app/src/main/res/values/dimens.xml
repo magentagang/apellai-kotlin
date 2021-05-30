@@ -1,8 +1,8 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="fragment_album_padding">18dp</dimen>
-    <dimen name="corner_album_small">16dp</dimen>
+    <dimen name="fragment_album_padding">16dp</dimen>
+    <dimen name="corner_album_small">12dp</dimen>
     <dimen name="fragment_album_text_album">16sp</dimen>
     <dimen name="fragment_album_text_artist">12sp</dimen>
-    <dimen name="album_cover_size_grid">120dp</dimen>
+    <dimen name="album_item_size_grid">100dp</dimen>
 </resources>
