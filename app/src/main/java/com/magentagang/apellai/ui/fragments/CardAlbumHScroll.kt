@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magentagang.apellai.R
 import com.magentagang.apellai.adapter.CardAlbumHScrollAdapter
 import com.magentagang.apellai.databinding.FragmentCardAlbumHScrollBinding
 import com.magentagang.apellai.viewmodel.CardAlbumHScrollViewModel
+import com.magentagang.apellai.viewmodel.factory.CardAlbumHScrollViewModelFactory
 
 class CardAlbumHScroll : Fragment() {
 
@@ -24,7 +26,8 @@ class CardAlbumHScroll : Fragment() {
         )
 
         val application = requireNotNull(this.activity).application
-        val cardAlbumHScrollViewModel = CardAlbumHScrollViewModel(application)
+        val viewModelFactory = CardAlbumHScrollViewModelFactory(application)
+        val cardAlbumHScrollViewModel = ViewModelProvider(this, viewModelFactory).get(CardAlbumHScrollViewModel::class.java)
 
         binding.cardAlbumHScrollViewModel = cardAlbumHScrollViewModel
         binding.lifecycleOwner = this
