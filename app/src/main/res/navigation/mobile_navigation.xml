@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
+        android:name="com.magentagang.apellai.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_card_album_h_scroll" />
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_search"
