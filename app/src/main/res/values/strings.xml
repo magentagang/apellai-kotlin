@@ -12,4 +12,9 @@
     <string name="loved_albums">Albums you loved</string>
     <string name="most_played">On repeat</string>
     <string name="search_hint">Search for you music</string>
+
+    <string-array name="spinner_library_array">
+        <item>Artist</item>
+        <item>Albums</item>
+    </string-array>
 </resources>

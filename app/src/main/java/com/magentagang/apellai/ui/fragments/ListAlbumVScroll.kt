@@ -37,6 +37,7 @@ class ListAlbumVScroll : Fragment() {
         binding.listAlbumViewModel = listAlbumViewModel
         binding.lifecycleOwner = this
 
+
         val manager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.albumVList.layoutManager = manager
 

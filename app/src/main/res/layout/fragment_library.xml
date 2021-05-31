@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.library.LibraryFragment" >
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/libraryCategory"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="@dimen/header_top_margin"
-        android:layout_marginEnd="16dp"
-        android:text="@string/dummy_text"
-        android:textColor="@color/primary_text"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/entityList"
-        android:name="com.magentagang.apellai.ui.fragments.ListAlbumVScroll"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:paddingBottom="180dp"
-        app:layout_constraintEnd_toEndOf="@id/libraryCategory"
-        app:layout_constraintStart_toStartOf="@id/libraryCategory"
-        app:layout_constraintTop_toBottomOf="@id/libraryCategory" >
+    </data>
 
-    </androidx.fragment.app.FragmentContainerView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.library.LibraryFragment">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/entityList"
+            android:name="com.magentagang.apellai.ui.fragments.ListAlbumVScroll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLibrary">
+
+        </androidx.fragment.app.FragmentContainerView>
+
+        <Spinner
+            android:id="@+id/spinnerLibrary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/dummy_text"
+            android:textColor="@color/primary_text"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
