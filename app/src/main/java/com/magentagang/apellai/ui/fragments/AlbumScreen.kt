@@ -14,7 +14,7 @@ class AlbumScreen : Fragment() {
     companion object {
         fun newInstance() = AlbumScreen()
     }
-
+    //I added it again this time
     private lateinit var viewModel: AlbumScreenViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
