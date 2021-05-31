@@ -41,7 +41,7 @@ class ListAlbumVScroll : Fragment() {
         binding.albumVList.layoutManager = manager
 
         val adapter = ListAlbumAdapter(AlbumListener { ID ->
-            Toast.makeText(context, "pls work", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "pls work $ID", Toast.LENGTH_SHORT).show()
         })
         binding.albumVList.adapter = adapter
 

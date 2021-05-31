@@ -14,7 +14,7 @@ class AlbumScreen : Fragment() {
     companion object {
         fun newInstance() = AlbumScreen()
     }
-    //This should be the only thing in the diff
+
     private lateinit var viewModel: AlbumScreenViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
