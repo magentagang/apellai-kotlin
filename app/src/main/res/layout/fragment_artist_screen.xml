@@ -11,24 +11,15 @@
         tools:context=".ui.fragments.AlbumScreen"
         android:id="@+id/artistRoot">
 
-        <androidx.cardview.widget.CardView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/artistImageRoundedContainerLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/artist_item_size"
+            android:layout_height="@dimen/artist_item_size"
             android:layout_marginTop="64dp"
-            app:cardCornerRadius="@dimen/corner_album_small"
+            android:src="@drawable/placeholder_noartist"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/artistImageLarge"
-                android:layout_width="@dimen/album_item_size"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/placeholder_nocover"
-                android:contentDescription="@string/dummy_text" />
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/artistNameLarge"
@@ -40,11 +31,35 @@
             android:maxLines="2"
             android:text="@string/dummy_text"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/fragment_album_text_album_large"
+            android:textSize="@dimen/fragment_artist_text_artist"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/artistImageRoundedContainerLarge" />
+
+        <TextView
+            android:id="@+id/releaseHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/dummy_text"
+            android:textColor="@color/primary_text"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/artistNameLarge" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment"
+            android:name="com.magentagang.apellai.ui.fragments.ListAlbumVScroll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/releaseHeader" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
