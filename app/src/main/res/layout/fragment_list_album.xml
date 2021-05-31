@@ -7,9 +7,13 @@
         <variable
             name="album"
             type="com.magentagang.apellai.model.Album" />
+        <variable
+            name="clickListener"
+            type="com.magentagang.apellai.adapter.AlbumListener" />
     </data>
 
     <FrameLayout
+        android:onClick="@{()->clickListener.onClick(album)}"
         android:id="@+id/listAlbumRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
