@@ -20,7 +20,7 @@ class LibraryFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
         val value = parent.getItemAtPosition(pos)
-        Toast.makeText(context, value.toString() + " Selected", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "$value Selected", Toast.LENGTH_SHORT).show()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -30,7 +30,7 @@ class LibraryFragment : Fragment(), AdapterView.OnItemSelectedListener {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         libraryViewModel =
                 ViewModelProvider(this).get(LibraryViewModel::class.java)
         val binding: FragmentLibraryBinding = DataBindingUtil.inflate(
@@ -41,7 +41,7 @@ class LibraryFragment : Fragment(), AdapterView.OnItemSelectedListener {
             ArrayAdapter.createFromResource(
                 it,
                 R.array.spinner_library_array,
-                android.R.layout.simple_spinner_item
+                R.layout.spinner_item
             ).also { adapter ->
                 // Specify the layout to use when the list of choices appears
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
