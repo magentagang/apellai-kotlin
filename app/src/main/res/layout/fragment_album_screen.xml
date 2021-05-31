@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/albumArtLarge"
                 android:layout_width="@dimen/album_item_size"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
