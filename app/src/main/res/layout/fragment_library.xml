@@ -29,10 +29,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:clipToPadding="false"
-        android:paddingBottom="45dp"
+        android:clipChildren="false"
+        android:paddingBottom="180dp"
         app:layout_constraintEnd_toEndOf="@id/libraryCategory"
         app:layout_constraintStart_toStartOf="@id/libraryCategory"
-        app:layout_constraintTop_toBottomOf="@id/libraryCategory">
+        app:layout_constraintTop_toBottomOf="@id/libraryCategory" >
 
     </androidx.fragment.app.FragmentContainerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

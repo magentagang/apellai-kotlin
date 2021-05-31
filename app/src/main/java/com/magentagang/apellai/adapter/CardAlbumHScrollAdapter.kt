@@ -1,13 +1,10 @@
 package com.magentagang.apellai.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.magentagang.apellai.R
-import com.magentagang.apellai.databinding.FragmentCardAlbumArtistViewBinding
 import com.magentagang.apellai.databinding.FragmentCardAlbumBinding
 import com.magentagang.apellai.model.Album
 
