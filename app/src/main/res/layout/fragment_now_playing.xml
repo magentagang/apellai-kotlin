@@ -1,0 +1,130 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.nowplayingscreen.NowPlaying"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/albumRoot">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/albumArtRoundedContainerNowPlaying"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        app:cardCornerRadius="@dimen/corner_album_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/albumArtNowPlaying"
+            android:layout_width="@dimen/album_item_size"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/placeholder_nocover"
+            android:contentDescription="@string/dummy_text" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/trackNameNowPlaying"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ellipsize="end"
+        android:maxWidth="@dimen/album_item_size"
+        android:maxLines="2"
+        android:text="@string/dummy_text"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/fragment_album_text_album_large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/albumArtRoundedContainerNowPlaying" />
+
+    <TextView
+        android:id="@+id/trackArtistNowPlaying"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/dummy_text"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/fragment_album_text_artist_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/trackNameNowPlaying" />
+
+    <TextView
+        android:id="@+id/startDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/dummy_number"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/albumArtRoundedContainerNowPlaying"
+        app:layout_constraintTop_toBottomOf="@id/trackArtistNowPlaying" />
+
+    <TextView
+        android:id="@+id/endDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dummy_number"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/albumArtRoundedContainerNowPlaying"
+        app:layout_constraintTop_toTopOf="@id/startDuration" />
+
+    <SeekBar
+        android:id="@+id/seekBarNowPlaying"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:thumbTint="@color/primary_text"
+        app:layout_constraintEnd_toStartOf="@id/endDuration"
+        app:layout_constraintStart_toEndOf="@id/startDuration"
+        app:layout_constraintTop_toTopOf="@id/startDuration" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/albumArtRoundedContainerNowPlaying"
+        app:layout_constraintStart_toStartOf="@id/albumArtRoundedContainerNowPlaying"
+        app:layout_constraintTop_toBottomOf="@id/seekBarNowPlaying">
+
+        <ImageButton
+            android:id="@+id/prevButton"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/dummy_text"
+            android:scaleType="fitCenter"
+            android:src="@drawable/skip_back_fill"
+            app:tint="@color/primary_text" />
+
+        <ImageButton
+            android:id="@+id/playPauseButton"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/dummy_text"
+            android:scaleType="fitCenter"
+            android:src="@drawable/play_fill"
+            app:tint="@color/primary_text" />
+
+        <ImageButton
+            android:id="@+id/nextButton"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/dummy_text"
+            android:scaleType="fitCenter"
+            android:src="@drawable/skip_forward_fill"
+            app:tint="@color/primary_text" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
