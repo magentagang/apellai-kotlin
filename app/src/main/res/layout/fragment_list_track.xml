@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="48dp">
 
         <TextView
             android:id="@+id/trackNumber"
@@ -19,7 +19,8 @@
             android:text="@string/dummy_number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:trackNumber="@{track}" />
 
         <TextView
             android:id="@+id/trackName"
@@ -36,7 +37,8 @@
             app:layout_constraintEnd_toStartOf="@+id/trackDuration"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/trackNumber"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:trackName="@{track}" />
 
         <TextView
             android:id="@+id/trackDuration"
@@ -45,6 +47,7 @@
             android:text="@string/dummy_number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:trackDuration="@{track}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

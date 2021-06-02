@@ -18,6 +18,7 @@ import com.magentagang.apellai.adapter.ListAlbumAdapter
 import com.magentagang.apellai.databinding.FragmentListAlbumVScrollBinding
 import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.ui.library.LibraryFragment
+import com.magentagang.apellai.ui.library.LibraryFragmentDirections
 import com.magentagang.apellai.viewmodel.ListAlbumViewModel
 import com.magentagang.apellai.viewmodel.factory.ListAlbumViewModelFactory
 import timber.log.Timber
@@ -48,13 +49,12 @@ class ListAlbumVScroll : Fragment() {
             listAlbumViewModel.onAlbumClicked(ID)
         })
 
-        /*listAlbumViewModel.navigateToAlbumScreen.observe(this, Observer {id ->
+        listAlbumViewModel.navigateToAlbumScreen.observe(viewLifecycleOwner, { id ->
             id?.let {
-                this.findNavController().navigate(Lib
-                    action_navigation_library_to_albumScreen(id))
+                this.findNavController().navigate(LibraryFragmentDirections.actionNavigationLibraryToAlbumScreen(id))
                 listAlbumViewModel.doneNavigating()
             }
-        })*/
+        })
 
 
         binding.albumVList.adapter = adapter
