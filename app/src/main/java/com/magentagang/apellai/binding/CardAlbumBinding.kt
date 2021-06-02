@@ -36,12 +36,14 @@ fun TextView.setTrackName(item: Track?) {
 @BindingAdapter("trackNumber")
 fun TextView.setTrackNumber(item: Track?) {
     item?.let {
-        text = item.number.toString()
+        text = item.number.toString().padStart(2, '0')
     }
 }
 @BindingAdapter("trackDuration")
 fun TextView.setTrackDuration(item: Track?) {
+
     item?.let {
-        text = item.duration.toString()
+        val str = (item.duration / 60).toString() + ":" + (item.duration % 60).toString().padStart(2, '0')
+        text = str
     }
 }
