@@ -21,5 +21,13 @@
         android:id="@+id/navigation_library"
         android:name="com.magentagang.apellai.ui.library.LibraryFragment"
         android:label="@string/title_library"
-        tools:layout="@layout/fragment_library" />
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_navigation_library_to_albumScreen"
+            app:destination="@id/albumScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumScreen"
+        android:name="com.magentagang.apellai.ui.albumscreen.AlbumScreen"
+        android:label="AlbumScreen" />
 </navigation>

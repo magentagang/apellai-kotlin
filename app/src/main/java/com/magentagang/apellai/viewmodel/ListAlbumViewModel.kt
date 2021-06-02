@@ -22,4 +22,16 @@ class ListAlbumViewModel(application: Application) : AndroidViewModel(applicatio
         ))
     }
     val albums : LiveData<List<Album>> = _albums
+
+    private val _navigateToAlbumScreen = MutableLiveData<String?>()
+    val navigateToAlbumScreen
+        get() = _navigateToAlbumScreen
+
+    public fun onAlbumClicked(id: String){
+        _navigateToAlbumScreen.value = id
+    }
+    public fun doneNavigating() {
+        _navigateToAlbumScreen.value = null
+    }
+
 }

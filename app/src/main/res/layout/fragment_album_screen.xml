@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.fragments.AlbumScreen"
+        tools:context=".ui.albumscreen.AlbumScreen"
         android:id="@+id/albumRoot">
 
         <androidx.cardview.widget.CardView
@@ -74,14 +74,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/albumArtistLarge" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/entityList"
+            android:name="com.magentagang.apellai.ui.fragments.ListTrackVScroll"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:paddingBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/albumArtistYear" />
+            app:layout_constraintTop_toBottomOf="@+id/albumArtistYear">
+
+        </androidx.fragment.app.FragmentContainerView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

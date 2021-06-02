@@ -8,13 +8,16 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magentagang.apellai.R
 import com.magentagang.apellai.adapter.AlbumListener
 import com.magentagang.apellai.adapter.ListAlbumAdapter
 import com.magentagang.apellai.databinding.FragmentListAlbumVScrollBinding
 import com.magentagang.apellai.model.Album
+import com.magentagang.apellai.ui.library.LibraryFragment
 import com.magentagang.apellai.viewmodel.ListAlbumViewModel
 import com.magentagang.apellai.viewmodel.factory.ListAlbumViewModelFactory
 import timber.log.Timber
@@ -42,8 +45,18 @@ class ListAlbumVScroll : Fragment() {
         binding.albumVList.layoutManager = manager
 
         val adapter = ListAlbumAdapter(AlbumListener { ID ->
-            Toast.makeText(context, "pls work $ID", Toast.LENGTH_SHORT).show()
+            listAlbumViewModel.onAlbumClicked(ID)
         })
+
+        /*listAlbumViewModel.navigateToAlbumScreen.observe(this, Observer {id ->
+            id?.let {
+                this.findNavController().navigate(Lib
+                    action_navigation_library_to_albumScreen(id))
+                listAlbumViewModel.doneNavigating()
+            }
+        })*/
+
+
         binding.albumVList.adapter = adapter
 
         listAlbumViewModel.albums.observe(viewLifecycleOwner, {
