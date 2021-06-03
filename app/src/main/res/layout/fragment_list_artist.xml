@@ -3,14 +3,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <data>-->
-<!--        <variable-->
-<!--            name="artist"-->
-<!--            type="com.magentagang.apellai.model.Artist" />-->
-<!--        <variable-->
-<!--            name="clickListener"-->
-<!--            type="com.magentagang.apellai.adapter.ArtistListener" />-->
-<!--    </data>-->
+   <data>
+   <variable
+           name="artist"
+            type="com.magentagang.apellai.model.Artist" />
+    </data>
 
     <FrameLayout
         android:id="@+id/listArtistRoot"

@@ -20,7 +20,14 @@ class LibraryFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
         val value = parent.getItemAtPosition(pos)
-        Toast.makeText(context, "$value Selected", Toast.LENGTH_SHORT).show()
+        if(value == "Artist") {
+            Toast.makeText(context, "Artist Selected", Toast.LENGTH_SHORT).show()
+            //TODO refresh the list to show artistVscroll
+        }
+        else {
+            Toast.makeText(context, "Album Selected", Toast.LENGTH_SHORT).show()
+            //TODO refresh the list to show AlbumVscroll
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -50,6 +57,7 @@ class LibraryFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
         }
         spinner.onItemSelectedListener = this
+
         return binding.root
         //return inflater.inflate(R.layout.fragment_library, container, false)
     }

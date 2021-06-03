@@ -29,6 +29,9 @@
             android:name="id"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_navigation_library_to_artistScreen"
+            app:destination="@id/artistScreen" />
     </fragment>
     <fragment
         android:id="@+id/albumScreen"
@@ -39,4 +42,8 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/artistScreen"
+        android:name="com.magentagang.apellai.ui.artistscreen.ArtistScreen"
+        android:label="ArtistScreen" />
 </navigation>

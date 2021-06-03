@@ -51,7 +51,7 @@ class ListAlbumVScroll : Fragment() {
 
         listAlbumViewModel.navigateToAlbumScreen.observe(viewLifecycleOwner, { id ->
             id?.let {
-                this.findNavController().navigate(LibraryFragmentDirections.actionNavigationLibraryToAlbumScreen(id))
+                this.findNavController().navigate(LibraryFragmentDirections.actionNavigationLibraryToArtistScreen())
                 listAlbumViewModel.doneNavigating()
             }
         })
