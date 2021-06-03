@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<!--    <data>-->
+<!--        <variable-->
+<!--            name="artist"-->
+<!--            type="com.magentagang.apellai.model.Artist" />-->
+<!--        <variable-->
+<!--            name="clickListener"-->
+<!--            type="com.magentagang.apellai.adapter.ArtistListener" />-->
+<!--    </data>-->
+
+    <FrameLayout
+        android:id="@+id/listArtistRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/listArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:cardBackgroundColor="@color/bg_card"
+            app:cardCornerRadius="@dimen/corner_album_small">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/artistPic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/album_item_size_list"
+                    android:layout_marginStart="@dimen/fragment_album_padding"
+                    android:layout_marginTop="@dimen/fragment_album_padding"
+                    android:layout_marginBottom="@dimen/fragment_album_padding"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/dummy_text"
+                    android:src="@drawable/placeholder_nocover"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/artistName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fragment_album_padding"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/dummy_text"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/fragment_album_text_album_list"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@id/artistPic"
+                    app:layout_constraintTop_toTopOf="@id/artistPic"
+                    app:layout_constraintBottom_toBottomOf="@id/artistPic"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+</layout>
+
