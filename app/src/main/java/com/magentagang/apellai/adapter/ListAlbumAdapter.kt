@@ -44,7 +44,7 @@ class ListAlbumAdapter(val clickListener: AlbumListener) : ListAdapter<Album,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position),clickListener)
+        holder.bind(getItem(position), clickListener)
     }
 }
 

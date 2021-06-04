@@ -4,16 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
    <data>
-   <variable
+       <variable
            name="artist"
-            type="com.magentagang.apellai.model.Artist" />
+           type="com.magentagang.apellai.model.Artist" />
+       <variable
+           name="clickListener"
+           type="com.magentagang.apellai.adapter.ArtistListener" />
     </data>
 
     <FrameLayout
         android:id="@+id/listArtistRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp">
+        android:layout_marginVertical="4dp"
+        android:onClick="@{()->clickListener.onClick(artist)}">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/listArtist"

@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentLibraryBinding
-import com.magentagang.apellai.databinding.FragmentListAlbumVScrollBinding
+import com.magentagang.apellai.ui.fragments.ListAlbumVScroll
+import com.magentagang.apellai.ui.fragments.ListArtistVScroll
 
 class LibraryFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
@@ -20,13 +20,13 @@ class LibraryFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
         val value = parent.getItemAtPosition(pos)
-        if(value == "Artist") {
-            Toast.makeText(context, "Artist Selected", Toast.LENGTH_SHORT).show()
-            //TODO refresh the list to show artistVscroll
+        val childFragmentManager = childFragmentManager
+        val fragmentTransaction = childFragmentManager.beginTransaction()
+        if (value == "Artist") {
+            fragmentTransaction.replace(R.id.entityList, ListArtistVScroll()).commit()
         }
         else {
-            Toast.makeText(context, "Album Selected", Toast.LENGTH_SHORT).show()
-            //TODO refresh the list to show AlbumVscroll
+            fragmentTransaction.replace(R.id.entityList, ListAlbumVScroll()).commit()
         }
     }
 

@@ -1,25 +1,20 @@
 package com.magentagang.apellai.ui.fragments
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magentagang.apellai.R
-import com.magentagang.apellai.adapter.AlbumListener
-import com.magentagang.apellai.adapter.ListAlbumAdapter
+import com.magentagang.apellai.adapter.ArtistListener
 import com.magentagang.apellai.adapter.ListArtistAdapter
-import com.magentagang.apellai.databinding.FragmentListAlbumVScrollBinding
 import com.magentagang.apellai.databinding.FragmentListArtistVScrollBinding
-import com.magentagang.apellai.databinding.FragmentListTrackVScrollBinding
 import com.magentagang.apellai.ui.library.LibraryFragmentDirections
-import com.magentagang.apellai.viewmodel.ListAlbumViewModel
 import com.magentagang.apellai.viewmodel.ListArtistViewModel
-import com.magentagang.apellai.viewmodel.factory.ListAlbumViewModelFactory
 import com.magentagang.apellai.viewmodel.factory.ListArtistViewModelFactory
 
 class ListArtistVScroll : Fragment() {
@@ -40,19 +35,19 @@ class ListArtistVScroll : Fragment() {
         binding.listArtistViewModel= listArtistViewModel
         binding.lifecycleOwner = this
 
-
         val manager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.artistVList.layoutManager = manager
 
-        val adapter = ListArtistAdapter()
+        val adapter = ListArtistAdapter(ArtistListener { ID ->
+            listArtistViewModel.onArtistClicked(ID)
+        })
 
-       /* listArtistViewModel.navigateToAlbumScreen.observe(viewLifecycleOwner, { id ->
+       listArtistViewModel.navigateToArtistScreen.observe(viewLifecycleOwner, { id ->
             id?.let {
-                this.findNavController().navigate(LibraryFragmentDirections.actionNavigationLibraryToAlbumScreen(id))
-                listAlbumViewModel.doneNavigating()
+                this.findNavController().navigate(LibraryFragmentDirections.actionNavigationLibraryToArtistScreen(id))
+                listArtistViewModel.doneNavigating()
             }
-        })*/
-        //TODO adding click listener later
+        })
 
         binding.artistVList.adapter = adapter
 

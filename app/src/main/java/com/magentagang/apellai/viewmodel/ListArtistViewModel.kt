@@ -20,4 +20,15 @@ class ListArtistViewModel ( application: Application) : AndroidViewModel(applica
         ))
     }
     val artists : LiveData<List<Artist>> = _artists
+
+    private val _navigateToArtistScreen = MutableLiveData<String?>()
+    val navigateToArtistScreen
+        get() = _navigateToArtistScreen
+
+    fun onArtistClicked(id: String){
+        _navigateToArtistScreen.value = id
+    }
+    fun doneNavigating() {
+        _navigateToArtistScreen.value = null
+    }
 }

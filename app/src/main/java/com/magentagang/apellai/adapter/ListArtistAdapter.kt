@@ -6,16 +6,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.magentagang.apellai.databinding.FragmentListArtistBinding
+import com.magentagang.apellai.generated.callback.OnClickListener
+import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.model.Artist
 
-class ListArtistAdapter : ListAdapter<Artist,
-        ListArtistAdapter.ViewHolder>(ListArtistAdapter.GridArtistDiffCallback()) {
+class ListArtistAdapter(val clickListener: ArtistListener) : ListAdapter<Artist,
+        ListArtistAdapter.ViewHolder>(GridArtistDiffCallback()) {
 
     class ViewHolder private constructor(val binding: FragmentListArtistBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Artist) {
+        fun bind(item: Artist, clickListener: ArtistListener) {
             binding.artist = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -43,6 +46,10 @@ class ListArtistAdapter : ListAdapter<Artist,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), clickListener)
     }
+}
+
+class ArtistListener(val clickListener: (ID: String) -> Unit) {
+    fun onClick(artist: Artist) = clickListener(artist.ID)
 }

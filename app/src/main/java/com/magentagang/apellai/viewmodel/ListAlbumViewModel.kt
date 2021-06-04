@@ -27,10 +27,10 @@ class ListAlbumViewModel(application: Application) : AndroidViewModel(applicatio
     val navigateToAlbumScreen
         get() = _navigateToAlbumScreen
 
-    public fun onAlbumClicked(id: String){
+    fun onAlbumClicked(id: String){
         _navigateToAlbumScreen.value = id
     }
-    public fun doneNavigating() {
+    fun doneNavigating() {
         _navigateToAlbumScreen.value = null
     }
 
