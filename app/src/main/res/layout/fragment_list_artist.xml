@@ -36,7 +36,7 @@
                     android:layout_marginTop="@dimen/fragment_artist_padding"
                     android:layout_marginBottom="@dimen/fragment_artist_padding"
                     android:contentDescription="@string/dummy_text"
-                    android:src="@drawable/placeholder_nocover"
+                    android:src="@drawable/placeholder_noartist"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
