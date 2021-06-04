@@ -28,14 +28,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/artistPic"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/album_art_circular"
                     android:layout_height="@dimen/album_item_size_list"
                     android:layout_marginStart="@dimen/fragment_album_padding"
-                    android:layout_marginTop="@dimen/fragment_album_padding"
-                    android:layout_marginBottom="@dimen/fragment_album_padding"
-                    android:adjustViewBounds="true"
+                    android:layout_marginTop="@dimen/fragment_artist_padding"
+                    android:layout_marginBottom="@dimen/fragment_artist_padding"
                     android:contentDescription="@string/dummy_text"
                     android:src="@drawable/placeholder_nocover"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +46,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/fragment_album_padding"
-                    android:layout_marginTop="6dp"
                     android:layout_marginEnd="16dp"
                     android:ellipsize="end"
                     android:singleLine="true"
@@ -55,11 +53,11 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/fragment_album_text_album_list"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/artistPic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/artistPic"
-                    app:layout_constraintTop_toTopOf="@id/artistPic"
-                    app:layout_constraintBottom_toBottomOf="@id/artistPic"/>
+                    app:layout_constraintTop_toTopOf="@id/artistPic" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </FrameLayout>
