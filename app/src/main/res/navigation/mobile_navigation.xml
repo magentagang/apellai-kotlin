@@ -46,5 +46,8 @@
             android:name="id"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_artistScreen_to_albumScreen"
+            app:destination="@id/albumScreen" />
     </fragment>
 </navigation>
