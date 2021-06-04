@@ -12,14 +12,42 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.magentagang.apellai.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_search"
+        android:name="com.magentagang.apellai.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.magentagang.apellai.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_library"
+        android:name="com.magentagang.apellai.ui.library.LibraryFragment"
+        android:label="@string/title_library"
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_navigation_library_to_albumScreen"
+            app:destination="@id/albumScreen" />
+        <action
+            android:id="@+id/action_navigation_library_to_artistScreen"
+            app:destination="@id/artistScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumScreen"
+        android:name="com.magentagang.apellai.ui.albumscreen.AlbumScreen"
+        android:label="AlbumScreen" >
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/artistScreen"
+        android:name="com.magentagang.apellai.ui.artistscreen.ArtistScreen"
+        android:label="ArtistScreen" >
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_artistScreen_to_albumScreen"
+            app:destination="@id/albumScreen" />
+    </fragment>
 </navigation>
