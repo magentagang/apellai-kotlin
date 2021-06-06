@@ -9,7 +9,7 @@ import com.magentagang.apellai.databinding.FragmentListTrackBinding
 import com.magentagang.apellai.model.Track
 
 class ListTrackAdapter : ListAdapter<Track,
-        ListTrackAdapter.ViewHolder>(ListTrackAdapter.GridTrackDiffCallback()) {
+        ListTrackAdapter.ViewHolder>(GridTrackDiffCallback()) {
     class ViewHolder private constructor(val binding: FragmentListTrackBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
@@ -29,7 +29,7 @@ class ListTrackAdapter : ListAdapter<Track,
 
     class GridTrackDiffCallback : DiffUtil.ItemCallback<Track>() {
         override fun areItemsTheSame(oldItem: Track, newItem: Track): Boolean {
-            return oldItem.ID == newItem.ID
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Track, newItem: Track): Boolean {

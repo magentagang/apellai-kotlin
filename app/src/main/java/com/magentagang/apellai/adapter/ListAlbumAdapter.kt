@@ -31,7 +31,7 @@ class ListAlbumAdapter(val clickListener: AlbumListener) : ListAdapter<Album,
 
     class GridAlbumDiffCallback : DiffUtil.ItemCallback<Album>() {
         override fun areItemsTheSame(oldItem: Album, newItem: Album): Boolean {
-            return oldItem.ID == newItem.ID
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Album, newItem: Album): Boolean {
@@ -49,5 +49,5 @@ class ListAlbumAdapter(val clickListener: AlbumListener) : ListAdapter<Album,
 }
 
 class AlbumListener(val clickListener: (ID: String) -> Unit) {
-    fun onClick(album: Album) = clickListener(album.ID)
+    fun onClick(album: Album) = clickListener(album.id)
 }

@@ -1,8 +1,13 @@
 package com.magentagang.apellai.model
 
 data class Album (
-    var ID: String = "",
-    var name: String = "Kalk Samen Kuri no Hana",
-    var artist: String = "Sheena Ringo",
-    var year: Int = 2069,
+    val id: String,
+    val name: String = "Unknown Album",
+    val artist: String = "Unknown Artist",
+    val artistId: String? = null,
+    val songCount: Int? = null,
+    val duration: Int? = null,
+    val created: String? = null,
+    val song: List<Track>? = null,
+    val year: Int = 0,
 )

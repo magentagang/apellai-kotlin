@@ -31,7 +31,7 @@ class CardAlbumHScrollAdapter() : ListAdapter<Album,
 
     class CardAlbumDiffCallback : DiffUtil.ItemCallback<Album>() {
         override fun areItemsTheSame(oldItem: Album, newItem: Album): Boolean {
-            return oldItem.ID == newItem.ID
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Album, newItem: Album): Boolean {

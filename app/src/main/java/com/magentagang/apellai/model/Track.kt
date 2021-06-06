@@ -1,10 +1,26 @@
 package com.magentagang.apellai.model
 
-data class Track(
-    var ID: String = "",
-    var name: String = "Never gonna give you up",
-    var artist: String = "Rick Astley",
-    var year: Int = 2069,
-    var number: Int = 2,
-    var duration: Int = 420,
+data class Track (
+    val id: String,
+    val title: String = "Unknown Title",
+    val album: String = "Unknown Album",
+    val artist: String = "Unknown Artist",
+    val track: Int = 0,
+    val year: Int = 0,
+    val duration: Int = 0,
+    val parent: String? = null,
+    val isDir: Boolean? = null,
+    val genre: String? = null,
+    val coverArt: String? = null,
+    val size: Long? = null,
+    val contentType: String? = null,
+    val suffix: String? = null,
+    val bitRate: Int? = null,
+    val path: String? = null,
+    val discNumber: Int? = null,
+    val created: String? = null,
+    val albumId: String? = null,
+    val artistId: String? = null,
+    val type: String? = null,
+    val isVideo: Boolean? = null,
 )
