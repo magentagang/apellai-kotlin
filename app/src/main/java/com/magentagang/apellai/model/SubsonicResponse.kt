@@ -7,4 +7,5 @@ data class SubsonicResponse(
     val version: String, val type: String, val serverVersion: String,
     //TODO(ALL RESPONSE REQUEST PARSING OBJECTS)
     @Json(name = "albumList2") val albumRoot: AlbumListRoot?,
+    @Json(name = "album") val album: Album?,
 )

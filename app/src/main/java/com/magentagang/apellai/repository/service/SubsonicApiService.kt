@@ -19,11 +19,11 @@ private const val SONG_ID = "f408df38cb3ca7f472d18f6b1d64f8dc"
 private const val ALBUM_TYPE = "newest"
 
 // Authentications
-private const val SALT = "??"
-private const val TOKEN = "??"
-private const val USER = "??"
+private const val SALT = "ddhV32bf"
+private const val TOKEN = "e2733fb35892d0a7197e534761549a9a"
+private const val USER = "magenta"
 // server address
-private const val BASE_URL = "??"
+private const val BASE_URL = "https://apellai.duckdns.org"
 
 
 private const val CLIENT = "apellai"
