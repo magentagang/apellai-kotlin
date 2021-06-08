@@ -20,13 +20,13 @@ interface DatabaseDao {
     fun insertSong(track: Track)
 
     @Query("SELECT * FROM album_table WHERE id = :key")
-    fun getAlbum(key : Long) : Album?
+    fun getAlbum(key : String) : Album?
 
     @Query("SELECT * FROM artist_table WHERE id = :key")
-    fun getArtist(key : Long) : Artist?
+    fun getArtist(key : String) : Artist?
 
     @Query("SELECT * FROM track_table WHERE id = :key")
-    fun getSong(key : Long) : Track?
+    fun getSong(key : String) : Track?
 
     @Query("SELECT * FROM album_table")
     fun getAllAlbums(): List<Album>?
@@ -38,13 +38,13 @@ interface DatabaseDao {
     fun getAllSongs(): List<Track>?
 
     @Query("DELETE FROM album_table WHERE id = :key")
-    fun deleteDatabaseAlbum(key : Long)
+    fun deleteDatabaseAlbum(key : String)
 
     @Query("DELETE FROM artist_table WHERE id = :key")
-    fun deleteDatabaseArtist(key : Long)
+    fun deleteDatabaseArtist(key : String)
 
     @Query("DELETE FROM track_table WHERE id = :key")
-    fun deleteDatabaseSong(key : Long)
+    fun deleteDatabaseSong(key : String)
 
     @Query("DELETE FROM album_table")
     fun clearAlbums()

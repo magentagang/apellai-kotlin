@@ -10,5 +10,7 @@ data class Artist(
     @PrimaryKey var id : String = "",
     @ColumnInfo(name = "name") var name : String = "Unknown Artist",
     @ColumnInfo(name = "albumCount") var albumCount : Int? = null,
-    @Ignore var album : List<Album>? = null
+    //TODO(add column info)
+    var starred : String? = null,
+    @Ignore var album : List<Album> = ArrayList(),
 )

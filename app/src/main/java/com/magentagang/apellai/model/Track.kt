@@ -28,5 +28,7 @@ data class Track(
     @ColumnInfo(name = "albumId") var albumId: String = "",
     @ColumnInfo(name = "artistId") var artistId: String = "",
     @ColumnInfo(name = "type") var type: String? = null,
-    @ColumnInfo(name = "isVideo") var isVideo: Boolean? = null
+    @ColumnInfo(name = "isVideo") var isVideo: Boolean? = null,
+    //TODO(add column info)
+    var starred : String? = null,
 )

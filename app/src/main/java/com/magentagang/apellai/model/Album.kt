@@ -17,6 +17,8 @@ data class Album (
     @ColumnInfo(name = "duration") var duration : Int? = null,
     @ColumnInfo(name = "created") var created : String? = null,
     @ColumnInfo(name = "year") var year : Int? = null,
+    //TODO(add column info)
+    var starred : String? = null,
     @Ignore
     @Json(name = "song") var songList : List<Track> = ArrayList(),
 )
