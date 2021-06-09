@@ -18,7 +18,20 @@ data class Album (
     @ColumnInfo(name = "created") var created : String? = null,
     @ColumnInfo(name = "year") var year : Int? = null,
     //TODO(add column info)
-    var starred : String? = null,
+    var parent : String? = "",
+    var isDir : Boolean? = null,
+    var title : String? = "",
+    var genre : String? = "", // add to database
+    var coverArt : String? = "", // add to database
+    var isVideo : Boolean? = null,
+    var album : String? = "",
+    var starred : String? = null, // add to database, manually add on callback
+    var isRandom : Boolean = false, // add to database, manually add on callback
+    var isNewest : Boolean = false, // add to database, manually add on callback
+    var isHighest : Boolean = false, // add to database, manually add on callback
+    var isFrequent : Boolean = false, // add to database, manually add on callback
+    var isRecent : Boolean = false, // add to database, manually add on callback
     @Ignore
     @Json(name = "song") var songList : List<Track> = ArrayList(),
+    //parent, isDir, title, genre, coverArt, isVideo, album
 )

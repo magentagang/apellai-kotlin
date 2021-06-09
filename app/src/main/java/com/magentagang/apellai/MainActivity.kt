@@ -46,12 +46,12 @@ class MainActivity : AppCompatActivity() {
 //        getArtists()
 //        getStreamBinary("f408df38cb3ca7f472d18f6b1d64f8dc")
 //        getArtist()
-        starSong("7b365b733b6ceab00b7cfb8d710bb6e4")
-        unstarArtist("49122de0a36069f001e7e3d568f3339e")
-        unStarAlbum("c225844106c090c7f3237b964331fc99")
-        getStarred()
-        search("never")
-        //
+//        starSong("7b365b733b6ceab00b7cfb8d710bb6e4")
+//        unstarArtist("49122de0a36069f001e7e3d568f3339e")
+//        unStarAlbum("c225844106c090c7f3237b964331fc99")
+//        getStarred()
+//        search("never")
+          getAlbumList()
     }
     // test codes
     fun getAlbum(_id: String = "f76fcdde71a3708aa45de4fc841773aa") {
@@ -230,7 +230,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    private fun getAlbumList(){
+        Timber.i( "getAlbumList was called")
+        coroutineScope.launch {
+            val getAlbumListDeferred = SubsonicApi.retrofitService.getAlbumListAsync()
+            _status = try {
+                val root = getAlbumListDeferred.await()
+                Timber.i("Status: ${root.subsonicResponse.status}, Version: ${root.subsonicResponse.version}")
+                if (root.subsonicResponse.status == "ok") {
+                    "Success ${root.subsonicResponse.albumRoot.toString()}"
+                } else {
+                    "Status was not ok  ${root.subsonicResponse.error.toString()}"
+                }
+            } catch (e: Exception) {
+                "Failure: ${e.message}"
+            }
+            Timber.i(_status)
+        }
+    }
 
 //    fun playMusic(_id : String = "f408df38cb3ca7f472d18f6b1d64f8dc"){
 //        // Music player start on Button click

@@ -1,6 +1,7 @@
 package com.magentagang.apellai.repository.service
 
 import android.content.res.AssetFileDescriptor
+import android.graphics.Bitmap
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.magentagang.apellai.model.SubsonicResponseRoot
 import com.squareup.moshi.Moshi
@@ -19,18 +20,17 @@ private const val ALBUM_ID = "f76fcdde71a3708aa45de4fc841773aa"
 private const val SONG_ID = "f408df38cb3ca7f472d18f6b1d64f8dc"
 private const val ALBUM_TYPE = "newest"
 private const val ARTIST_ID = "b56870783b82e1413af57d4cbde24f31"
-
 // Authentications
-private const val SALT = "??"
-private const val TOKEN = "??"
-private const val USER = "??"
+private const val SALT = "ddhV32bf"
+private const val TOKEN = "e2733fb35892d0a7197e534761549a9a"
+private const val USER = "magenta"
 // server address
-private const val BASE_URL = "??"
+private const val BASE_URL = "https://apellai.duckdns.org"
 
 
-private const val CLIENT = "??"
-private const val VERSION = "??"
-private const val FORMAT = "??"
+private const val CLIENT = "apellai"
+private const val VERSION = "1.16.1"
+private const val FORMAT = "json"
 
 // INFO TO BE DELETED LATER
 
@@ -48,7 +48,7 @@ private val retrofit = Retrofit.Builder()
 
 interface SubsonicApiService {
 
-    // work to do
+    // work to do, not tested
     @GET("rest/getAlbumList2")
     fun getAlbumListAsync(
         // Authentications
@@ -64,8 +64,12 @@ interface SubsonicApiService {
         @Query("type") type: String = ALBUM_TYPE,
         // Setting Default values
         @Query("offset") offset: Int = 0,
-        @Query("size") size: Int = 20
-        //TODO(ADD OTHER PARAMS HERE, getMusicFolder not applicable, there's only one folder)
+        @Query("size") size: Int = 20,
+        //TODO(fromYear, toYear implementation)
+        //@Query("fromYear") fromYear : Int = ???
+        //@Query("toYear") toYear : Int = ???
+        @Query("genre") genre : String = "",
+        @Query("musicFolderId") musicFolderId: String = "",
     ): Deferred<SubsonicResponseRoot>
 
     // tested
@@ -298,6 +302,22 @@ interface SubsonicApiService {
         @Query("songOffset") songOffset : Int = 0,
         @Query("musicFolderId") musicFolderId: String = "",
     ): Deferred<SubsonicResponseRoot>
+
+    @GET("rest/getCoverArt")
+    fun getCoverArt(
+        // Authentications
+        @Query("s") salt: String = SALT,
+        @Query("t") token: String = TOKEN,
+        // Required Params
+        @Query("c") client: String = CLIENT,
+        @Query("u") user: String = USER,
+        @Query("v") version: String = VERSION,
+        // Format choice
+        @Query("f") format: String = FORMAT,
+
+        @Query("id") id : String,
+        @Query("size") size : Int? = null,
+    ): Deferred<Bitmap>
 }
 
 
