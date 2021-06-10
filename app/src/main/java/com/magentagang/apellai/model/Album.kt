@@ -19,18 +19,18 @@ data class Album (
     @ColumnInfo(name = "year") var year : Int? = null,
     //TODO(add column info)
     var parent : String? = "",
-    var isDir : Boolean? = null,
+    @ColumnInfo(name = "isDir") var isDir : Boolean? = null,
     var title : String? = "",
-    var genre : String? = "", // add to database
+    @ColumnInfo(name = "genre") var genre : String? = "", // add to database
     var coverArt : String? = "", // add to database
     var isVideo : Boolean? = null,
     var album : String? = "",
-    var starred : String? = null, // add to database, manually add on callback
-    var isRandom : Boolean = false, // add to database, manually add on callback
-    var isNewest : Boolean = false, // add to database, manually add on callback
-    var isHighest : Boolean = false, // add to database, manually add on callback
-    var isFrequent : Boolean = false, // add to database, manually add on callback
-    var isRecent : Boolean = false, // add to database, manually add on callback
+    @ColumnInfo(name = "starred") var starred : String? = null, // add to database, manually add on callback
+    @ColumnInfo(name = "isRandom") var isRandom : Boolean = false, // add to database, manually add on callback
+    @ColumnInfo(name = "isNewest") var isNewest : Boolean = false, // add to database, manually add on callback
+    @ColumnInfo(name = "isHighest") var isHighest : Boolean = false, // add to database, manually add on callback
+    @ColumnInfo(name = "isFrequent") var isFrequent : Boolean = false, // add to database, manually add on callback
+    @ColumnInfo(name = "isRecent") var isRecent : Boolean = false, // add to database, manually add on callback
     @Ignore
     @Json(name = "song") var songList : List<Track> = ArrayList(),
     //parent, isDir, title, genre, coverArt, isVideo, album

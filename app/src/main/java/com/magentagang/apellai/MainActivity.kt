@@ -2,6 +2,8 @@ package com.magentagang.apellai
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     var _status: String = "NONE"
     lateinit var databaseDao: DatabaseDao
     //
+    private lateinit var albums: MutableLiveData<List<Album>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         // test codes
         val application = requireNotNull(this).application
         databaseDao = UserDatabase.getInstance(application).databaseDao()
+        albums = MutableLiveData<List<Album>>()
         Timber.i("Outside call")
 //        getArtists()
 //        getStreamBinary("f408df38cb3ca7f472d18f6b1d64f8dc")
@@ -51,8 +55,18 @@ class MainActivity : AppCompatActivity() {
 //        unStarAlbum("c225844106c090c7f3237b964331fc99")
 //        getStarred()
 //        search("never")
-          getAlbumList()
+        albums.value = getAlbumList(_size = 400, _type = "random")
     }
+
+    fun insertAlbums(albumList: List<Album>){
+        coroutineScope.launch {
+            Timber.i("Starter insertAlbums")
+            for (album in albumList){
+                insertAlbum(album)
+            }
+        }
+    }
+
     // test codes
     fun getAlbum(_id: String = "f76fcdde71a3708aa45de4fc841773aa") {
         Timber.i("Function getAlbumList Called")
@@ -230,13 +244,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAlbumList(){
+    private fun getAlbumList(_size:Int = 20, _offset:Int = 0, _type : String) : List<Album>?{
+        var result: List<Album>? = null
         Timber.i( "getAlbumList was called")
         coroutineScope.launch {
-            val getAlbumListDeferred = SubsonicApi.retrofitService.getAlbumListAsync()
+            val getAlbumListDeferred = SubsonicApi.retrofitService.getAlbumListAsync(size = _size, type = _type)
             _status = try {
                 val root = getAlbumListDeferred.await()
                 Timber.i("Status: ${root.subsonicResponse.status}, Version: ${root.subsonicResponse.version}")
+                result = root.subsonicResponse.albumRoot?.albumListItemList
+                if(root.subsonicResponse.status == "ok"){
+                    for(album in result!!){
+                        if(_type == "random") album.isRandom = true
+                        insertAlbum(album)
+                    }
+                }
                 if (root.subsonicResponse.status == "ok") {
                     "Success ${root.subsonicResponse.albumRoot.toString()}"
                 } else {
@@ -247,6 +269,7 @@ class MainActivity : AppCompatActivity() {
             }
             Timber.i(_status)
         }
+        return result
     }
 
 //    fun playMusic(_id : String = "f408df38cb3ca7f472d18f6b1d64f8dc"){

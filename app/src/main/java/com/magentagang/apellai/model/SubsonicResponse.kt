@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 data class SubsonicResponse(
     val status: String,
     val version: String, val type: String, val serverVersion: String,
-    //TODO(ALL RESPONSE REQUEST PARSING OBJECTS)
+    //TODO(ALL RESPONSE REQUEST PARSING OBJECTS, ADD ERROR HANDLER)
     @Json(name = "albumList2") val albumRoot: AlbumListRoot?,
     @Json(name = "album") val album: Album?,
     @Json(name = "artist") val artist : Artist?,
