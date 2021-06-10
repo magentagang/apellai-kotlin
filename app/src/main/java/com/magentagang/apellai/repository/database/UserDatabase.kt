@@ -5,15 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.magentagang.apellai.model.Album
-import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.model.Artist
+import com.magentagang.apellai.model.Track
 
 @Database(
     entities = arrayOf(
         Track::class,
         Album::class,
         Artist::class,
-        ),
+    ),
     version = 1
 )
 abstract class UserDatabase : RoomDatabase() {

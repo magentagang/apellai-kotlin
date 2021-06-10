@@ -15,29 +15,12 @@ import retrofit2.http.Query
 import java.util.*
 
 
-// test variables
-private const val ALBUM_ID = "f76fcdde71a3708aa45de4fc841773aa"
-private const val SONG_ID = "f408df38cb3ca7f472d18f6b1d64f8dc"
-private const val ALBUM_TYPE = "newest"
-private const val ARTIST_ID = "b56870783b82e1413af57d4cbde24f31"
-// Authentications
-private const val SALT = "ddhV32bf"
-private const val TOKEN = "e2733fb35892d0a7197e534761549a9a"
-private const val USER = "magenta"
-// server address
-private const val BASE_URL = "https://apellai.duckdns.org"
-
-
-private const val CLIENT = "apellai"
-private const val VERSION = "1.16.1"
-private const val FORMAT = "json"
-
 // INFO TO BE DELETED LATER
 
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
-    .add(Date::class.java,  Rfc3339DateJsonAdapter().nullSafe())
+    .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
     .build()
 
 private val retrofit = Retrofit.Builder()
@@ -68,7 +51,7 @@ interface SubsonicApiService {
         //TODO(fromYear, toYear implementation)
         //@Query("fromYear") fromYear : Int = ???
         //@Query("toYear") toYear : Int = ???
-        @Query("genre") genre : String = "",
+        @Query("genre") genre: String = "",
         @Query("musicFolderId") musicFolderId: String = "",
     ): Deferred<SubsonicResponseRoot>
 
@@ -293,13 +276,13 @@ interface SubsonicApiService {
         @Query("v") version: String = VERSION,
         // Format choice
         @Query("f") format: String = FORMAT,
-        @Query("query") query : String,
-        @Query("artistCount") artistCount : Int = 20,
-        @Query("artistOffset") artistOffset : Int = 0,
-        @Query("albumCount") albumCount : Int = 20,
-        @Query("albumOffset") albumOffset : Int = 0,
-        @Query("songCount") songCount : Int = 20,
-        @Query("songOffset") songOffset : Int = 0,
+        @Query("query") query: String,
+        @Query("artistCount") artistCount: Int = 20,
+        @Query("artistOffset") artistOffset: Int = 0,
+        @Query("albumCount") albumCount: Int = 20,
+        @Query("albumOffset") albumOffset: Int = 0,
+        @Query("songCount") songCount: Int = 20,
+        @Query("songOffset") songOffset: Int = 0,
         @Query("musicFolderId") musicFolderId: String = "",
     ): Deferred<SubsonicResponseRoot>
 
@@ -315,8 +298,8 @@ interface SubsonicApiService {
         // Format choice
         @Query("f") format: String = FORMAT,
 
-        @Query("id") id : String,
-        @Query("size") size : Int? = null,
+        @Query("id") id: String,
+        @Query("size") size: Int? = null,
     ): Deferred<Bitmap>
 }
 

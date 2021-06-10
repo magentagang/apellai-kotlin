@@ -1,17 +1,37 @@
 package com.magentagang.apellai.repository.database
 
-import com.magentagang.apellai.model.Album
-import com.magentagang.apellai.model.Artist
-import com.magentagang.apellai.model.Track
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.magentagang.apellai.model.Album
+import com.magentagang.apellai.model.Artist
+import com.magentagang.apellai.model.Track
 
 @Dao
 interface DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAlbum(album: Album)
+
+    @Query("UPDATE album_table SET isNewest = 1 where id = :key")
+    fun updateAlbumMakeNewewst(key : String)
+
+    @Query("UPDATE album_table SET isRandom = 1 where id = :key")
+    fun updateAlbumMakeRandom(key : String)
+
+    @Query("UPDATE album_table SET isRecent = 1 where id = :key")
+    fun updateAlbumMakeRecent(key : String)
+
+    @Query("UPDATE album_table SET isHighest = 1 where id = :key")
+    fun updateAlbumMakeHighest(key : String)
+
+    @Query("UPDATE album_table SET isStarred = 1 where id = :key")
+    fun updateAlbumMakeStarred(key : String)
+
+    @Query("UPDATE album_table SET isFrequent= 1 where id = :key")
+    fun updateAlbumMakeFrequent(key : String)
+
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertArtist(artist: Artist)
@@ -20,7 +40,7 @@ interface DatabaseDao {
     fun insertSong(track: Track)
 
     @Query("SELECT * FROM album_table WHERE id = :key")
-    fun getAlbum(key : String) : Album?
+    fun getAlbum(key: String): Album?
 
     @Query("SELECT * FROM artist_table WHERE id = :key")
     fun getArtist(key : String) : Artist?

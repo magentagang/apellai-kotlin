@@ -2,13 +2,13 @@ package com.magentagang.apellai
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.model.Artist
+import com.magentagang.apellai.repository.RepositoryUtils
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
 import com.magentagang.apellai.repository.service.SubsonicApi
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Default)
     var _status: String = "NONE"
     lateinit var databaseDao: DatabaseDao
+
     //
     private lateinit var albums: MutableLiveData<List<Album>>
 
@@ -55,13 +56,14 @@ class MainActivity : AppCompatActivity() {
 //        unStarAlbum("c225844106c090c7f3237b964331fc99")
 //        getStarred()
 //        search("never")
-        albums.value = getAlbumList(_size = 400, _type = "random")
+        val repositoryUtils = RepositoryUtils(databaseDao)
+        repositoryUtils.retrieveAllAbums("newest")
     }
 
-    fun insertAlbums(albumList: List<Album>){
+    fun insertAlbums(albumList: List<Album>) {
         coroutineScope.launch {
             Timber.i("Starter insertAlbums")
-            for (album in albumList){
+            for (album in albumList) {
                 insertAlbum(album)
             }
         }
@@ -150,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun starSong(_id : String){
+    fun starSong(_id: String) {
         coroutineScope.launch {
             val getStarredDeferred = SubsonicApi.retrofitService.starSongAsync(id = _id)
             try {
@@ -170,7 +172,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun unstarArtist(_id : String){
+    private fun unstarArtist(_id: String) {
         coroutineScope.launch {
             val getStarredDeferred = SubsonicApi.retrofitService.unstarArtistAsync(artistId = _id)
             _status = try {
@@ -189,7 +191,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun unStarAlbum(_id : String) {
+    private fun unStarAlbum(_id: String) {
         coroutineScope.launch {
             val starredAlbumDeferred = SubsonicApi.retrofitService.unstarAlbumAsync(albumId = _id)
             _status = try {
@@ -226,7 +228,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun search(_query: String){
+    private fun search(_query: String) {
         coroutineScope.launch {
             val queryDeferred = SubsonicApi.retrofitService.search3Async(query = _query)
             _status = try {
@@ -244,18 +246,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAlbumList(_size:Int = 20, _offset:Int = 0, _type : String) : List<Album>?{
+    private fun getAlbumList(_size: Int = 20, _offset: Int = 0, _type: String): List<Album>? {
         var result: List<Album>? = null
-        Timber.i( "getAlbumList was called")
+        Timber.i("getAlbumList was called")
         coroutineScope.launch {
-            val getAlbumListDeferred = SubsonicApi.retrofitService.getAlbumListAsync(size = _size, type = _type)
+            val getAlbumListDeferred =
+                SubsonicApi.retrofitService.getAlbumListAsync(size = _size, type = _type)
             _status = try {
                 val root = getAlbumListDeferred.await()
                 Timber.i("Status: ${root.subsonicResponse.status}, Version: ${root.subsonicResponse.version}")
                 result = root.subsonicResponse.albumRoot?.albumListItemList
-                if(root.subsonicResponse.status == "ok"){
-                    for(album in result!!){
-                        if(_type == "random") album.isRandom = true
+                if (root.subsonicResponse.status == "ok") {
+                    for (album in result!!) {
+                        if (_type == "random") album.isRandom = true
                         insertAlbum(album)
                     }
                 }
