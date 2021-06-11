@@ -16,6 +16,22 @@ import java.util.*
 
 
 // INFO TO BE DELETED LATER
+// test variables
+private const val ALBUM_ID = "f76fcdde71a3708aa45de4fc841773aa"
+private const val SONG_ID = "f408df38cb3ca7f472d18f6b1d64f8dc"
+private const val ALBUM_TYPE = "newest"
+private const val ARTIST_ID = "b56870783b82e1413af57d4cbde24f31"
+// Authentications
+private const val SALT = "ddhV32bf"
+private const val TOKEN = "e2733fb35892d0a7197e534761549a9a"
+private const val USER = "magenta"
+// server address
+private const val BASE_URL = "https://apellai.duckdns.org"
+
+
+private const val CLIENT = "apellai"
+private const val VERSION = "1.16.1"
+private const val FORMAT = "json"
 
 
 private val moshi = Moshi.Builder()

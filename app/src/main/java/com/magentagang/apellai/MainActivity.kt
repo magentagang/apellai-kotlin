@@ -8,6 +8,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.model.Artist
+import com.magentagang.apellai.model.Server
+import com.magentagang.apellai.model.User
 import com.magentagang.apellai.repository.RepositoryUtils
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
@@ -58,6 +60,8 @@ class MainActivity : AppCompatActivity() {
 //        search("never")
         val repositoryUtils = RepositoryUtils(databaseDao)
         repositoryUtils.retrieveAllAbums("newest")
+        repositoryUtils.insertServer(Server("https://apellai.duckdns.org", "1.16.1"))
+        repositoryUtils.insertUser(User(id = 1000, name = "magenta", salt = "ddhV32bf", token = "e2733fb35892d0a7197e534761549a9a"))
     }
 
     fun insertAlbums(albumList: List<Album>) {

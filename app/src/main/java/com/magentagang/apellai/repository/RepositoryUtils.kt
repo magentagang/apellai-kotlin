@@ -1,21 +1,104 @@
 package com.magentagang.apellai.repository
 
 import com.magentagang.apellai.model.Album
+import com.magentagang.apellai.model.Server
+import com.magentagang.apellai.model.User
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.service.SubsonicApi
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.math.BigInteger
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 const val ALBUM_SIZE_PER_CALL = 400
 
-class RepositoryUtils(val databaseDao: DatabaseDao) {
+class RepositoryUtils(private val databaseDao: DatabaseDao) {
+
+    companion object {
+
+//            TODO(Finish getUrlForStream() using stored credentials)
+//        fun getUrlForStream(): String {
+//            // build URI and URL
+//            val uri = Uri.parse("https://apellai.duckdns.org").buildUpon().apply {
+//                // Append path first
+//                appendPath("rest")
+//                appendPath("stream")
+//                // Add required queries
+//                appendQueryParameter("c", SubsonicApiService.CLIENT)
+//                appendQueryParameter("u", APIInfo.user)
+//                appendQueryParameter("v", APIInfo.version)
+//                // Authorization related params
+//                // Authorization related params
+//                appendQueryParameter("s", APIInfo.salt)
+//                appendQueryParameter("t", APIInfo.token)
+//                // song identifier
+//                appendQueryParameter("id", "bba4ce135a5f3a3ce32002ec4cd0fdc5")
+//            }
+//            return uri.toString()
+//        }
+
+        fun getMd5(input: String): String? {
+            return try {
+                // Static getInstance method is called with hashing MD5
+                val md: MessageDigest = MessageDigest.getInstance("MD5")
+
+                // digest() method is called to calculate message digest
+                //  of an input digest() return array of byte
+                val messageDigest: ByteArray = md.digest(input.toByteArray())
+
+                // Convert byte array into signum representation
+                val no = BigInteger(1, messageDigest)
+
+                // Convert message digest into hex value
+                var hashtext: String = no.toString(16)
+                while (hashtext.length < 32) {
+                    hashtext = "0$hashtext"
+                }
+                hashtext
+            } // For specifying wrong message digest algorithms
+            catch (e: NoSuchAlgorithmException) {
+                throw RuntimeException(e)
+            }
+        }
+    }
+
+
     var job = Job()
-    val coroutineScope = CoroutineScope(job + Dispatchers.IO)
+    private val coroutineScope = CoroutineScope(job + Dispatchers.IO)
 
 
-    // kuttachoda(type, genre, musicFolderId)
+    // insertServer to be called from main
+    fun insertServer(server: Server){
+        coroutineScope.launch {
+            insertServerSuspend(server)
+        }
+    }
 
-    public fun retrieveAllAbums(type: String, genre: String = "", musicFolderId: String = "") {
+    // insertUser to be called from  main
+    fun insertUser(user:User){
+        coroutineScope.launch {
+            insertUserSuspend(user)
+        }
+    }
+
+    // Insert a new Server information to the database
+    suspend fun insertServerSuspend(server: Server) {
+        return withContext(Dispatchers.IO) {
+            Timber.i("insertServer() started")
+            databaseDao.insertServer(server)
+        }
+    }
+
+    // Insert a new User information to the database
+    suspend fun insertUserSuspend(user: User) {
+        return withContext(Dispatchers.IO) {
+            Timber.i("insertUser() started")
+            databaseDao.insertUser(user)
+        }
+    }
+
+    fun retrieveAllAbums(type: String, genre: String = "", musicFolderId: String = "") {
         //TODO(MIGHT NEED TO DO ALL THE MANUAL RESETING OF isTHIS is THAT here)
         coroutineScope.launch {
             var nextCall = true
@@ -26,7 +109,7 @@ class RepositoryUtils(val databaseDao: DatabaseDao) {
                     _size = ALBUM_SIZE_PER_CALL, _offset = offset
                 )
                 offset += ALBUM_SIZE_PER_CALL
-                Timber.i("New offset val: ${offset}")
+                Timber.i("New offset val: $offset")
             }
         }
     }
@@ -36,12 +119,12 @@ class RepositoryUtils(val databaseDao: DatabaseDao) {
         _type: String, _size: Int = 20, _offset: Int = 0,
         _genre: String = "", _musicFolderId: String = ""
     ): Boolean {
-        Timber.i("retrieveAlbumChunk() called with -> size: ${_size}, offset: ${_offset}")
-        var result: List<Album>? = null
+        Timber.i("retrieveAlbumChunk() called with -> size: ${_size}, offset: $_offset")
+        var result: List<Album>?
         var isNextCallPossible = false
         Timber.i("getAlbumList was called")
         // Creates an async function that retrieves albums, stores them, returns deferred value representing whether isNextCallPossible should be true
-        var isNextCallPossibleDeferred = coroutineScope.async {
+        val isNextCallPossibleDeferred = coroutineScope.async {
             var flag = false
             val getAlbumListDeferred = SubsonicApi.retrofitService.getAlbumListAsync(
                 type = _type, size = _size, offset = _offset,
@@ -65,7 +148,7 @@ class RepositoryUtils(val databaseDao: DatabaseDao) {
                         }
                     }
                 } else {
-                    Timber.i("LIST IS NULL WHEN -> retrieveAlbumChunk() called with -> size: ${_size}, offset: ${_offset}")
+                    Timber.i("LIST IS NULL WHEN -> retrieveAlbumChunk() called with -> size: ${_size}, offset: $_offset")
                 }
             } catch (e: Exception) {
                 //TODO(CORRECT EXCEPTION HANDLING)
@@ -79,7 +162,7 @@ class RepositoryUtils(val databaseDao: DatabaseDao) {
             //TODO(CORRECT EXCEPTION HANDLING)
             e.printStackTrace()
         }
-        Timber.i("retrieveAlbumChunk -> RETURNING ${isNextCallPossibleDeferred} items. Offset(${_offset}).")
+        Timber.i("retrieveAlbumChunk -> RETURNING $isNextCallPossibleDeferred items. Offset(${_offset}).")
         return isNextCallPossible
     }
 

@@ -7,15 +7,20 @@ import androidx.room.RoomDatabase
 import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.model.Artist
 import com.magentagang.apellai.model.Track
+import com.magentagang.apellai.model.Server
+import com.magentagang.apellai.model.User
 
 @Database(
     entities = arrayOf(
         Track::class,
         Album::class,
+        User::class,
+        Server::class,
         Artist::class,
     ),
     version = 1
 )
+
 abstract class UserDatabase : RoomDatabase() {
     abstract fun databaseDao(): DatabaseDao
 
