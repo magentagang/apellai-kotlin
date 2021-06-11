@@ -1,10 +1,12 @@
 package com.magentagang.apellai.repository.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.magentagang.apellai.model.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DatabaseDao {
@@ -56,14 +58,6 @@ interface DatabaseDao {
     @Query("SELECT * FROM track_table WHERE id = :key")
     fun getSong(key: String): Track?
 
-    @Query("SELECT * FROM album_table")
-    fun getAllAlbums(): List<Album>?
-
-    @Query("SELECT * FROM artist_table")
-    fun getAllArtists(): List<Artist>?
-
-    @Query("SELECT * FROM track_table")
-    fun getAllSongs(): List<Track>?
 
     @Query("DELETE FROM album_table WHERE id = :key")
     fun deleteDatabaseAlbum(key: String)
@@ -83,22 +77,31 @@ interface DatabaseDao {
     @Query("DELETE  FROM track_table")
     fun clearSongs()
 
+    // live data
+    @Query("SELECT * FROM album_table")
+    fun getAllAlbums(): Flow<List<Album>>
+
+    @Query("SELECT * FROM artist_table")
+    fun getAllArtists(): Flow<List<Artist>>
+
+    @Query("SELECT * FROM track_table")
+    fun getAllSongs(): Flow<List<Track>>
+
     @Query("SELECT * FROM album_table where isRandom = 1")
-    fun getRandomAlbums(): List<Album>?
+    fun getRandomAlbums(): Flow<List<Album>>
 
     @Query("SELECT * FROM album_table where isNewest = 1")
-    fun getNewestAlbums(): List<Album>?
+    fun getNewestAlbums(): Flow<List<Album>>
 
     @Query("SELECT * FROM album_table where isFrequent = 1")
-    fun getFrequentAlbums(): List<Album>?
+    fun getFrequentAlbums(): Flow<List<Album>>
 
     @Query("SELECT * FROM album_table where isHighest = 1")
-    fun getHighestAlbums(): List<Album>?
+    fun getHighestAlbums(): Flow<List<Album>>
 
     @Query("SELECT * FROM album_table where isRecent = 1")
-    fun getRecentAlbums(): List<Album>?
+    fun getRecentAlbums(): Flow<List<Album>>
 
-?????????????????????????????
     @Query("SELECT * FROM album_table where isStarred = 1 ORDER BY starred DESC")
-    fun getStarredAlbums(): List<Album>?
+    fun getStarredAlbums(): Flow<List<Album>>
 }

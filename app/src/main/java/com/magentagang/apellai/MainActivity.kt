@@ -15,7 +15,10 @@ import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
 import com.magentagang.apellai.repository.service.SubsonicApi
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
     // test codes
@@ -59,23 +62,30 @@ class MainActivity : AppCompatActivity() {
 //        getStarred()
 //        search("never")
         val repositoryUtils = RepositoryUtils(databaseDao)
-        repositoryUtils.retrieveAllAbums("newest")
         repositoryUtils.retrieveAllAbums("random")
-        repositoryUtils.retrieveAllAbums("starred")
-        repositoryUtils.retrieveAllAbums("highest")
+
         repositoryUtils.insertServer(Server("https://apellai.duckdns.org", "1.16.1"))
         repositoryUtils.insertUser(User(name = "magenta", salt = "ddhV32bf", token = "e2733fb35892d0a7197e534761549a9a"))
-//      repositoryUtils.insertUser(User())
-    }
-
-    fun insertAlbums(albumList: List<Album>) {
-        coroutineScope.launch {
-            Timber.i("Starter insertAlbums")
-            for (album in albumList) {
-                insertAlbum(album)
+        CoroutineScope(Dispatchers.Default).launch {
+            databaseDao.getAllAlbums().collect {
+                if (it.isNotEmpty()) {
+                    Timber.i("FLOW: ${it.size} albums found")
+                }
             }
         }
+        Timer("SettingUp", false).schedule(5000) {
+            suspendAndCollect(repositoryUtils)
+        }
+
     }
+
+     fun suspendAndCollect(repositoryUtils : RepositoryUtils) {
+        Timber.i("Ami ghum bhanganiya pakhi")
+        repositoryUtils.retrieveAllAbums("newest")
+        repositoryUtils.retrieveAllAbums("starred")
+        repositoryUtils.retrieveAllAbums("highest")
+    }
+
 
     // test codes
     fun getAlbum(_id: String = "f76fcdde71a3708aa45de4fc841773aa") {
@@ -343,4 +353,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Timber.i("on Start was invoked")
     }
+
+    // on finish cancel job
 }

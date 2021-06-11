@@ -82,6 +82,15 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         }
     }
 
+    // get all albums async
+//    suspend fun getAllAlbums(): List<Album>?{
+//        var albumList : List<Album>? = null
+//        coroutineScope.launch{
+//            albumList = databaseDao.getAllAlbums()
+//        }
+//        return albumList
+//    }
+
     // Insert a new Server information to the database
     suspend fun insertServerSuspend(server: Server) {
         return withContext(Dispatchers.IO) {
