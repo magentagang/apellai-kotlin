@@ -60,8 +60,12 @@ class MainActivity : AppCompatActivity() {
 //        search("never")
         val repositoryUtils = RepositoryUtils(databaseDao)
         repositoryUtils.retrieveAllAbums("newest")
+        repositoryUtils.retrieveAllAbums("random")
+        repositoryUtils.retrieveAllAbums("starred")
+        repositoryUtils.retrieveAllAbums("highest")
         repositoryUtils.insertServer(Server("https://apellai.duckdns.org", "1.16.1"))
-        repositoryUtils.insertUser(User(id = 1000, name = "magenta", salt = "ddhV32bf", token = "e2733fb35892d0a7197e534761549a9a"))
+        repositoryUtils.insertUser(User(name = "magenta", salt = "ddhV32bf", token = "e2733fb35892d0a7197e534761549a9a"))
+//      repositoryUtils.insertUser(User())
     }
 
     fun insertAlbums(albumList: List<Album>) {

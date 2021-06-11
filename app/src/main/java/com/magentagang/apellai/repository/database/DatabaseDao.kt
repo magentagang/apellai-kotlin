@@ -82,4 +82,23 @@ interface DatabaseDao {
 
     @Query("DELETE  FROM track_table")
     fun clearSongs()
+
+    @Query("SELECT * FROM album_table where isRandom = 1")
+    fun getRandomAlbums(): List<Album>?
+
+    @Query("SELECT * FROM album_table where isNewest = 1")
+    fun getNewestAlbums(): List<Album>?
+
+    @Query("SELECT * FROM album_table where isFrequent = 1")
+    fun getFrequentAlbums(): List<Album>?
+
+    @Query("SELECT * FROM album_table where isHighest = 1")
+    fun getHighestAlbums(): List<Album>?
+
+    @Query("SELECT * FROM album_table where isRecent = 1")
+    fun getRecentAlbums(): List<Album>?
+
+?????????????????????????????
+    @Query("SELECT * FROM album_table where isStarred = 1 ORDER BY starred DESC")
+    fun getStarredAlbums(): List<Album>?
 }

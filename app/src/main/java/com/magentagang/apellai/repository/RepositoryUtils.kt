@@ -114,6 +114,31 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         }
     }
 
+    // Retrieves a list of starred albums and stars them in database
+    // Although it doesn't matter, this function is called when retrieving/inserting entire album list is finished
+
+    private suspend fun retrieveAndStarAllAlbums(){
+        coroutineScope.launch {
+            Timber.i("retrieveAndStarAllAlbums() started")
+            val StarredAlbumsDeferred = SubsonicApi.retrofitService.getStarred2Async()
+            try{
+                val root = StarredAlbumsDeferred.await()
+                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.album != null){
+                    val starredAlbumList = root.subsonicResponse.starred2.album
+                    for(album in starredAlbumList!!){
+                        if (databaseDao.getAlbum(album.id) == null) {
+                            insertAlbum(album, "starred")
+                        } else {
+                            updateAlbumType(album, "starred")
+                        }
+                    }
+                }
+            }catch(e:Exception){ // TODO(Error handling correct implementations)
+                e.printStackTrace()
+            }
+        }
+    }
+
     // Retrieves and inserts the list of retrieved albums to the database, suspending function
     private suspend fun retrieveAlbumChunk(
         _type: String, _size: Int = 20, _offset: Int = 0,
@@ -133,12 +158,9 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
             try {
                 val root = getAlbumListDeferred.await()
                 Timber.i("retrieveAlbumChunk -> Status: ${root.subsonicResponse.status}, Version: ${root.subsonicResponse.version}")
-                if (root.subsonicResponse.albumRoot != null) {
+                if (root.subsonicResponse.status != "failed" && root.subsonicResponse.albumRoot != null) {
                     result = root.subsonicResponse.albumRoot.albumListItemList
                     Timber.i("retrieveAlbumChunk -> returned ${result!!.size} items. Offset(${_offset}).")
-                    if (result!!.size == ALBUM_SIZE_PER_CALL) {
-                        flag = true
-                    }
                     for (album in result!!) {
                         // insert if it didn't exist, update if it did
                         if (databaseDao.getAlbum(album.id) == null) {
@@ -146,6 +168,11 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                         } else {
                             updateAlbumType(album, _type)
                         }
+                    }
+                    if (result!!.size == ALBUM_SIZE_PER_CALL) {
+                        flag = true
+                    }else{
+                        retrieveAndStarAllAlbums()
                     }
                 } else {
                     Timber.i("LIST IS NULL WHEN -> retrieveAlbumChunk() called with -> size: ${_size}, offset: $_offset")

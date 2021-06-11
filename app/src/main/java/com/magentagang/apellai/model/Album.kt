@@ -33,5 +33,4 @@ data class Album(
     @ColumnInfo(name = "isStarred") var isStarred: Boolean = false, // add to database, manually add on callback
     @Ignore
     @Json(name = "song") var songList: List<Track> = ArrayList(),
-    //parent, isDir, title, genre, coverArt, isVideo, album
 )
