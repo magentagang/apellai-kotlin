@@ -13,6 +13,12 @@ interface DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAlbum(album: Album)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertOrIgnoreAlbum(album: Album)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertOrIgnoreArtist(artist: Artist)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertServer(server: Server)
 
@@ -26,7 +32,7 @@ interface DatabaseDao {
     fun getUser(key: String): User?
 
     @Query("UPDATE album_table SET isNewest = 1 where id = :key")
-    fun updateAlbumMakeNewewst(key: String)
+    fun updateAlbumMakeNewest(key: String)
 
     @Query("UPDATE album_table SET isRandom = 1 where id = :key")
     fun updateAlbumMakeRandom(key: String)
@@ -34,8 +40,6 @@ interface DatabaseDao {
     @Query("UPDATE album_table SET isRecent = 1 where id = :key")
     fun updateAlbumMakeRecent(key: String)
 
-    @Query("UPDATE album_table SET isHighest = 1 where id = :key")
-    fun updateAlbumMakeHighest(key: String)
 
     @Query("UPDATE album_table SET isStarred = 1 where id = :key")
     fun updateAlbumMakeStarred(key: String)
@@ -58,6 +62,23 @@ interface DatabaseDao {
     @Query("SELECT * FROM track_table WHERE id = :key")
     fun getSong(key: String): Track?
 
+    // reset catagories
+    @Query("UPDATE album_table set isRandom = 0 where isRandom = 1")
+    fun resetRandomAlbums()
+
+    @Query("UPDATE album_table set isRecent = 0 where isRecent = 1")
+    fun resetRecentAlbums()
+
+    @Query("UPDATE album_table set isNewest = 0 where isNewest = 1")
+    fun resetNewestAlbums()
+
+    @Query("UPDATE album_table set isFrequent = 0 where isFrequent = 1")
+    fun resetFrequentAlbums()
+
+
+//    @Query("UPDATE album_table set isStarred = 0 where isStarred = 1")
+//    fun resetStarredAlbums()
+
 
     @Query("DELETE FROM album_table WHERE id = :key")
     fun deleteDatabaseAlbum(key: String)
@@ -78,7 +99,7 @@ interface DatabaseDao {
     fun clearSongs()
 
     // live data
-    @Query("SELECT * FROM album_table")
+    @Query("SELECT * FROM album_table ORDER BY name ASC")
     fun getAllAlbums(): Flow<List<Album>>
 
     @Query("SELECT * FROM artist_table")
@@ -87,21 +108,21 @@ interface DatabaseDao {
     @Query("SELECT * FROM track_table")
     fun getAllSongs(): Flow<List<Track>>
 
-    @Query("SELECT * FROM album_table where isRandom = 1")
+    @Query("SELECT * FROM album_table where isRandom = 1 LIMIT 10")
     fun getRandomAlbums(): Flow<List<Album>>
 
-    @Query("SELECT * FROM album_table where isNewest = 1")
+    @Query("SELECT * FROM album_table where isNewest = 1 LIMIT 10")
     fun getNewestAlbums(): Flow<List<Album>>
 
-    @Query("SELECT * FROM album_table where isFrequent = 1")
+    @Query("SELECT * FROM album_table where isFrequent = 1 LIMIT 10")
     fun getFrequentAlbums(): Flow<List<Album>>
 
-    @Query("SELECT * FROM album_table where isHighest = 1")
-    fun getHighestAlbums(): Flow<List<Album>>
 
-    @Query("SELECT * FROM album_table where isRecent = 1")
+    @Query("SELECT * FROM album_table where isRecent = 1 LIMIT 10")
     fun getRecentAlbums(): Flow<List<Album>>
 
     @Query("SELECT * FROM album_table where isStarred = 1 ORDER BY starred DESC")
     fun getStarredAlbums(): Flow<List<Album>>
+
+
 }

@@ -1,6 +1,7 @@
 package com.magentagang.apellai.repository
 
 import com.magentagang.apellai.model.Album
+import com.magentagang.apellai.model.Constants
 import com.magentagang.apellai.model.Server
 import com.magentagang.apellai.model.User
 import com.magentagang.apellai.repository.database.DatabaseDao
@@ -12,8 +13,14 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 const val ALBUM_SIZE_PER_CALL = 400
+const val DEFAULT_CATEGORY_SIZE = 10
 
 class RepositoryUtils(private val databaseDao: DatabaseDao) {
+
+
+    var job = Job()
+    private val coroutineScope = CoroutineScope(job + Dispatchers.IO)
+
 
     companion object {
 
@@ -64,37 +71,24 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
     }
 
 
-    var job = Job()
-    private val coroutineScope = CoroutineScope(job + Dispatchers.IO)
-
-
     // insertServer to be called from main
-    fun insertServer(server: Server){
+    fun insertServer(server: Server) {
         coroutineScope.launch {
             insertServerSuspend(server)
         }
     }
 
     // insertUser to be called from  main
-    fun insertUser(user:User){
+    fun insertUser(user: User) {
         coroutineScope.launch {
             insertUserSuspend(user)
         }
     }
 
-    // get all albums async
-//    suspend fun getAllAlbums(): List<Album>?{
-//        var albumList : List<Album>? = null
-//        coroutineScope.launch{
-//            albumList = databaseDao.getAllAlbums()
-//        }
-//        return albumList
-//    }
-
     // Insert a new Server information to the database
-    suspend fun insertServerSuspend(server: Server) {
+    private suspend fun insertServerSuspend(server: Server) {
         return withContext(Dispatchers.IO) {
-            Timber.i("insertServer() started")
+//            Timber.i("insertServer() started")
             databaseDao.insertServer(server)
         }
     }
@@ -102,13 +96,15 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
     // Insert a new User information to the database
     suspend fun insertUserSuspend(user: User) {
         return withContext(Dispatchers.IO) {
-            Timber.i("insertUser() started")
+//            Timber.i("insertUser() started")
             databaseDao.insertUser(user)
         }
     }
 
-    fun retrieveAllAbums(type: String, genre: String = "", musicFolderId: String = "") {
-        //TODO(MIGHT NEED TO DO ALL THE MANUAL RESETING OF isTHIS is THAT here)
+
+    // Function to be called to retrieve all album data
+    fun retrieveAllAlbums(type: String, genre: String = "", musicFolderId: String = "") {
+        //TODO(MIGHT NEED TO DO ALL THE MANUAL RESETTING OF isTHIS is THAT here)
         coroutineScope.launch {
             var nextCall = true
             var offset = 0
@@ -123,26 +119,78 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         }
     }
 
+    // Function to be called to retrieve all artist data
+    fun retrieveAllArtists(_musicFolderId: String = ""){
+        coroutineScope.launch {
+            val artistListDeferred = SubsonicApi.retrofitService.getArtistsAsync(musicFolderId = _musicFolderId)
+            try{
+                val root = artistListDeferred.await()
+                Timber.i("retrieveArtistChunk -> Status: ${root.subsonicResponse.status}, Version: ${root.subsonicResponse.version}")
+                val indices = root.subsonicResponse.getArtistArtists?.indices
+                if (indices != null) {
+                    for(index in indices){
+                        val artistList = index.artistList
+                        for(artist in artistList){
+                            //TODO(SEE IF THIS IS APPROPRIATE FOR ARTIST INSERTION)
+                            databaseDao.insertOrIgnoreArtist(artist)
+                        }
+                    }
+                }else{
+                    Timber.i("Indices is null in retrieveAllArtists()")
+                }
+            }catch(e:Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+
     // Retrieves a list of starred albums and stars them in database
     // Although it doesn't matter, this function is called when retrieving/inserting entire album list is finished
 
-    private suspend fun retrieveAndStarAllAlbums(){
+    suspend fun retrieveAndStarAllAlbums() {
         coroutineScope.launch {
             Timber.i("retrieveAndStarAllAlbums() started")
-            val StarredAlbumsDeferred = SubsonicApi.retrofitService.getStarred2Async()
-            try{
-                val root = StarredAlbumsDeferred.await()
-                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.album != null){
+            val starredAlbumsDeferred = SubsonicApi.retrofitService.getStarred2Async()
+            try {
+                val root = starredAlbumsDeferred.await()
+                if (root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.album != null) {
                     val starredAlbumList = root.subsonicResponse.starred2.album
-                    for(album in starredAlbumList!!){
+                    for (album in starredAlbumList!!) {
                         if (databaseDao.getAlbum(album.id) == null) {
-                            insertAlbum(album, "starred")
+                            insertAlbum(album, Constants.TYPE_STARRED)
                         } else {
-                            updateAlbumType(album, "starred")
+                            updateAlbumType(album, Constants.TYPE_STARRED)
                         }
                     }
                 }
-            }catch(e:Exception){ // TODO(Error handling correct implementations)
+            } catch (e: Exception) { // TODO(Error handling correct implementations)
+                e.printStackTrace()
+            }
+        }
+    }
+
+    // Retrieves a list of starred artists and stars them in database
+
+    suspend fun retrieveAndStarAllArtists(){
+        coroutineScope.launch {
+            Timber.i("retrieveAndStarAllArtists() started")
+            val starredAlbumsDeferred = SubsonicApi.retrofitService.getStarred2Async()
+            try {
+                val root = starredAlbumsDeferred.await()
+                if (root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.artist != null) {
+                    val starredArtistList = root.subsonicResponse.starred2.artist
+                    for (artist in starredArtistList!!) {
+//                        if (databaseDao.getArtist(artist.id) == null) {
+//                            insertArtist(artist, Constants.TYPE_STARRED)
+//                        } else {
+//                            updateArtistType(artist, Constants.TYPE_STARRED)
+//                        }
+                        //TODO(CAN'T WE JUST INSERT IN THIS CASE?)
+                        artist.isStarred = true
+                        databaseDao.insertArtist(artist)
+                    }
+                }
+            } catch (e: Exception) { // TODO(Error handling correct implementations)
                 e.printStackTrace()
             }
         }
@@ -150,8 +198,11 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
 
     // Retrieves and inserts the list of retrieved albums to the database, suspending function
     private suspend fun retrieveAlbumChunk(
-        _type: String, _size: Int = 20, _offset: Int = 0,
-        _genre: String = "", _musicFolderId: String = ""
+        _type: String,
+        _size: Int = 20,
+        _offset: Int = 0,
+        _genre: String = "",
+        _musicFolderId: String = ""
     ): Boolean {
         Timber.i("retrieveAlbumChunk() called with -> size: ${_size}, offset: $_offset")
         var result: List<Album>?
@@ -180,7 +231,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                     }
                     if (result!!.size == ALBUM_SIZE_PER_CALL) {
                         flag = true
-                    }else{
+                    } else {
                         retrieveAndStarAllAlbums()
                     }
                 } else {
@@ -198,21 +249,61 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
             //TODO(CORRECT EXCEPTION HANDLING)
             e.printStackTrace()
         }
-        Timber.i("retrieveAlbumChunk -> RETURNING $isNextCallPossibleDeferred items. Offset(${_offset}).")
+        Timber.i("retrieveAlbumChunk -> RETURNING $isNextCallPossibleDeferred.value items. Offset(${_offset}).")
         return isNextCallPossible
     }
 
-    // Updates album type infos in room database
+
+    // fetch chunk of categorized albums
+    fun fetchCategorizedChunk(
+        _type: String
+    ) {
+        coroutineScope.launch {
+            Timber.i("CALLING fetchCategorizedChunk")
+            val albumListDeferred = SubsonicApi.retrofitService.getAlbumListAsync(
+                type = _type, size = DEFAULT_CATEGORY_SIZE
+            )
+            val result: List<Album>?
+            try {
+                val root = albumListDeferred.await()
+                Timber.i("fetchCategorizedChunk -> Status: ${root.subsonicResponse.status}, Version: ${root.subsonicResponse.version}")
+                if (root.subsonicResponse.status != "failed" && root.subsonicResponse.albumRoot != null) {
+                    result = root.subsonicResponse.albumRoot.albumListItemList
+                    Timber.i("fetchCategorizedChunk -> returned ${result.size} items.")
+                    for (album in result) {
+                        // insert if it didn't exist, update if it did
+//                        if (databaseDao.getAlbum(album.id) == null) {
+//                            insertAlbum(album, _type)
+//                        } else {
+//                            updateAlbumType(album, _type)
+//                        }
+    // TODO(Check if its better than the commented out part above)
+                        databaseDao.insertOrIgnoreAlbum(album)
+                        updateAlbumType(album, _type)
+
+                    }
+                    Timber.i("Fetched all -> $_type")
+                } else {
+                    Timber.i("LIST IS NULL-> fetchCategorizedChunk")
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+    // Updates album type info in room database
     private suspend fun updateAlbumType(album: Album, type: String) {
         return withContext(Dispatchers.IO) {
-            Timber.i("updateAlbum started")
+//            Timber.i("updateAlbum started")
             when (type.lowercase()) {
-                "recent" -> databaseDao.updateAlbumMakeRecent(album.id)
-                "random" -> databaseDao.updateAlbumMakeRandom(album.id)
-                "starred" -> databaseDao.updateAlbumMakeStarred(album.id)
-                "frequent" -> databaseDao.updateAlbumMakeFrequent(album.id)
-                "highest" -> databaseDao.updateAlbumMakeHighest(album.id)
-                else -> databaseDao.updateAlbumMakeNewewst(album.id)
+                Constants.TYPE_RECENT -> databaseDao.updateAlbumMakeRecent(album.id)
+                Constants.TYPE_RANDOM -> databaseDao.updateAlbumMakeRandom(album.id)
+                Constants.TYPE_STARRED -> databaseDao.updateAlbumMakeStarred(album.id)
+                Constants.TYPE_FREQUENT -> databaseDao.updateAlbumMakeFrequent(album.id)
+                Constants.TYPE_NEWEST -> databaseDao.updateAlbumMakeNewest(album.id)
             }
         }
     }
@@ -221,14 +312,13 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
     //  Inserts a single album to the room database
     private suspend fun insertAlbum(album: Album, type: String) {
         return withContext(Dispatchers.IO) {
-            Timber.i("insertAlbum() started")
+//            Timber.i("insertAlbum() started")
             when (type.lowercase()) {
-                "recent" -> album.isRecent = true
-                "random" -> album.isRandom = true
-                "starred" -> album.isStarred = true
-                "frequent" -> album.isFrequent = true
-                "highest" -> album.isHighest = true
-                else -> album.isNewest = true
+                Constants.TYPE_RECENT -> album.isRecent = true
+                Constants.TYPE_RANDOM -> album.isRandom = true
+                Constants.TYPE_STARRED -> album.isStarred = true
+                Constants.TYPE_FREQUENT -> album.isFrequent = true
+                Constants.TYPE_NEWEST -> album.isNewest = true
             }
             databaseDao.insertAlbum(album)
         }
