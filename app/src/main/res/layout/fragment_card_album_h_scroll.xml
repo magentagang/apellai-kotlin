@@ -7,6 +7,10 @@
         <variable
             name="cardAlbumHScrollViewModel"
             type="com.magentagang.apellai.viewmodel.CardAlbumHScrollViewModel" />
+
+        <variable
+            name="cardAlbumHScrollType"
+            type="com.magentagang.apellai.ui.home.HomeFragment"  />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

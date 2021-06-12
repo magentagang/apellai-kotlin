@@ -13,6 +13,7 @@ import com.magentagang.apellai.adapter.CardAlbumHScrollAdapter
 import com.magentagang.apellai.databinding.FragmentCardAlbumHScrollBinding
 import com.magentagang.apellai.viewmodel.CardAlbumHScrollViewModel
 import com.magentagang.apellai.viewmodel.factory.CardAlbumHScrollViewModelFactory
+import timber.log.Timber
 
 class CardAlbumHScroll : Fragment() {
 
@@ -24,11 +25,13 @@ class CardAlbumHScroll : Fragment() {
         val binding: FragmentCardAlbumHScrollBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_card_album_h_scroll, container, false
         )
+        val albumListType = container?.tag.toString()
 
         val application = requireNotNull(this.activity).application
-        val viewModelFactory = CardAlbumHScrollViewModelFactory(application)
+        val viewModelFactory = CardAlbumHScrollViewModelFactory(application, albumListType)
         val cardAlbumHScrollViewModel = ViewModelProvider(this, viewModelFactory).get(CardAlbumHScrollViewModel::class.java)
 
+        binding.categoryHeader.text = albumListType
         binding.cardAlbumHScrollViewModel = cardAlbumHScrollViewModel
         binding.lifecycleOwner = this
 
