@@ -10,7 +10,7 @@ class CardAlbumHScrollViewModelFactory (private val application: Application, pr
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CardAlbumHScrollViewModel::class.java)) {
-            return CardAlbumHScrollViewModel(application,AlbumType) as T
+            return CardAlbumHScrollViewModel(application, AlbumType) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

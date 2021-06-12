@@ -13,18 +13,16 @@ import timber.log.Timber
 
 class CardAlbumHScrollViewModel(application: Application, albumType : String) : AndroidViewModel(application) {
     var albums: LiveData<List<Album>>
-    var databaseDao: DatabaseDao
-    init{
-        databaseDao = UserDatabase.getInstance(application).databaseDao()
-        albums = databaseDao.getStarredAlbums().asLiveData()
+    var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
 
-        when(albumType)
+    init{
+        albums = when(albumType)
         {
-            application.getResources().getString(R.string.loved_albums) -> albums = databaseDao.getStarredAlbums().asLiveData()
-            application.getResources().getString(R.string.most_played) -> albums = databaseDao.getStarredAlbums().asLiveData()//TODO etar method bana butum
-            application.getResources().getString(R.string.recently_added) -> albums = databaseDao.getRecentAlbums().asLiveData()
-            application.getResources().getString(R.string.random) -> albums = databaseDao.getRandomAlbums().asLiveData()
-            else -> albums = databaseDao.getStarredAlbums().asLiveData()
+            application.resources.getString(R.string.loved_albums) -> databaseDao.getStarredAlbums().asLiveData()
+            application.resources.getString(R.string.most_played) -> databaseDao.getFrequentAlbums().asLiveData()
+            application.resources.getString(R.string.recently_added) -> databaseDao.getRecentAlbums().asLiveData()
+            application.resources.getString(R.string.random) -> databaseDao.getRandomAlbums().asLiveData()
+            else -> databaseDao.getStarredAlbums().asLiveData()
         }
 
 
