@@ -2,7 +2,9 @@ package com.magentagang.apellai
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Default)
     var _status: String = "NONE"
     lateinit var databaseDao: DatabaseDao
+    private lateinit var albumLiveData: LiveData<List<Album>>
 
     //
     private lateinit var albums: MutableLiveData<List<Album>>
@@ -63,11 +66,11 @@ class MainActivity : AppCompatActivity() {
 //        search("never")
         val repositoryUtils = RepositoryUtils(databaseDao)
         repositoryUtils.retrieveAllAbums("random")
-
         repositoryUtils.insertServer(Server("https://apellai.duckdns.org", "1.16.1"))
         repositoryUtils.insertUser(User(name = "magenta", salt = "ddhV32bf", token = "e2733fb35892d0a7197e534761549a9a"))
+        albumLiveData = databaseDao.getAllAlbums().asLiveData()
         CoroutineScope(Dispatchers.Default).launch {
-            databaseDao.getAllAlbums().collect {
+            databaseDao.getAllAlbums().collect {    it ->
                 if (it.isNotEmpty()) {
                     Timber.i("FLOW: ${it.size} albums found")
                 }
@@ -79,12 +82,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-     fun suspendAndCollect(repositoryUtils : RepositoryUtils) {
-        Timber.i("Ami ghum bhanganiya pakhi")
-        repositoryUtils.retrieveAllAbums("newest")
-        repositoryUtils.retrieveAllAbums("starred")
-        repositoryUtils.retrieveAllAbums("highest")
-    }
+//     fun suspendAndCollect(repositoryUtils : RepositoryUtils) {
+//        Timber.i("Ami ghum bhanganiya pakhi")
+//        repositoryUtils.retrieveAllAbums("newest")
+//        repositoryUtils.retrieveAllAbums("starred")
+//        repositoryUtils.retrieveAllAbums("highest")
+//    }
 
 
     // test codes
