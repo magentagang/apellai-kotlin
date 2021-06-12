@@ -82,12 +82,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//     fun suspendAndCollect(repositoryUtils : RepositoryUtils) {
-//        Timber.i("Ami ghum bhanganiya pakhi")
-//        repositoryUtils.retrieveAllAbums("newest")
-//        repositoryUtils.retrieveAllAbums("starred")
-//        repositoryUtils.retrieveAllAbums("highest")
-//    }
+     fun suspendAndCollect(repositoryUtils : RepositoryUtils) {
+        Timber.i("Ami ghum bhanganiya pakhi")
+        repositoryUtils.retrieveAllAbums("newest")
+        repositoryUtils.retrieveAllAbums("starred")
+        repositoryUtils.retrieveAllAbums("highest")
+    }
 
 
     // test codes
