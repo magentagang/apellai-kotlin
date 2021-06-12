@@ -4,24 +4,17 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.magentagang.apellai.model.Album
+import com.magentagang.apellai.repository.database.UserDatabase
 
 class ListAlbumViewModel(application: Application) : AndroidViewModel(application) {
-    private var album = MutableLiveData<Album?>()
-    private val _albums = MutableLiveData<List<Album>>().apply {
-        postValue(listOf(
-            Album("1"),
-            Album("2"),
-            Album("3"),
-            Album("4"),
-            Album("5"),
-            Album("6"),
-            Album("7"),
-            Album("8"),
-            Album("9"),
-        ))
+
+    val albums : LiveData<List<Album>>
+    val dataSource = UserDatabase.getInstance(application).databaseDao()
+    init{
+        albums = dataSource.getAllAlbums().asLiveData()
     }
-    val albums : LiveData<List<Album>> = _albums
 
     private val _navigateToAlbumScreen = MutableLiveData<String?>()
     val navigateToAlbumScreen
