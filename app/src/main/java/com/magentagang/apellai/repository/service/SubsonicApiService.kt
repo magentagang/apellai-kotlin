@@ -86,7 +86,7 @@ interface SubsonicApiService {
 
 
     @GET("rest/getSong")
-    fun getSongAsync(
+    fun getTrackAsync(
         // Authentications
         @Query("s") salt: String = Constants.SALT,
         @Query("t") token: String = Constants.TOKEN,

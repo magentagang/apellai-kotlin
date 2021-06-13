@@ -1,9 +1,6 @@
 package com.magentagang.apellai.repository
 
-import com.magentagang.apellai.model.Album
-import com.magentagang.apellai.model.Constants
-import com.magentagang.apellai.model.Server
-import com.magentagang.apellai.model.User
+import com.magentagang.apellai.model.*
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.service.SubsonicApi
 import kotlinx.coroutines.*
@@ -147,7 +144,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
     // Retrieves a list of starred albums and stars them in database
     // Although it doesn't matter, this function is called when retrieving/inserting entire album list is finished
 
-    suspend fun retrieveAndStarAllAlbums() {
+    fun retrieveAndStarAllAlbums() {
         coroutineScope.launch {
             Timber.i("retrieveAndStarAllAlbums() started")
             val starredAlbumsDeferred = SubsonicApi.retrofitService.getStarred2Async()
@@ -171,7 +168,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
 
     // Retrieves a list of starred artists and stars them in database
 
-    suspend fun retrieveAndStarAllArtists(){
+    fun retrieveAndStarAllArtists(){
         coroutineScope.launch {
             Timber.i("retrieveAndStarAllArtists() started")
             val starredAlbumsDeferred = SubsonicApi.retrofitService.getStarred2Async()
@@ -290,6 +287,63 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    // Async fun for returning album data using getalbum, call in a coroutine
+    suspend fun fetchAlbumAsync(_id: String):Deferred<Album?>{
+        return coroutineScope.async {
+            val albumDeferred = SubsonicApi.retrofitService.getAlbumAsync(id = _id)
+            var album : Album? = null
+            try{
+                val root = albumDeferred.await()
+                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.album != null){
+                    album = root.subsonicResponse.album
+                }else {
+                    Timber.i("No album response was found")
+                }
+            }catch(e: Exception){
+                e.printStackTrace()
+            }
+            return@async album
+        }
+    }
+
+    // Async fun for returning album data using getalbum, call in a coroutine
+    suspend fun fetchArtistAsync(_id: String):Deferred<Artist?>{
+        return coroutineScope.async {
+            val ArtistDeferred = SubsonicApi.retrofitService.getArtistAsync(id = _id)
+            var Artist : Artist? = null
+            try{
+                val root = ArtistDeferred.await()
+                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.artist != null){
+                    Artist = root.subsonicResponse.artist
+                }else {
+                    Timber.i("No Artist response was found")
+                }
+            }catch(e: Exception){
+                e.printStackTrace()
+            }
+            return@async Artist
+        }
+    }
+
+    // Async fun for fetching track data, call in a coroutine
+    suspend fun fetchTrackAsync(_id: String):Deferred<Track?>{
+        return coroutineScope.async {
+            val TrackDeferred = SubsonicApi.retrofitService.getTrackAsync(id = _id)
+            var Track : Track? = null
+            try{
+                val root = TrackDeferred.await()
+                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.track != null){
+                    Track = root.subsonicResponse.track
+                }else {
+                    Timber.i("No Track response was found")
+                }
+            }catch(e: Exception){
+                e.printStackTrace()
+            }
+            return@async Track
         }
     }
 

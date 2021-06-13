@@ -24,6 +24,7 @@ class ListArtistViewModel ( application: Application) : AndroidViewModel(applica
 //        ))
 //    }
 //    val artists : LiveData<List<Artist>> = _artists
+    // TODO(SHOW THIS LIVE DATA ON ARTISTS LIST)
     val artists : LiveData<List<Artist>>
     init{
         repositoryUtils = RepositoryUtils(databaseDao)

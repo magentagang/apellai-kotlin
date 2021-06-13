@@ -9,10 +9,7 @@ import com.magentagang.apellai.model.Constants
 import com.magentagang.apellai.repository.RepositoryUtils
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +29,21 @@ class MainActivity : AppCompatActivity() {
         databaseDao = UserDatabase.getInstance(application).databaseDao()
         val repositoryUtils = RepositoryUtils(databaseDao)
         //TODO(IT SHOULD RUN ONLY ONCE, DON'T KNOW WHERE TO PUT THE CODE)
+        CoroutineScope(Dispatchers.IO).launch {
+            val albumDeferred = repositoryUtils.fetchAlbumAsync("f76fcdde71a3708aa45de4fc841773aa")
+            val artistDeferred = repositoryUtils.fetchArtistAsync("49122de0a36069f001e7e3d568f3339e")
+            val trackDeferred = repositoryUtils.fetchTrackAsync("f408df38cb3ca7f472d18f6b1d64f8dc")
+            try{
+                val album = albumDeferred.await()
+                val artist = artistDeferred.await()
+                val track = trackDeferred.await()
+                Timber.i("ALBUM -? ${album.toString()}")
+                Timber.i("ARTIST -? ${artist.toString()}")
+                Timber.i("TRACK -? ${track.toString()}")
+            }catch(e : Exception){
+                e.printStackTrace()
+            }
+        }
         initializeCategories(repositoryUtils, databaseDao)
     }
 
@@ -41,11 +53,12 @@ class MainActivity : AppCompatActivity() {
             databaseDao.resetFrequentAlbums()
             databaseDao.resetRecentAlbums()
             databaseDao.resetNewestAlbums()
-            repositoryUtils.retrieveAllArtists()
             repositoryUtils.fetchCategorizedChunk(Constants.TYPE_RANDOM)
             repositoryUtils.fetchCategorizedChunk(Constants.TYPE_RECENT)
             repositoryUtils.fetchCategorizedChunk(Constants.TYPE_FREQUENT)
             repositoryUtils.fetchCategorizedChunk(Constants.TYPE_NEWEST)
+            repositoryUtils.retrieveAllArtists()
+            repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
             repositoryUtils.retrieveAndStarAllAlbums()
         }
     }
