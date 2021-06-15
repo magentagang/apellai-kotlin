@@ -124,5 +124,11 @@ interface DatabaseDao {
     @Query("SELECT * FROM album_table where isStarred = 1 ORDER BY starred DESC")
     fun getStarredAlbums(): Flow<List<Album>>
 
+    // Search related
+    @Query("SELECT * FROM album_table WHERE name LIKE '%' || :searchQuery || '%'")
+    fun getAlbumsSearch(searchQuery: String):Flow<List<Album>>
+
+
+
 
 }

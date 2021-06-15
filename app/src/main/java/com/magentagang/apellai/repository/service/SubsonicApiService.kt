@@ -284,6 +284,28 @@ interface SubsonicApiService {
         @Query("musicFolderId") musicFolderId: String = "",
     ): Deferred<SubsonicResponseRoot>
 
+    // tested
+    @GET("rest/search3")
+    suspend fun search3(
+        // Authentications
+        @Query("s") salt: String = Constants.SALT,
+        @Query("t") token: String = Constants.TOKEN,
+        // Required Params
+        @Query("c") client: String = Constants.CLIENT,
+        @Query("u") user: String = Constants.USER,
+        @Query("v") version: String = Constants.VERSION,
+        // Format choice
+        @Query("f") format: String = Constants.FORMAT,
+        @Query("query") query: String,
+        @Query("artistCount") artistCount: Int = 20,
+        @Query("artistOffset") artistOffset: Int = 0,
+        @Query("albumCount") albumCount: Int = 20,
+        @Query("albumOffset") albumOffset: Int = 0,
+        @Query("songCount") songCount: Int = 20,
+        @Query("songOffset") songOffset: Int = 0,
+        @Query("musicFolderId") musicFolderId: String = "",
+    ): SubsonicResponseRoot
+
     @GET("rest/getCoverArt")
     fun getCoverArtAsync(
         // Authentications
