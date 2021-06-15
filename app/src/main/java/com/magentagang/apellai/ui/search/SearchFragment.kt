@@ -38,6 +38,7 @@ class SearchFragment : Fragment() {
         binding.searchViewModel = searchViewModel
         binding.lifecycleOwner = this
 
+
         searchViewModel.subsonicResponseRoot.observe(viewLifecycleOwner, {
             //Timber.i("ALBUMS SEARCH -> ${it.toString()}")
             if(it != null){

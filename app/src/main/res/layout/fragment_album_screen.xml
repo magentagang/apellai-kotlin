@@ -1,92 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.albumscreen.AlbumScreen"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="albumScreenViewModel"
+            type="com.magentagang.apellai.ui.albumscreen.AlbumScreenViewModel" />
+    </data>
+
+
+    <ScrollView
+        tools:context=".ui.albumscreen.AlbumScreen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/albumRoot">
+        android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/albumArtRoundedContainerLarge"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            app:cardCornerRadius="@dimen/corner_album_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:id="@+id/albumRoot">
 
-            <ImageView
-                android:id="@+id/albumArtLarge"
-                android:layout_width="@dimen/album_item_size"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/albumArtRoundedContainerLarge"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/placeholder_nocover"
-                android:contentDescription="@string/dummy_text" />
-        </androidx.cardview.widget.CardView>
+                android:layout_marginTop="64dp"
+                app:cardCornerRadius="@dimen/corner_album_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/albumNameLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:ellipsize="end"
-            android:maxWidth="@dimen/album_item_size"
-            android:maxLines="2"
-            android:text="@string/dummy_text"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/fragment_album_text_album_large"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/albumArtRoundedContainerLarge" />
+                <ImageView
+                    android:id="@+id/albumArtLarge"
+                    android:layout_width="@dimen/album_item_size"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/placeholder_nocover"
+                    android:contentDescription="@string/dummy_text" />
+            </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/albumArtistLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@string/dummy_text"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/fragment_album_text_artist_large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/albumNameLarge" />
+            <TextView
+                android:id="@+id/albumNameLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:ellipsize="end"
+                android:maxWidth="@dimen/album_item_size"
+                android:maxLines="2"
+                android:text="@string/dummy_text"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/fragment_album_text_album_large"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/albumArtRoundedContainerLarge" />
 
-        <TextView
-            android:id="@+id/albumArtistYear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@string/dummy_text"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/fragment_album_text_year_large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/albumArtistLarge" />
+            <TextView
+                android:id="@+id/albumArtistLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/dummy_text"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/fragment_album_text_artist_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/albumNameLarge" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/entityList"
-            android:name="com.magentagang.apellai.ui.fragments.ListTrackVScroll"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:paddingBottom="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/albumArtistYear">
+            <TextView
+                android:id="@+id/albumArtistYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/dummy_text"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/fragment_album_text_year_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/albumArtistLarge" />
 
-        </androidx.fragment.app.FragmentContainerView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/entityList"
+                android:name="com.magentagang.apellai.ui.fragments.ListTrackVScroll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:paddingBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/albumArtistYear">
+
+            </androidx.fragment.app.FragmentContainerView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
