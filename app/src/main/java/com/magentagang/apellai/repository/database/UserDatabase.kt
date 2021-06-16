@@ -4,11 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.magentagang.apellai.model.Album
-import com.magentagang.apellai.model.Artist
-import com.magentagang.apellai.model.Track
-import com.magentagang.apellai.model.Server
-import com.magentagang.apellai.model.User
+import com.magentagang.apellai.model.*
 
 @Database(
     entities = arrayOf(
@@ -17,6 +13,7 @@ import com.magentagang.apellai.model.User
         User::class,
         Server::class,
         Artist::class,
+        SearchHistory::class,
     ),
     version = 1
 )
