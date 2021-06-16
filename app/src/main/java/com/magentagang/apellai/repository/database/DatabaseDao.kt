@@ -62,7 +62,7 @@ interface DatabaseDao {
     @Query("SELECT * FROM track_table WHERE id = :key")
     fun getSong(key: String): Track?
 
-    // reset catagories
+    // reset categories
     @Query("UPDATE album_table set isRandom = 0 where isRandom = 1")
     fun resetRandomAlbums()
 
@@ -128,7 +128,13 @@ interface DatabaseDao {
     @Query("SELECT * FROM album_table WHERE name LIKE '%' || :searchQuery || '%'")
     fun getAlbumsSearch(searchQuery: String):Flow<List<Album>>
 
+    @Query("SELECT * FROM search_history_table ORDER BY searchTime DESC LIMIT 5")
+    fun getRecentSearches(): List<SearchHistory>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertSearchHistory(searchHistory: SearchHistory)
 
+    @Query("DELETE FROM search_history_table")
+    fun clearSearchHistory()
 
 }
