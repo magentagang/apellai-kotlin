@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.magentagang.apellai.databinding.FragmentListArtistBinding
-import com.magentagang.apellai.generated.callback.OnClickListener
-import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.model.Artist
 
 class ListArtistAdapter(val clickListener: ArtistListener) : ListAdapter<Artist,

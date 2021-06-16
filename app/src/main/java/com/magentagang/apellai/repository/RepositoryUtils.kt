@@ -1,5 +1,6 @@
 package com.magentagang.apellai.repository
 
+import android.net.Uri
 import com.magentagang.apellai.model.*
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.service.SubsonicApi
@@ -69,6 +70,29 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                 throw RuntimeException(e)
             }
         }
+
+
+        //TODO(USE REAL TIME USER INFO INSTEAD AND PUT VALUE FOR SIZE)
+         fun getCoverArtUrl(_id : String, _size: String = ""): String {
+            // build URI and URL
+            val uri = Uri.parse("https://apellai.duckdns.org").buildUpon().apply {
+                // Append path first
+                appendPath("rest")
+                appendPath("getCoverArt")
+                // Add required queries
+                appendQueryParameter("c",  Constants.CLIENT)
+                appendQueryParameter("u", Constants.USER)
+                appendQueryParameter("v", Constants.VERSION)
+                // Authorization related params
+                // Authorization related params
+                appendQueryParameter("s", Constants.SALT)
+                appendQueryParameter("t", Constants.TOKEN)
+                // song identifier
+                appendQueryParameter("id", _id)
+                appendQueryParameter("size", _size)
+            }
+            return uri.toString()
+        }
     }
 
 
@@ -95,7 +119,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
     }
 
     // Insert a new User information to the database
-    suspend fun insertUserSuspend(user: User) {
+    private suspend fun insertUserSuspend(user: User) {
         return withContext(Dispatchers.IO) {
 //            Timber.i("insertUser() started")
             databaseDao.insertUser(user)
@@ -328,23 +352,6 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
 
     // search result query
 
-    fun fetchSearchResult(_query: String): Deferred<SearchResult3?> {
-        return coroutineScope.async {
-            val searchResult3Deferred = SubsonicApi.retrofitService.search3Async(query = _query)
-            var searchResult3: SearchResult3? = null
-            try {
-                val root = searchResult3Deferred.await()
-                Timber.i("fetchCategorizedChunk -> Status: ${root.subsonicResponse.status}, Version: ${root.subsonicResponse.version}")
-                if (root.subsonicResponse.status != "failed" && root.subsonicResponse.albumRoot != null) {
-                    searchResult3 = root.subsonicResponse.searchResult3
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return@async searchResult3
-        }
-    }
-
 
     fun fetchSearchResultFlow(_query: String): Flow<SubsonicResponseRoot> {
         return flow {
@@ -354,7 +361,6 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
             emit(fooList)
         }.catch { e -> e.printStackTrace() }.flowOn(Dispatchers.IO) // Use the IO thread for this Flow
     }
-
 
 
     // Async fun for returning album data using getalbum, call in a coroutine
@@ -379,38 +385,38 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
     // Async fun for returning album data using getalbum, call in a coroutine
     suspend fun fetchArtistAsync(_id: String):Deferred<Artist?>{
         return coroutineScope.async {
-            val ArtistDeferred = SubsonicApi.retrofitService.getArtistAsync(id = _id)
-            var Artist : Artist? = null
+            val artistDeferred = SubsonicApi.retrofitService.getArtistAsync(id = _id)
+            var artist : Artist? = null
             try{
-                val root = ArtistDeferred.await()
+                val root = artistDeferred.await()
                 if(root.subsonicResponse.status != "failed" && root.subsonicResponse.artist != null){
-                    Artist = root.subsonicResponse.artist
+                    artist = root.subsonicResponse.artist
                 }else {
                     Timber.i("No Artist response was found")
                 }
             }catch(e: Exception){
                 e.printStackTrace()
             }
-            return@async Artist
+            return@async artist
         }
     }
 
     // Async fun for fetching track data, call in a coroutine
     suspend fun fetchTrackAsync(_id: String):Deferred<Track?>{
         return coroutineScope.async {
-            val TrackDeferred = SubsonicApi.retrofitService.getTrackAsync(id = _id)
-            var Track : Track? = null
+            val trackDeferred = SubsonicApi.retrofitService.getTrackAsync(id = _id)
+            var track : Track? = null
             try{
-                val root = TrackDeferred.await()
+                val root = trackDeferred.await()
                 if(root.subsonicResponse.status != "failed" && root.subsonicResponse.track != null){
-                    Track = root.subsonicResponse.track
+                    track = root.subsonicResponse.track
                 }else {
                     Timber.i("No Track response was found")
                 }
             }catch(e: Exception){
                 e.printStackTrace()
             }
-            return@async Track
+            return@async track
         }
     }
 
