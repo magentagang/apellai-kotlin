@@ -16,18 +16,18 @@ import timber.log.Timber
 class CardAlbumHScrollViewModel(application: Application, albumType : String) : AndroidViewModel(application) {
     var albums: LiveData<List<Album>>
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
-    var repositoryUtils:RepositoryUtils
+    var repositoryUtils:RepositoryUtils = RepositoryUtils(databaseDao)
     var viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
     init{
-        repositoryUtils = RepositoryUtils(databaseDao)
         albums = when(albumType)
         {
             application.resources.getString(R.string.loved_albums) -> databaseDao.getStarredAlbums().asLiveData()
             application.resources.getString(R.string.most_played) -> databaseDao.getFrequentAlbums().asLiveData()
-            application.resources.getString(R.string.recently_added) -> databaseDao.getRecentAlbums().asLiveData()
+            application.resources.getString(R.string.recently_added) -> databaseDao.getNewestAlbums().asLiveData()
             application.resources.getString(R.string.random) -> databaseDao.getRandomAlbums().asLiveData()
+            application.resources.getString(R.string.recently_played) -> databaseDao.getRecentAlbums().asLiveData()
             else -> databaseDao.getStarredAlbums().asLiveData()
         }
         // TODO(MAKE IT SO THAT IT ONLY GETS CALLED WHEN FRAGMENT WAS CREATED THE FIRST TIME)

@@ -13,6 +13,10 @@
     <string name="most_played">On repeat</string>
     <string name="search_hint">Search for you music</string>
     <string name="artist_releases">Releases</string>
+    <string name="server_address">Server Address</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 
     <string-array name="spinner_library_array">
         <item>Artist</item>
