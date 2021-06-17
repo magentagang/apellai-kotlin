@@ -16,15 +16,15 @@ class ListAlbumViewModel(application: Application) : AndroidViewModel(applicatio
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
 
     val albums : LiveData<List<Album>>
-    val dataSource = UserDatabase.getInstance(application).databaseDao()
+    private val dataSource = UserDatabase.getInstance(application).databaseDao()
 
     init{
         repositoryUtils = RepositoryUtils(databaseDao)
         repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
-        albums = dataSource.getAllAlbums().asLiveData()
+        dataSource.getAllAlbums().asLiveData().also { albums = it }
     }
 
-    private val _navigateToAlbumScreen = MutableLiveData<String?>()
+    private val _navigateToAlbumScreen: MutableLiveData<String?> = MutableLiveData<String?>()
     val navigateToAlbumScreen
         get() = _navigateToAlbumScreen
 
