@@ -34,7 +34,7 @@ class AlbumScreen : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val application = requireNotNull(this.activity).application
 
         val albumScreenArgs: AlbumScreenArgs by navArgs()
@@ -68,7 +68,7 @@ class AlbumScreen : Fragment() {
         Glide.with(this)
             .applyDefaultRequestOptions(glideOptions)
             .load(RepositoryUtils.getCoverArtUrl(album.coverArt!!))
-            .placeholder(R.drawable.image_fill)
+            .placeholder(R.drawable.placeholder_nocover)
             .into(imageView)
     }
 

@@ -32,7 +32,7 @@ class ListAlbumAdapter(val clickListener: AlbumListener) : ListAdapter<Album,
             Glide.with(binding.root)
                 .applyDefaultRequestOptions(glideOptions)
                 .load(RepositoryUtils.getCoverArtUrl(item.coverArt!!))
-                .placeholder(R.drawable.image_fill)
+                .placeholder(R.drawable.placeholder_nocover)
                 .into(binding.albumArt)
             
             binding.clickListener = clickListener
