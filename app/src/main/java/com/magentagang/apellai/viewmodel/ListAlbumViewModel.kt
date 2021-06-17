@@ -17,7 +17,6 @@ class ListAlbumViewModel(application: Application) : AndroidViewModel(applicatio
 
     val albums : LiveData<List<Album>>
     private val dataSource = UserDatabase.getInstance(application).databaseDao()
-
     init{
         repositoryUtils = RepositoryUtils(databaseDao)
         repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)

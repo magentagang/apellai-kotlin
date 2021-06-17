@@ -12,24 +12,12 @@ import com.magentagang.apellai.repository.database.UserDatabase
 class ListArtistViewModel ( application: Application) : AndroidViewModel(application) {
     var repositoryUtils: RepositoryUtils
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
-    val dataSource = UserDatabase.getInstance(application).databaseDao()
-//    private var artist = MutableLiveData<Artist?>()
-//    private val _artists = MutableLiveData<List<Artist>>().apply {
-//        postValue(listOf(
-//            Artist("1"),
-//            Artist("2"),
-//            Artist("3"),
-//            Artist("4"),
-//            Artist("5")
-//        ))
-//    }
-//    val artists : LiveData<List<Artist>> = _artists
-    // TODO(SHOW THIS LIVE DATA ON ARTISTS LIST)
+    private val dataSource = UserDatabase.getInstance(application).databaseDao()
     val artists : LiveData<List<Artist>>
     init{
         repositoryUtils = RepositoryUtils(databaseDao)
         repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
-        artists = databaseDao.getAllArtists().asLiveData()
+        dataSource.getAllArtists().asLiveData().also { artists = it }
     }
 
 
