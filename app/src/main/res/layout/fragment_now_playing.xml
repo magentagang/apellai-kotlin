@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ellipsize="end"
+        android:gravity="center_horizontal"
         android:maxWidth="@dimen/album_item_size"
         android:maxLines="2"
         android:text="@string/dummy_text"
