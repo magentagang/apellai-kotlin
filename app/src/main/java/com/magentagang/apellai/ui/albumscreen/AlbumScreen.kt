@@ -50,6 +50,7 @@ class AlbumScreen : Fragment() {
         binding.lifecycleOwner = this
         binding.albumScreenViewModel = albumScreenViewModel
         imageView = binding.albumArtLarge
+        binding.entityList.tag = albumId.toString()
 
         albumScreenViewModel.album.observe(viewLifecycleOwner, {
             if (it != null) {

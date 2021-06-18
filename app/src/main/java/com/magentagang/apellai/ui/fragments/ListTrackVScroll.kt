@@ -26,9 +26,9 @@ class ListTrackVScroll : Fragment() {
         val binding: FragmentListTrackVScrollBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_list_track_v_scroll, container, false
         )
-
+        val albumId = container?.tag.toString()
         val application = requireNotNull(this.activity).application
-        val viewModelFactory = ListTrackViewModelFactory(application)
+        val viewModelFactory = ListTrackViewModelFactory(application,albumId)
         val listTrackViewModel = ViewModelProvider(this, viewModelFactory).get(ListTrackViewModel::class.java)
 
         binding.listTrackViewModel = listTrackViewModel
