@@ -25,22 +25,22 @@ class ListAlbumViewModel(application: Application, albumListType : String) : And
     var albums: LiveData<List<Album>>
     private val artist = MutableLiveData<Artist?>()
     private val dataSource = UserDatabase.getInstance(application).databaseDao()
-    init{
+    init {
         Timber.i(albumListType)
 
         repositoryUtils = RepositoryUtils(databaseDao)
         coroutineScope.launch {
-            if(albumListType!= "all")
+            if (albumListType != "all")
             {
                 val artistDeferred = repositoryUtils.fetchArtistAsync(albumListType)
-                try{
+                try {
                     val artistVal = artistDeferred.await()
-                    if(artistVal != null){
+                    if (artistVal != null) {
                         artist.postValue(artistVal)
-                    }else{
+                    } else {
                         Timber.i("AlbumScreenViewModel-> Response albumVal value is null")
                     }
-                }catch (e : Exception){
+                } catch (e : Exception) {
                     e.printStackTrace()
                 }
             }
@@ -49,10 +49,10 @@ class ListAlbumViewModel(application: Application, albumListType : String) : And
 
         repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
         albums = dataSource.getAllAlbums().asLiveData()
-        if(albumListType!= "all")
+        if (albumListType!= "all")
         {
             //albums = artist.value?.album as LiveData<List<Album>>
-            //TODO JUST make sure this part assigns the artist's albums
+            TODO("JUST make sure this part assigns the artist's albums")
         }
 
         //albums = dataSource.getAllAlbums().asLiveData()
@@ -62,7 +62,7 @@ class ListAlbumViewModel(application: Application, albumListType : String) : And
     val navigateToAlbumScreen
         get() = _navigateToAlbumScreen
 
-    fun onAlbumClicked(id: String){
+    fun onAlbumClicked(id: String) {
         _navigateToAlbumScreen.value = id
     }
     fun doneNavigating() {
