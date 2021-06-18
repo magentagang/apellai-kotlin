@@ -33,12 +33,12 @@ class ListAlbumVScroll : Fragment() {
         val binding: FragmentListAlbumVScrollBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_list_album_v_scroll, container, false
         )
+        val albumListType = container?.tag.toString()
         val application = requireNotNull(this.activity).application
-        val viewModelFactory = ListAlbumViewModelFactory(application)
+        val viewModelFactory = ListAlbumViewModelFactory(application,albumListType)
         val listAlbumViewModel = ViewModelProvider(this, viewModelFactory).get(ListAlbumViewModel::class.java)
         binding.listAlbumViewModel = listAlbumViewModel
         binding.lifecycleOwner = this
-
         val manager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.albumVList.layoutManager = manager
 

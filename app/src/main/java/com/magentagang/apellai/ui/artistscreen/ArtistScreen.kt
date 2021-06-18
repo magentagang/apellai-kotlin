@@ -44,7 +44,7 @@ class ArtistScreen : Fragment() {
         )
         binding.lifecycleOwner = this
         binding.artistScreenViewModel = artistScreenViewModel
-
+        binding.fragment.tag = artistId
         artistScreenViewModel.artist.observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.artistNameLarge.text = it.name
