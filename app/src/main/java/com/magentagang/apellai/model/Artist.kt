@@ -14,5 +14,4 @@ data class Artist(
     @ColumnInfo(name = "starred") var starred: String? = null, // add to database, manually add on callback
     @ColumnInfo(name = "isStarred") var isStarred: Boolean = false, // add to database, manually add on callback
     @Ignore var album : List<Album> = ArrayList(),
-
 )

@@ -22,7 +22,9 @@ class ListAlbumViewModel(application: Application, albumListType : String) : And
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
     var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + viewModelJob)
-    var albums: LiveData<List<Album>>
+    val albums: LiveData<List<Album>>
+        get() = _album
+    var _album = MutableLiveData<List<Album>>()
     private val artist = MutableLiveData<Artist?>()
     private val dataSource = UserDatabase.getInstance(application).databaseDao()
     init {
@@ -37,6 +39,7 @@ class ListAlbumViewModel(application: Application, albumListType : String) : And
                     val artistVal = artistDeferred.await()
                     if (artistVal != null) {
                         artist.postValue(artistVal)
+                        _album.postValue(artistVal.album)
                     } else {
                         Timber.i("AlbumScreenViewModel-> Response albumVal value is null")
                     }
@@ -47,12 +50,10 @@ class ListAlbumViewModel(application: Application, albumListType : String) : And
 
         }
 
-        repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
-        albums = dataSource.getAllAlbums().asLiveData()
-        if (albumListType!= "all")
+        if (albumListType == "all")
         {
-            //albums = artist.value?.album as LiveData<List<Album>>
-            TODO("JUST make sure this part assigns the artist's albums")
+            repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
+            _album = dataSource.getAllAlbums().asLiveData() as MutableLiveData
         }
 
         //albums = dataSource.getAllAlbums().asLiveData()

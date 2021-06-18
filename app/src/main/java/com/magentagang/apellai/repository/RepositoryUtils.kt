@@ -93,6 +93,22 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
             }
             return uri.toString()
         }
+
+        fun convertToHex(inputString : String): String
+        {
+            var outputString  = ""
+            for(char in inputString)
+            {
+                outputString+=Integer.toHexString(char.code)
+            }
+            return outputString
+        }
+
+        fun generateToken(password : String, salt : String): String?
+        {
+            val outputToken = getMd5(password + salt)
+            return outputToken
+        }
     }
 
 
@@ -420,19 +436,5 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         }
     }
 
-    fun convertToHex(inputString : String): String
-    {
-        var outputString  = ""
-        for(char in inputString)
-        {
-            outputString+=Integer.toHexString(char.code)
-        }
-        return outputString
-    }
 
-    fun generateToken(password : String, salt : String): String?
-    {
-        val outputToken = getMd5(password + salt)
-        return outputToken
-    }
 }

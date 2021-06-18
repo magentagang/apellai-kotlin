@@ -48,6 +48,7 @@ class ArtistScreen : Fragment() {
         artistScreenViewModel.artist.observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.artistNameLarge.text = it.name
+                it.album
             }
         })
         return binding.root
