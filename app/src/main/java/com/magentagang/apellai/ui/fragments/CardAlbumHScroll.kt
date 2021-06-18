@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magentagang.apellai.R
+import com.magentagang.apellai.adapter.AlbumHListener
 import com.magentagang.apellai.adapter.CardAlbumHScrollAdapter
 import com.magentagang.apellai.databinding.FragmentCardAlbumHScrollBinding
+import com.magentagang.apellai.ui.artistscreen.ArtistScreenDirections
+import com.magentagang.apellai.ui.home.HomeFragmentDirections
+import com.magentagang.apellai.ui.library.LibraryFragmentDirections
 import com.magentagang.apellai.viewmodel.CardAlbumHScrollViewModel
 import com.magentagang.apellai.viewmodel.factory.CardAlbumHScrollViewModelFactory
 import timber.log.Timber
@@ -38,7 +43,18 @@ class CardAlbumHScroll : Fragment() {
         val manager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.albumHList.layoutManager = manager
 
-        val adapter = CardAlbumHScrollAdapter()
+        val adapter = CardAlbumHScrollAdapter(AlbumHListener { ID ->
+            cardAlbumHScrollViewModel.onAlbumClicked(ID)
+        })
+        cardAlbumHScrollViewModel.navigateToAlbumScreen.observe(viewLifecycleOwner, { id ->
+            id?.let {
+                val navController = this.findNavController()
+                navController.navigate(HomeFragmentDirections.actionNavigationHomeToAlbumScreen(id))
+
+                cardAlbumHScrollViewModel.doneNavigating()
+            }
+        })
+
         binding.albumHList.adapter = adapter
 
         cardAlbumHScrollViewModel.albums.observe(viewLifecycleOwner, {
@@ -49,4 +65,5 @@ class CardAlbumHScroll : Fragment() {
 
         return binding.root
     }
+
 }

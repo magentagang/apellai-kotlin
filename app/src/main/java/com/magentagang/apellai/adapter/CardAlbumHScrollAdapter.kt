@@ -13,7 +13,7 @@ import com.magentagang.apellai.databinding.FragmentCardAlbumBinding
 import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.repository.RepositoryUtils
 
-class CardAlbumHScrollAdapter() : ListAdapter<Album,
+class CardAlbumHScrollAdapter(val clickListener: AlbumHListener) : ListAdapter<Album,
         CardAlbumHScrollAdapter.ViewHolder>(CardAlbumDiffCallback()) {
 
     class ViewHolder private constructor(val binding: FragmentCardAlbumBinding)
@@ -25,7 +25,7 @@ class CardAlbumHScrollAdapter() : ListAdapter<Album,
             .diskCacheStrategy(DiskCacheStrategy.DATA)
 
 
-        fun bind(item: Album) {
+        fun bind(item: Album,clickListener: AlbumHListener) {
             binding.album = item
             // glide related code
             Glide.with(binding.root)
@@ -33,7 +33,7 @@ class CardAlbumHScrollAdapter() : ListAdapter<Album,
                 .load(RepositoryUtils.getCoverArtUrl(item.coverArt!!))
                 .placeholder(R.drawable.placeholder_nocover)
                 .into(binding.albumArt)
-
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -62,6 +62,9 @@ class CardAlbumHScrollAdapter() : ListAdapter<Album,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position),clickListener)
     }
+}
+class AlbumHListener(val clickListener: (ID: String) -> Unit) {
+    fun onClick(album: Album) = clickListener(album.id)
 }

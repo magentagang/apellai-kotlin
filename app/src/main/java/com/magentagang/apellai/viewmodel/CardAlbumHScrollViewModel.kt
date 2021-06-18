@@ -3,6 +3,7 @@ package com.magentagang.apellai.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.magentagang.apellai.R
 import com.magentagang.apellai.model.Album
@@ -33,7 +34,16 @@ class CardAlbumHScrollViewModel(application: Application, albumType : String) : 
         // TODO(MAKE IT SO THAT IT ONLY GETS CALLED WHEN FRAGMENT WAS CREATED THE FIRST TIME)
         Timber.i("INIT CALLED")
     }
+    private val _navigateToAlbumScreen: MutableLiveData<String?> = MutableLiveData<String?>()
+    val navigateToAlbumScreen
+        get() = _navigateToAlbumScreen
 
+    fun onAlbumClicked(id: String) {
+        _navigateToAlbumScreen.value = id
+    }
+    fun doneNavigating() {
+        _navigateToAlbumScreen.value = null
+    }
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
