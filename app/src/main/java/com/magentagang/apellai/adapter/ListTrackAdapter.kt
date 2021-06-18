@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.magentagang.apellai.databinding.FragmentListTrackBinding
 import com.magentagang.apellai.model.Track
 
-class ListTrackAdapter : ListAdapter<Track,
+class ListTrackAdapter(val clickListener: TrackListener) : ListAdapter<Track,
         ListTrackAdapter.ViewHolder>(GridTrackDiffCallback()) {
     class ViewHolder private constructor(val binding: FragmentListTrackBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Track) {
+        fun bind(item: Track, clickListener: TrackListener) {
             binding.track = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -42,6 +43,10 @@ class ListTrackAdapter : ListAdapter<Track,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), clickListener)
     }
+}
+
+class TrackListener(val clickListener: (id: String) -> Unit) {
+    fun onClick(track: Track) = clickListener(track.id)
 }

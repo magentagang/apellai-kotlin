@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class ListTrackViewModel(application : Application, albumId : String): AndroidViewModel(application)  {
-//TODO similar to ListAlbumViewModel
-var repositoryUtils: RepositoryUtils
+
+    var repositoryUtils: RepositoryUtils
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
     var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + viewModelJob)
@@ -46,9 +46,19 @@ var repositoryUtils: RepositoryUtils
                 }
 
         }
-
     }
 
+    private val _navigateToNowPlayingScreen = MutableLiveData<String?>()
+    val navigateToNowPlayingScreen
+        get() = _navigateToNowPlayingScreen
+
+    fun onTrackClicked(id: String){
+        _navigateToNowPlayingScreen.value = id
+    }
+
+    fun doneNavigating() {
+        _navigateToNowPlayingScreen.value = null
+    }
 
     override fun onCleared() {
         super.onCleared()
