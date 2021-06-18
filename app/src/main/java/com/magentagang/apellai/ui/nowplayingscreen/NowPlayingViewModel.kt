@@ -37,7 +37,7 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
     }
 
     val playPauseButtonRes = MutableLiveData<Int>().apply {
-        postValue(R.drawable.play_fill)
+        postValue(R.drawable.play_circle_line)
     }
 
     val seekBarChangeListener = OnSeekBarChangeListener()
@@ -108,8 +108,8 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
 
         playPauseButtonRes.postValue(
             when(playbackStateCompat.isPlaying) {
-                true -> R.drawable.pause_fill
-                else -> R.drawable.play_fill
+                true -> R.drawable.pause_circle_line
+                else -> R.drawable.play_circle_line
             }
         )
     }
@@ -136,7 +136,9 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
     inner class OnSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
 
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            playbackServiceConnector.transportControls.seekTo(progress.toLong().times(1000L))
+            if (fromUser) {
+                playbackServiceConnector.transportControls.seekTo(progress.toLong().times(1000L))
+            }
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {}

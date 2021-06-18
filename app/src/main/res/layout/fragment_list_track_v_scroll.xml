@@ -23,7 +23,8 @@
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:focusableInTouchMode="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
