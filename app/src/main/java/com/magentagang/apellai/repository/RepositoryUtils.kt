@@ -4,6 +4,7 @@ import android.net.Uri
 import com.magentagang.apellai.model.*
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.service.SubsonicApi
+import com.magentagang.apellai.util.Constants
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -92,6 +93,22 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                 appendQueryParameter("size", _size)
             }
             return uri.toString()
+        }
+
+        fun Track.getStreamUri(): Uri {
+            return Uri.Builder()
+                .scheme("https")
+                .authority("apellai.duckdns.org")
+                .appendPath("rest")
+                .appendPath("stream")
+                .appendQueryParameter("s", Constants.SALT)
+                .appendQueryParameter("t", Constants.TOKEN)
+                .appendQueryParameter("u", Constants.USER)
+                .appendQueryParameter("c", Constants.CLIENT)
+                .appendQueryParameter("v", Constants.VERSION)
+                .appendQueryParameter("f", Constants.FORMAT)
+                .appendQueryParameter("id", id)
+                .build()
         }
 
         fun convertToHex(inputString : String): String

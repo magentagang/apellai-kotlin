@@ -1,13 +1,15 @@
 package com.magentagang.apellai.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.*
-import com.magentagang.apellai.model.Album
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.magentagang.apellai.model.Artist
-import com.magentagang.apellai.model.Constants
 import com.magentagang.apellai.repository.RepositoryUtils
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
+import com.magentagang.apellai.util.Constants
 
 class ListArtistViewModel ( application: Application) : AndroidViewModel(application) {
     var repositoryUtils: RepositoryUtils

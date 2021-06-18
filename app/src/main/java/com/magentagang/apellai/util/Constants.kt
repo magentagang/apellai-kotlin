@@ -1,4 +1,4 @@
-package com.magentagang.apellai.model
+package com.magentagang.apellai.util
 
 object Constants {
     const val TYPE_ALPHABETICAL_BY_NAME = "alphabeticalByName"
@@ -26,4 +26,11 @@ object Constants {
     const val CLIENT = "apellai"
     const val VERSION = "1.16.1"
     const val FORMAT = "json"
+
+    const val NOW_PLAYING_CHANNEL_ID = "com.magentagang.apellai.NOW_PLAYING"
+    const val NOW_PLAYING_NOTIFICATION_ID = 0x45
+    const val NOTIFICATION_LARGE_ICON_SIZE = 144
+    const val USER_AGENT = "apellai"
+    const val NETWORK_FAILURE = "com.magentalgang.apellai.NETWORK_FAILURE"
+    const val SEEKBAR_UPDATE_INTERVAL = 100L
 }

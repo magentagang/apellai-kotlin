@@ -3,8 +3,8 @@ package com.magentagang.apellai.repository.service
 import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.magentagang.apellai.model.Constants
 import com.magentagang.apellai.model.SubsonicResponseRoot
+import com.magentagang.apellai.util.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

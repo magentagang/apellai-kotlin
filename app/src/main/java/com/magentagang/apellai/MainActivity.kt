@@ -1,16 +1,15 @@
 package com.magentagang.apellai
 
 import android.os.Bundle
-import android.text.format.DateUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.magentagang.apellai.model.Constants
 import com.magentagang.apellai.model.SearchHistory
 import com.magentagang.apellai.repository.RepositoryUtils
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
+import com.magentagang.apellai.util.Constants
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.time.Instant
@@ -45,10 +44,10 @@ class MainActivity : AppCompatActivity() {
             val searchHistoryListAfterDeleting = databaseDao.getRecentSearches()
             Timber.i("SEARCH HISTORY BEFORE DELETING:\n")
             for(listElements in searchHistoryList)
-                Timber.i("%s%s", listElements.searchQuery + " ", listElements.searchTime)
+                Timber.i("%s %s", listElements.searchQuery, listElements.searchTime)
             Timber.i("SEARCH HISTORY AFTER DELETING:\n")
             for(listElements in searchHistoryListAfterDeleting)
-                Timber.i("%s%s", listElements.searchQuery + " ", listElements.searchTime)
+                Timber.i("%s %s", listElements.searchQuery, listElements.searchTime)
             val albumDeferred = repositoryUtils.fetchAlbumAsync("f76fcdde71a3708aa45de4fc841773aa")
             val artistDeferred = repositoryUtils.fetchArtistAsync("49122de0a36069f001e7e3d568f3339e")
             val trackDeferred = repositoryUtils.fetchTrackAsync("f408df38cb3ca7f472d18f6b1d64f8dc")
