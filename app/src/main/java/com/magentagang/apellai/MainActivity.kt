@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         //TODO(IT SHOULD RUN ONLY ONCE, DON'T KNOW WHERE TO PUT THE CODE)
         CoroutineScope(Dispatchers.IO).launch {
             Timber.i("Coroutine was launched")
+            Timber.i(repositoryUtils.convertToHex("topper moment"))
+            Timber.i(repositoryUtils.generateToken("sesame","c19b2d"))
             val searchHistory = SearchHistory("monow", DateTimeFormatter.ISO_INSTANT.format(Instant.now()))
             val searchHistory2 = SearchHistory("butum", DateTimeFormatter.ISO_INSTANT.format(Instant.now()))
             databaseDao.insertSearchHistory(searchHistory)
