@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentAlbumScreenBinding
 import com.magentagang.apellai.model.Album
-import com.magentagang.apellai.repository.RepositoryUtils
+import com.magentagang.apellai.util.RepositoryUtils
 
 class AlbumScreen : Fragment() {
     private lateinit var binding: FragmentAlbumScreenBinding

@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentCardAlbumBinding
 import com.magentagang.apellai.model.Album
-import com.magentagang.apellai.repository.RepositoryUtils
+import com.magentagang.apellai.util.RepositoryUtils
 
 class CardAlbumHScrollAdapter(val clickListener: AlbumHListener) : ListAdapter<Album,
         CardAlbumHScrollAdapter.ViewHolder>(CardAlbumDiffCallback()) {

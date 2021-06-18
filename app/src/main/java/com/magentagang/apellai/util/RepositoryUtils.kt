@@ -1,4 +1,4 @@
-package com.magentagang.apellai.repository
+package com.magentagang.apellai.util
 
 import android.net.Uri
 import com.magentagang.apellai.model.*

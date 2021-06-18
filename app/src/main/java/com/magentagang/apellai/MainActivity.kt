@@ -6,10 +6,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.magentagang.apellai.model.SearchHistory
-import com.magentagang.apellai.repository.RepositoryUtils
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
 import com.magentagang.apellai.util.Constants
+import com.magentagang.apellai.util.RepositoryUtils
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.time.Instant

@@ -4,7 +4,7 @@ import android.os.SystemClock
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.magentagang.apellai.model.Track
-import com.magentagang.apellai.repository.RepositoryUtils.Companion.getStreamUri
+import com.magentagang.apellai.util.RepositoryUtils.Companion.getStreamUri
 
 fun Track.toMediaMetadataCompat(): MediaMetadataCompat {
     return MediaMetadataCompat.Builder()

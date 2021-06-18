@@ -1,15 +1,16 @@
 package com.magentagang.apellai.ui.albumscreen
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.magentagang.apellai.model.Album
-import com.magentagang.apellai.repository.RepositoryUtils
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
+import com.magentagang.apellai.util.RepositoryUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-
 import kotlinx.coroutines.launch
 import timber.log.Timber
 

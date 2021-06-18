@@ -7,9 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.magentagang.apellai.R
 import com.magentagang.apellai.model.Album
-import com.magentagang.apellai.repository.RepositoryUtils
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
+import com.magentagang.apellai.util.RepositoryUtils
 import kotlinx.coroutines.*
 import timber.log.Timber
 

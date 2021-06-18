@@ -1,15 +1,16 @@
 package com.magentagang.apellai.ui.search
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import com.magentagang.apellai.model.SubsonicResponseRoot
-import com.magentagang.apellai.repository.RepositoryUtils
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
+import com.magentagang.apellai.util.RepositoryUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
