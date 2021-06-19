@@ -28,7 +28,7 @@ import java.lang.Exception
 
 class PlaybackService : MediaBrowserServiceCompat() {
 
-//    private lateinit var notificationManager: NotificationManager
+    private lateinit var notificationManager: NotificationManager
 
     private lateinit var player: Player
 
@@ -70,11 +70,11 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
         sessionToken = mediaSession.sessionToken
 
-//        notificationManager = NotificationManager(
-//            this,
-//            mediaSession.sessionToken,
-//            PlayerNotificationListener()
-//        )
+        notificationManager = NotificationManager(
+            this,
+            mediaSession.sessionToken,
+            PlayerNotificationListener()
+        )
 
         // TODO Load from media source
 
@@ -85,7 +85,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         player = exoPlayer
         mediaSessionConnector.setPlayer(player)
 
-//        notificationManager.showNotificationForPlayer(player)
+        notificationManager.showNotificationForPlayer(player)
 
         // TODO PackageValidator and Storage
 
@@ -164,7 +164,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
             when (playbackState) {
                 Player.STATE_BUFFERING, Player.STATE_READY -> {
-//                    notificationManager.showNotificationForPlayer(player)
+                    notificationManager.showNotificationForPlayer(player)
                     if (playbackState == Player.STATE_READY) {
                         // TODO Save song to SharedPrefs/DB
                         if (!playWhenReady) {
@@ -173,7 +173,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                     }
                 }
                 else -> {
-//                    notificationManager.hideNotification()
+                    notificationManager.hideNotification()
                 }
             }
         }

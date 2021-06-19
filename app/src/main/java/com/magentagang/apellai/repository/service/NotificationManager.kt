@@ -30,18 +30,32 @@ class NotificationManager(
 
         val mediaController = MediaControllerCompat(context, sessionToken)
 
-        notificationManager = PlayerNotificationManager.Builder(
+//        notificationManager = PlayerNotificationManager.Builder(
+//            context,
+//            Constants.NOW_PLAYING_NOTIFICATION_ID,
+//            Constants.NOW_PLAYING_CHANNEL_ID,
+//            MediaDescriptionAdapter(mediaController)
+//        ).setNotificationListener(notificationListener)
+//            .build()
+//            .apply {
+//                setMediaSessionToken(sessionToken)
+//                setSmallIcon(R.drawable.ic_notifications_black_24dp)
+//                setControlDispatcher(DefaultControlDispatcher(0, 0))
+//            }
+
+        // TODO Avoid using deprecated method if possible
+        notificationManager = PlayerNotificationManager.createWithNotificationChannel(
             context,
-            Constants.NOW_PLAYING_NOTIFICATION_ID,
             Constants.NOW_PLAYING_CHANNEL_ID,
-            MediaDescriptionAdapter(mediaController)
-        ).setNotificationListener(notificationListener)
-            .build()
-            .apply {
-                setMediaSessionToken(sessionToken)
-                setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                setControlDispatcher(DefaultControlDispatcher(0, 0))
-            }
+            R.string.now_playing,
+            R.string.now_playing_desc,
+            MediaDescriptionAdapter(mediaController),
+            notificationListener
+        ).apply {
+            setMediaSessionToken(sessionToken)
+            setSmallIcon(R.drawable.music_line)
+            setControlDispatcher(DefaultControlDispatcher(0, 0))
+        }
     }
 
     fun hideNotification() {

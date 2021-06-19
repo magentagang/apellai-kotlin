@@ -17,6 +17,8 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="now_playing_desc">Shows the currently playing track.</string>
 
     <string-array name="spinner_library_array">
         <item>Artist</item>

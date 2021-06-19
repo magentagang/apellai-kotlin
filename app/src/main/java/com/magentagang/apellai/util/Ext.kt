@@ -4,6 +4,7 @@ import android.os.SystemClock
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.magentagang.apellai.model.Track
+import com.magentagang.apellai.util.RepositoryUtils.Companion.getCoverArtUrl
 import com.magentagang.apellai.util.RepositoryUtils.Companion.getStreamUri
 
 fun Track.toMediaMetadataCompat(): MediaMetadataCompat {
@@ -18,6 +19,8 @@ fun Track.toMediaMetadataCompat(): MediaMetadataCompat {
         .putString(MediaMetadataCompat.METADATA_KEY_GENRE, genre)
         .putLong(MediaMetadataCompat.METADATA_KEY_DISC_NUMBER, discNumber?.toLong() ?: 0L)
         .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, getStreamUri().toString())
+        .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, getCoverArtUrl(id))
+        .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, getCoverArtUrl(id))
         .build()
 }
 
