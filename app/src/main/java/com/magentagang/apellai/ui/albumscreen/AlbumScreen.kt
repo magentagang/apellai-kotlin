@@ -61,7 +61,6 @@ class AlbumScreen : Fragment() {
             }
         })
 
-        //TODO( Do all glide related work here) ->
         return binding.root
     }
 

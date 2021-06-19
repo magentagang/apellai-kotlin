@@ -5,12 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentNowPlayingBinding
+import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.repository.service.PlaybackService
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
+import com.magentagang.apellai.util.RepositoryUtils
 import com.magentagang.apellai.util.toMSS
 
 class NowPlaying : Fragment() {
@@ -20,6 +27,10 @@ class NowPlaying : Fragment() {
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
 
     lateinit var binding: FragmentNowPlayingBinding
+    private lateinit var imageView : ImageView
+    private val glideOptions = RequestOptions()
+        .fallback(R.drawable.placeholder_nocover)
+        .diskCacheStrategy(DiskCacheStrategy.DATA)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +38,7 @@ class NowPlaying : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNowPlayingBinding.inflate(inflater, container, false)
+        imageView = binding.albumArtNowPlaying
         return binding.root
     }
 
@@ -43,6 +55,9 @@ class NowPlaying : Fragment() {
 
         nowPlayingViewModel.trackInfo.observe(viewLifecycleOwner, {
             track -> updateUI(track)
+            if(track != null){
+                loadImage(track)
+            }
         })
         nowPlayingViewModel.playPauseButtonRes.observe(viewLifecycleOwner, {
             res -> binding.playPauseButton.setImageResource(res)
@@ -77,4 +92,13 @@ class NowPlaying : Fragment() {
         endDuration.text = track.duration.toMSS()
         seekBarNowPlaying.max = track.duration
     }
+
+    private fun loadImage(track: Track){
+        Glide.with(this)
+            .applyDefaultRequestOptions(glideOptions)
+            .load(RepositoryUtils.getCoverArtUrl(track.coverArt!!))
+            .placeholder(R.drawable.placeholder_nocover)
+            .into(imageView)
+    }
+
 }
