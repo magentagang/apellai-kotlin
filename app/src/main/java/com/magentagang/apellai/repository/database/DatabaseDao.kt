@@ -137,4 +137,6 @@ interface DatabaseDao {
     @Query("DELETE FROM search_history_table")
     fun clearSearchHistory()
 
+    @Query("UPDATE user_table set isActive = 0 where isActive = 1")
+    fun resetUser()
 }

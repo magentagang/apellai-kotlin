@@ -39,8 +39,9 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             Timber.i("Coroutine was launched")
             val username = Constants.USER
-            val password = "naa"
+            val password =  "randomPassword" //wyT*6f7tzgSTU#s^k4L^
             val boolDeferred = repositoryUtils.authenticate(_username = username, _password = password)
+            repositoryUtils.storeCredentials(username, password)
             try{
                 val boolActual = boolDeferred.await()
                 Timber.i("Authenticate : $boolActual with values u: $username, p: $password")

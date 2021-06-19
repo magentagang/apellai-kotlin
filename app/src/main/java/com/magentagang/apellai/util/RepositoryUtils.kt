@@ -528,6 +528,26 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         return (check > 112)
     }
 
+    fun storeCredentials(_username: String, _password: String)
+    {
+        CoroutineScope(Dispatchers.IO).launch{
+            val authDeferred = authenticate(_username, _password)
+            try{
+                val authActual = authDeferred.await()
+                if(authActual == true)
+                {
+                    val newUser = User(name = _username, password = _password, salt = Constants.SALT,
+                                    token = Constants.TOKEN, isActive = true)
+                    databaseDao.resetUser()
+                    databaseDao.insertUser(newUser)
+                }
+            }
+            catch (e: Exception)
+            {
+                e.printStackTrace()
+            }
+        }
 
+    }
 
 }
