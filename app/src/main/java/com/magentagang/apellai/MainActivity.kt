@@ -32,34 +32,18 @@ class MainActivity : AppCompatActivity() {
         val application = requireNotNull(this).application
         databaseDao = UserDatabase.getInstance(application).databaseDao()
         val repositoryUtils = RepositoryUtils(databaseDao)
+
+        // TODO(INSERT SEARCH HISTORY THIS WAY)
+        // val searchHistory2 = SearchHistory("butum", DateTimeFormatter.ISO_INSTANT.format(Instant.now()))
         //TODO(IT SHOULD RUN ONLY ONCE, DON'T KNOW WHERE TO PUT THE CODE)
         CoroutineScope(Dispatchers.IO).launch {
             Timber.i("Coroutine was launched")
-            val searchHistory = SearchHistory("monow", DateTimeFormatter.ISO_INSTANT.format(Instant.now()))
-            val searchHistory2 = SearchHistory("butum", DateTimeFormatter.ISO_INSTANT.format(Instant.now()))
-            databaseDao.insertSearchHistory(searchHistory)
-            databaseDao.insertSearchHistory(searchHistory2)
-            val searchHistoryList = databaseDao.getRecentSearches()
-           // databaseDao.clearSearchHistory()
-            val searchHistoryListAfterDeleting = databaseDao.getRecentSearches()
-            Timber.i("SEARCH HISTORY BEFORE DELETING:\n")
-            for(listElements in searchHistoryList)
-                Timber.i("%s %s", listElements.searchQuery, listElements.searchTime)
-            Timber.i("SEARCH HISTORY AFTER DELETING:\n")
-            for(listElements in searchHistoryListAfterDeleting)
-                Timber.i("%s %s", listElements.searchQuery, listElements.searchTime)
-            val albumDeferred = repositoryUtils.fetchAlbumAsync("f76fcdde71a3708aa45de4fc841773aa")
-            val artistDeferred = repositoryUtils.fetchArtistAsync("49122de0a36069f001e7e3d568f3339e")
-            val trackDeferred = repositoryUtils.fetchTrackAsync("f408df38cb3ca7f472d18f6b1d64f8dc")
+            val username = Constants.USER
+            val password = "naa"
+            val boolDeferred = repositoryUtils.authenticate(_username = username, _password = password)
             try{
-                val album = albumDeferred.await()
-                val artist = artistDeferred.await()
-                val track = trackDeferred.await()
-
-                Timber.i("ALBUM -? ${album.toString()}")
-                Timber.i("ARTIST -? ${artist.toString()}")
-                Timber.i("TRACK -? ${track.toString()}")
-
+                val boolActual = boolDeferred.await()
+                Timber.i("Authenticate : $boolActual with values u: $username, p: $password")
             }catch(e : Exception){
                 e.printStackTrace()
             }

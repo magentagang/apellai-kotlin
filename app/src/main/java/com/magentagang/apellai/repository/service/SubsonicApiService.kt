@@ -59,10 +59,18 @@ interface SubsonicApiService {
         // Authentications
         @Query("s") salt: String = Constants.SALT,
         @Query("t") token: String = Constants.TOKEN,
+        @Query("p") passwordHex : String = Constants.PASSWORD_HEX,
         // Required Params
         @Query("c") client: String = Constants.CLIENT,
         @Query("u") user: String = Constants.USER,
         @Query("v") version: String = Constants.VERSION,
+        // Format choice
+        @Query("f") format: String = Constants.FORMAT,
+    ): Deferred<SubsonicResponseRoot>
+
+    // tested
+    @GET("rest/ping")
+    fun getPingForVersionAsync(
         // Format choice
         @Query("f") format: String = Constants.FORMAT,
     ): Deferred<SubsonicResponseRoot>

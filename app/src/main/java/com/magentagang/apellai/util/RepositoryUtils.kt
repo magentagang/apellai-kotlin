@@ -4,7 +4,6 @@ import android.net.Uri
 import com.magentagang.apellai.model.*
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.service.SubsonicApi
-import com.magentagang.apellai.util.Constants
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -26,27 +25,6 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
 
 
     companion object {
-
-//            TODO(Finish getUrlForStream() using stored credentials)
-//        fun getUrlForStream(): String {
-//            // build URI and URL
-//            val uri = Uri.parse("https://apellai.duckdns.org").buildUpon().apply {
-//                // Append path first
-//                appendPath("rest")
-//                appendPath("stream")
-//                // Add required queries
-//                appendQueryParameter("c", SubsonicApiService.CLIENT)
-//                appendQueryParameter("u", APIInfo.user)
-//                appendQueryParameter("v", APIInfo.version)
-//                // Authorization related params
-//                // Authorization related params
-//                appendQueryParameter("s", APIInfo.salt)
-//                appendQueryParameter("t", APIInfo.token)
-//                // song identifier
-//                appendQueryParameter("id", "bba4ce135a5f3a3ce32002ec4cd0fdc5")
-//            }
-//            return uri.toString()
-//        }
 
         fun getMd5(input: String): String? {
             return try {
@@ -70,6 +48,23 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
             catch (e: NoSuchAlgorithmException) {
                 throw RuntimeException(e)
             }
+        }
+
+
+        fun generateSalt(_length : Long) : String{
+            var length = _length
+            if(length < 6){
+                println("Salt lenght needs to be atlease six characters")
+                length = 6
+            }
+            val sourceOne = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            val sourceTwo = sourceOne.lowercase()
+            val sourceThree = "1234567890"
+            val source = sourceOne + sourceThree + sourceTwo
+            return java.util.Random().ints(length, 0, source.length)
+                .toArray()
+                .map(source::get)
+                .joinToString("")
         }
 
 
@@ -452,6 +447,87 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
             return@async track
         }
     }
+
+    // Async fun for version checking
+    private suspend fun versionCheckAsync(): Deferred<String> {
+        return coroutineScope.async {
+            var version: String = "1.16.1"
+            val versionDeferred = SubsonicApi.retrofitService.getPingForVersionAsync()
+            try {
+                val root = versionDeferred.await()
+                version = root.subsonicResponse.version
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return@async version
+        }
+    }
+
+
+    suspend fun authenticate(_username: String, _password: String): Deferred<Boolean> {
+        return coroutineScope.async {
+            val versionDeferred = versionCheckAsync()
+            var isUser = false
+            try {
+                val version = versionDeferred.await()
+                if (versionGreaterCheck(version)) {
+                    Timber.i("Authenticate $version matched >.")
+                    Constants.PASSWORD_HEX = ""
+                    val _salt = generateSalt(_length = 7)
+                    val _token = generateToken(password = _password, salt = _salt)
+                    Timber.i("Authenticate password $_password, salt $_salt, token $_token")
+                    val pingDeferred = SubsonicApi.retrofitService.getPingAsync(
+                        user = _username,
+                        salt = _salt,
+                        token = _token ?: ""
+                    )
+                    try {
+                        val root = pingDeferred.await()
+                        if (root.subsonicResponse.status == "ok") {
+                            isUser = true
+                            Constants.SALT = _salt
+                            Constants.TOKEN = _token!!
+                        } else {
+                            isUser = false
+                        }
+                    } catch (eInner: Exception) {
+                        eInner.printStackTrace()
+                    }
+                } else {
+                    Constants.SALT = ""
+                    Constants.TOKEN = ""
+                    val _passwordHex = convertToHex(_password)
+                    val pingDeferred = SubsonicApi.retrofitService.getPingAsync(
+                        user = _username,
+                        passwordHex = _passwordHex
+                    )
+                    try {
+                        val root = pingDeferred.await()
+                        if (root.subsonicResponse.status == "ok") {
+                            isUser = true
+                            Constants.PASSWORD_HEX = _passwordHex
+                        } else {
+                            isUser = false
+                        }
+                    } catch (eInner: Exception) {
+                        eInner.printStackTrace()
+                    }
+                }
+            } catch (eOuter: Exception) {
+                eOuter.printStackTrace()
+            }
+            return@async isUser
+        }
+    }
+
+    private fun versionGreaterCheck(version: String): Boolean {
+        val arr = version.split(".", ignoreCase = true)
+        val first = arr.get(0).toInt()
+        val second = arr.get(1).toInt()
+        val check = first * 100 + second
+        return (check > 112)
+    }
+
 
 
 }

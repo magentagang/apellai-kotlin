@@ -16,16 +16,17 @@ object Constants {
     const val ARTIST_ID = "b56870783b82e1413af57d4cbde24f31"
 
     // Authentications
-    const val SALT = "ddhV32bf"
-    const val TOKEN = "e2733fb35892d0a7197e534761549a9a"
-    const val USER = "magenta"
+    var SALT = "ddhV32bf"
+    var TOKEN = "e2733fb35892d0a7197e534761549a9a"
+    var USER = "magenta"
+    var PASSWORD_HEX = ""
 
     // server address
-    const val BASE_URL = "https://apellai.duckdns.org"
+    var BASE_URL = "https://apellai.duckdns.org"
 
-    const val CLIENT = "apellai"
-    const val VERSION = "1.16.1"
-    const val FORMAT = "json"
+    var CLIENT = "apellai"
+    var VERSION = "1.16.1"
+    var FORMAT = "json"
 
     const val NOW_PLAYING_CHANNEL_ID = "com.magentagang.apellai.NOW_PLAYING"
     const val NOW_PLAYING_NOTIFICATION_ID = 0x45
