@@ -43,6 +43,7 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
     val seekBarChangeListener = OnSeekBarChangeListener()
 
     private var updatePos = true
+
     // TODO Check if replaceable with Coroutines
     private val handler = Handler(Looper.getMainLooper())
 
@@ -59,7 +60,11 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
     }
 
     private val subscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
-        override fun onChildrenLoaded(parentId: String, children: List<MediaBrowserCompat.MediaItem>) {}
+        override fun onChildrenLoaded(
+            parentId: String,
+            children: List<MediaBrowserCompat.MediaItem>
+        ) {
+        }
     }
 
     private val playbackServiceConnector = playbackServiceConnector.also {
@@ -94,7 +99,8 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
     ) {
         if (mediaMetadataCompat.duration != 0L && mediaMetadataCompat.id != null) {
             coroutineScope.launch {
-                val testTrackDeferred = SubsonicApi.retrofitService.getTrackAsync(id = mediaMetadataCompat.id!!)
+                val testTrackDeferred =
+                    SubsonicApi.retrofitService.getTrackAsync(id = mediaMetadataCompat.id!!)
                 try {
                     val testTrackRoot = testTrackDeferred.await()
                     val testTrack = testTrackRoot.subsonicResponse.track
@@ -107,7 +113,7 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
         }
 
         playPauseButtonRes.postValue(
-            when(playbackStateCompat.isPlaying) {
+            when (playbackStateCompat.isPlaying) {
                 true -> R.drawable.pause_circle_line
                 else -> R.drawable.play_circle_line
             }

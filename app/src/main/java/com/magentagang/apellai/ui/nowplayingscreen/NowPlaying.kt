@@ -13,7 +13,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentNowPlayingBinding
-import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.repository.service.PlaybackService
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
@@ -27,7 +26,7 @@ class NowPlaying : Fragment() {
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
 
     lateinit var binding: FragmentNowPlayingBinding
-    private lateinit var imageView : ImageView
+    private lateinit var imageView: ImageView
     private val glideOptions = RequestOptions()
         .fallback(R.drawable.placeholder_nocover)
         .diskCacheStrategy(DiskCacheStrategy.DATA)
@@ -53,22 +52,23 @@ class NowPlaying : Fragment() {
         nowPlayingViewModel = ViewModelProvider(this, viewModelFactory)
             .get(NowPlayingViewModel::class.java)
 
-        nowPlayingViewModel.trackInfo.observe(viewLifecycleOwner, {
-            track -> updateUI(track)
-            if(track != null){
+        nowPlayingViewModel.trackInfo.observe(viewLifecycleOwner, { track ->
+            updateUI(track)
+            if (track != null) {
                 loadImage(track)
             }
         })
-        nowPlayingViewModel.playPauseButtonRes.observe(viewLifecycleOwner, {
-            res -> binding.playPauseButton.setImageResource(res)
+        nowPlayingViewModel.playPauseButtonRes.observe(viewLifecycleOwner, { res ->
+            binding.playPauseButton.setImageResource(res)
         })
-        nowPlayingViewModel.trackPos.observe(viewLifecycleOwner, {
-            currentPos -> binding.startDuration.text = currentPos.toInt().div(1000).toMSS()
+        nowPlayingViewModel.trackPos.observe(viewLifecycleOwner, { currentPos ->
+            binding.startDuration.text = currentPos.toInt().div(1000).toMSS()
             binding.seekBarNowPlaying.progress = currentPos.div(1000).toInt()
         })
         nowPlayingViewModel.trackBufferPos.observe(viewLifecycleOwner, {
             // TODO Buffer not showing right info
-            currentBufferPos -> binding.seekBarNowPlaying.secondaryProgress = currentBufferPos.div(1000).toInt()
+                currentBufferPos ->
+            binding.seekBarNowPlaying.secondaryProgress = currentBufferPos.div(1000).toInt()
         })
 
         binding.seekBarNowPlaying.setOnSeekBarChangeListener(nowPlayingViewModel.seekBarChangeListener)
@@ -93,7 +93,7 @@ class NowPlaying : Fragment() {
         seekBarNowPlaying.max = track.duration
     }
 
-    private fun loadImage(track: Track){
+    private fun loadImage(track: Track) {
         Glide.with(this)
             .applyDefaultRequestOptions(glideOptions)
             .load(RepositoryUtils.getCoverArtUrl(track.coverArt!!))

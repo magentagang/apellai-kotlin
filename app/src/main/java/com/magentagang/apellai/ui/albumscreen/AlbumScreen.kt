@@ -23,7 +23,7 @@ class AlbumScreen : Fragment() {
         .fallback(R.drawable.placeholder_nocover)
         .diskCacheStrategy(DiskCacheStrategy.DATA)
 
-    private lateinit var imageView : ImageView
+    private lateinit var imageView: ImageView
 
     companion object {
         fun newInstance() = AlbumScreen()
@@ -53,10 +53,24 @@ class AlbumScreen : Fragment() {
         binding.entityList.tag = albumId.toString()
 
         albumScreenViewModel.album.observe(viewLifecycleOwner, {
+            // Following conditions are implemented like this because for
+            //  some albums, the year info was "null" in UI
             if (it != null) {
-                binding.albumArtistLarge.text = it.artist
-                binding.albumNameLarge.text = it.name
-                binding.albumArtistYear.text = it.year.toString()
+                if (it.artist != "null") {
+                    binding.albumArtistLarge.text = it.artist
+                } else {
+                    binding.albumArtistLarge.text = "Unknown Artist Name"
+                }
+                if (it.name != "null") {
+                    binding.albumNameLarge.text = it.name
+                } else {
+                    binding.albumNameLarge.text = "Unknown Album Name"
+                }
+                if (it.year.toString() != "null") {
+                    binding.albumArtistYear.text = it.year.toString()
+                } else {
+                    binding.albumArtistYear.text = "Unknown Year"
+                }
                 loadImage(it)
             }
         })
@@ -64,15 +78,13 @@ class AlbumScreen : Fragment() {
         return binding.root
     }
 
-    private fun loadImage(album: Album){
+    private fun loadImage(album: Album) {
         Glide.with(this)
             .applyDefaultRequestOptions(glideOptions)
             .load(RepositoryUtils.getCoverArtUrl(album.coverArt!!))
             .placeholder(R.drawable.placeholder_nocover)
             .into(imageView)
     }
-
-
 
 
 }
