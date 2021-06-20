@@ -1,7 +1,52 @@
 package com.magentagang.apellai.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.magentagang.apellai.repository.database.DatabaseDao
+import com.magentagang.apellai.repository.database.UserDatabase
+import com.magentagang.apellai.util.Constants
+import com.magentagang.apellai.util.RepositoryUtils
+import kotlinx.coroutines.*
 
-class HomeViewModel : ViewModel()
+class HomeViewModel(application: Application) : AndroidViewModel(application){
+    var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
+    val viewModelJob = Job()
+    val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
+    var repositoryUtils: RepositoryUtils
+    init{
+        repositoryUtils = RepositoryUtils(databaseDao)
+    }
+
+
+    // Function is async because I want the UI to show refreshing indicator
+    // the whole time the initialize catagory func is running, so async is used to make the caller
+    // coroutine wait for response
+
+    fun initializeCategories(): Deferred<Boolean> {
+        return viewModelScope.async{
+            try{
+                databaseDao.resetRandomAlbums()
+                databaseDao.resetFrequentAlbums()
+                databaseDao.resetRecentAlbums()
+                databaseDao.resetNewestAlbums()
+                repositoryUtils.fetchCategorizedChunk(Constants.TYPE_RANDOM)
+                repositoryUtils.fetchCategorizedChunk(Constants.TYPE_RECENT)
+                repositoryUtils.fetchCategorizedChunk(Constants.TYPE_FREQUENT)
+                repositoryUtils.fetchCategorizedChunk(Constants.TYPE_NEWEST)
+                // TODO(Check if we're supposed to retrieve all albums or artists here)
+                repositoryUtils.retrieveAllArtists()
+                repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
+                repositoryUtils.retrieveAndStarAllAlbums()
+                return@async true
+            }catch(e: Exception){
+                e.printStackTrace()
+                return@async false
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+}

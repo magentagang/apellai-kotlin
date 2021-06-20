@@ -5,70 +5,79 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="homeViewModel"
+            type="com.magentagang.apellai.ui.home.HomeViewModel" />
     </data>
 
-    <ScrollView
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".ui.home.HomeFragment">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:context=".ui.home.HomeFragment">
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentRecentlyAdded"
-                android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/header_top_margin"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:tag="@string/recently_added"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentRandom"
-                android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/header_top_margin"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragmentRecentlyAdded"
-                android:tag="@string/random"/>
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentRecentlyAdded"
+                    android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/header_top_margin"
+                    android:tag="@string/recently_added"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentLoved"
-                android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/header_top_margin"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragmentRandom"
-                android:tag="@string/loved_albums"/>
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentRandom"
+                    android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/header_top_margin"
+                    android:tag="@string/random"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragmentRecentlyAdded" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentRecentlyPlayed"
-                android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/header_top_margin"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragmentLoved"
-                android:tag="@string/recently_played"/>
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentLoved"
+                    android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/header_top_margin"
+                    android:tag="@string/loved_albums"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragmentRandom" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentMostPlayed"
-                android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/header_top_margin"
-                android:layout_marginBottom="@dimen/footer_spacing"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragmentRecentlyPlayed"
-                android:tag="@string/most_played"/>
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentRecentlyPlayed"
+                    android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/header_top_margin"
+                    android:tag="@string/recently_played"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragmentLoved" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentMostPlayed"
+                    android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/header_top_margin"
+                    android:layout_marginBottom="@dimen/footer_spacing"
+                    android:tag="@string/most_played"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragmentRecentlyPlayed" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
