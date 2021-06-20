@@ -59,12 +59,12 @@ class AlbumScreen : Fragment() {
                 if (it.artist != "null") {
                     binding.albumArtistLarge.text = it.artist
                 } else {
-                    binding.albumArtistLarge.text = "Unknown Artist Name"
+                    binding.albumArtistLarge.text = "Unknown Artist"
                 }
                 if (it.name != "null") {
                     binding.albumNameLarge.text = it.name
                 } else {
-                    binding.albumNameLarge.text = "Unknown Album Name"
+                    binding.albumNameLarge.text = "Unknown Album"
                 }
                 if (it.year.toString() != "null") {
                     binding.albumArtistYear.text = it.year.toString()

@@ -3,7 +3,6 @@ package com.magentagang.apellai.repository.service
 import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -20,9 +19,6 @@ class PlaybackServiceConnector(context: Context, serviceComponent: ComponentName
 
     val networkFailure = MutableLiveData<Boolean>()
         .apply { postValue(false) }
-
-    val rootMediaId: String
-        get() = mediaBrowser.root
 
     val playbackState = MutableLiveData<PlaybackStateCompat>()
         .apply { postValue(EMPTY_PLAYBACK_STATE) }
@@ -42,16 +38,6 @@ class PlaybackServiceConnector(context: Context, serviceComponent: ComponentName
     ).apply { connect() }
 
     private val mediaControllerCompatCallback = MediaControllerCompatCallback()
-
-    fun subscribe(parentId: String,
-                  subscriptionCallback: MediaBrowserCompat.SubscriptionCallback) {
-        mediaBrowser.subscribe(parentId, subscriptionCallback)
-    }
-
-    fun unsubscribe(parentId: String,
-                    subscriptionCallback: MediaBrowserCompat.SubscriptionCallback) {
-        mediaBrowser.unsubscribe(parentId, subscriptionCallback)
-    }
 
     private inner class MediaBrowserCompatConnectionCallback(private val context: Context) :
         MediaBrowserCompat.ConnectionCallback() {
@@ -73,7 +59,6 @@ class PlaybackServiceConnector(context: Context, serviceComponent: ComponentName
 
     private inner class MediaControllerCompatCallback : MediaControllerCompat.Callback() {
 
-        // TODO Make these execute somehow
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
             Timber.v("${object{}.javaClass.enclosingMethod?.name.toString()} executed")
             playbackState.postValue(state ?: EMPTY_PLAYBACK_STATE)

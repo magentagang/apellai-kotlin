@@ -16,8 +16,8 @@ import timber.log.Timber
 
 class AlbumScreenViewModel(application: Application, id : String) : AndroidViewModel(application) {
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
-    var repositoryUtils: RepositoryUtils
-    val viewModelJob = Job()
+    var repositoryUtils: RepositoryUtils = RepositoryUtils(databaseDao)
+    private val viewModelJob = Job()
     val coroutineScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
     private val _album = MutableLiveData<Album?>()
@@ -25,7 +25,6 @@ class AlbumScreenViewModel(application: Application, id : String) : AndroidViewM
         get() = _album
 
     init {
-        repositoryUtils = RepositoryUtils(databaseDao)
         coroutineScope.launch {
             val albumDeferred = repositoryUtils.fetchAlbumAsync(id)
             try{

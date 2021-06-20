@@ -26,7 +26,7 @@ class ListTrackViewModel(application : Application, albumId : String): AndroidVi
         get() = _track
     private var _track = MutableLiveData<List<Track>>()
     private val album = MutableLiveData<Album?>()
-    private val dataSource = UserDatabase.getInstance(application).databaseDao()
+
     init{
         repositoryUtils = RepositoryUtils(databaseDao)
         repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)

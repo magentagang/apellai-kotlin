@@ -1,5 +1,6 @@
 package com.magentagang.apellai.ui.nowplayingscreen
 
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.media.MediaBrowserCompat
@@ -59,16 +60,7 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
         updateState(playbackState, it)
     }
 
-    private val subscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
-        override fun onChildrenLoaded(
-            parentId: String,
-            children: List<MediaBrowserCompat.MediaItem>
-        ) {
-        }
-    }
-
     private val playbackServiceConnector = playbackServiceConnector.also {
-//        it.subscribe(trackInfo.value?.id ?: "awooga", subscriptionCallback)
         it.playbackState.observeForever(playbackStateObserver)
         it.currentlyPlayingFile.observeForever(mediaMetadataObserver)
         updateTrackPos()
@@ -78,7 +70,6 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
         super.onCleared()
         playbackServiceConnector.playbackState.removeObserver(playbackStateObserver)
         playbackServiceConnector.currentlyPlayingFile.removeObserver(mediaMetadataObserver)
-//        playbackServiceConnector.unsubscribe(trackInfo.value?.id ?: "awooga", subscriptionCallback)
         updatePos = false
     }
 
@@ -138,7 +129,13 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
         }
     }
 
-    // TODO Extremely finicky, file needs to be cached or sth
+    fun sendQueueToConnector(queue: List<Track>?) {
+        queue?.let {
+            // TODO Convert list of tracks to JSON and send
+            playbackServiceConnector.transportControls.sendCustomAction(Constants.ADD_TO_QUEUE_ACTION, Bundle())
+        }
+    }
+
     inner class OnSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
 
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

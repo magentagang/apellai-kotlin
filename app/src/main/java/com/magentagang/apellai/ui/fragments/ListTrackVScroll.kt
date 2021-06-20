@@ -54,6 +54,7 @@ class ListTrackVScroll : Fragment() {
 
         val adapter = ListTrackAdapter(TrackListener { id ->
             listTrackViewModel.onTrackClicked(id)
+            nowPlayingViewModel.sendQueueToConnector(listTrackViewModel.tracks.value)
             nowPlayingViewModel.playTrack(id)
         })
 

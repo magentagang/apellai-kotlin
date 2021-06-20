@@ -34,4 +34,6 @@ object Constants {
     const val USER_AGENT = "apellai"
     const val NETWORK_FAILURE = "com.magentalgang.apellai.NETWORK_FAILURE"
     const val SEEKBAR_UPDATE_INTERVAL = 100L
+
+    const val ADD_TO_QUEUE_ACTION = "com.magentagang.apellai.ADD_TO_QUEUE_ACTION"
 }

@@ -37,6 +37,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     lateinit var mediaSession: MediaSessionCompat
     lateinit var mediaSessionConnector: MediaSessionConnector
+    lateinit var mediaSessionCallback: MediaSessionCallback
 
     private var currentMediaQueue: List<MediaMetadataCompat> = emptyList()
 
@@ -67,6 +68,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
             setSessionActivity(sessionActivityPendingIntent)
             isActive = true
         }
+        mediaSessionCallback = MediaSessionCallback()
+        mediaSession.setCallback(mediaSessionCallback)
 
         sessionToken = mediaSession.sessionToken
 
@@ -75,8 +78,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
             mediaSession.sessionToken,
             PlayerNotificationListener()
         )
-
-        // TODO Load from media source
 
         mediaSessionConnector = MediaSessionConnector(mediaSession)
         mediaSessionConnector.setPlaybackPreparer(PlaybackPreparer())
@@ -87,7 +88,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
         notificationManager.showNotificationForPlayer(player)
 
-        // TODO PackageValidator and Storage
+        // TODO Storage
 
     }
 
@@ -132,6 +133,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     ) {
         val initialIndex = if (trackToPlay == null) 0 else fileList.indexOf(trackToPlay)
         currentMediaQueue = fileList
+        // TODO remove the line above once the custom action is implemented
 
         player.playWhenReady = playWhenReady
         player.stop()
@@ -212,9 +214,14 @@ class PlaybackService : MediaBrowserServiceCompat() {
                 try {
                     val testTrackRoot = testTrackDeferred.await()
                     val testTrack = testTrackRoot.subsonicResponse.track
+
                     Timber.v("Fetched track: $testTrack")
+
                     trackToPlay = testTrack?.toMediaMetadataCompat()
+
                     Timber.v("Converted Track to MMC: $trackToPlay")
+
+                    // TODO check queue and send here
                     if (trackToPlay != null) {
                         Timber.v("Enqueued mediaId $mediaId to player")
                         enqueueToPlayer(
@@ -233,13 +240,9 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
         }
 
-        override fun onPrepareFromSearch(query: String, playWhenReady: Boolean, extras: Bundle?) {
-            TODO("Not yet implemented")
-        }
+        override fun onPrepareFromSearch(query: String, playWhenReady: Boolean, extras: Bundle?) {}
 
-        override fun onPrepareFromUri(uri: Uri, playWhenReady: Boolean, extras: Bundle?) {
-            TODO("Not yet implemented")
-        }
+        override fun onPrepareFromUri(uri: Uri, playWhenReady: Boolean, extras: Bundle?) {}
 
         override fun onCommand(
             player: Player,
@@ -273,6 +276,15 @@ class PlaybackService : MediaBrowserServiceCompat() {
         override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
             stopForeground(true)
             stopSelf()
+        }
+    }
+
+    inner class MediaSessionCallback : MediaSessionCompat.Callback() {
+        override fun onCustomAction(action: String?, extras: Bundle?) {
+            if (action == Constants.ADD_TO_QUEUE_ACTION) {
+                TODO("Extract string from bundle and convert it back to list of tracks\n" +
+                        "Convert the list of tracks to list of MediaMetadataCompat and assign to queue")
+            }
         }
     }
 }
