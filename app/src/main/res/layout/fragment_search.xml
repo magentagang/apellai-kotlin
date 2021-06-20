@@ -26,33 +26,34 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.chip.ChipGroup
-            app:singleSelection="true"
-            app:selectionRequired="true"
             android:id="@+id/chip_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/search_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_view">
+            app:layout_constraintTop_toBottomOf="@+id/search_view"
+            app:selectionRequired="true"
+            app:singleSelection="true">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_artist"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Artist" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_album"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:checked="true"
                 android:text="Album" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_artist"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Artist" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_track"
@@ -63,5 +64,18 @@
                 android:text="Track" />
 
         </com.google.android.material.chip.ChipGroup>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchResult"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chip_group"
+            android:tag="all"/>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
