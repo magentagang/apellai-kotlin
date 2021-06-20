@@ -54,9 +54,6 @@ class NowPlaying : Fragment() {
 
         nowPlayingViewModel.trackInfo.observe(viewLifecycleOwner, { track ->
             updateUI(track)
-            if (track != null) {
-                loadImage(track)
-            }
         })
         nowPlayingViewModel.playPauseButtonRes.observe(viewLifecycleOwner, { res ->
             binding.playPauseButton.setImageResource(res)
@@ -66,7 +63,6 @@ class NowPlaying : Fragment() {
             binding.seekBarNowPlaying.progress = currentPos.div(1000).toInt()
         })
         nowPlayingViewModel.trackBufferPos.observe(viewLifecycleOwner, {
-            // TODO Buffer not showing right info
                 currentBufferPos ->
             binding.seekBarNowPlaying.secondaryProgress = currentBufferPos.div(1000).toInt()
         })
@@ -80,17 +76,25 @@ class NowPlaying : Fragment() {
             }
         }
 
+        binding.prevButton.setOnClickListener {
+            nowPlayingViewModel.prevTrack()
+        }
+
+        binding.nextButton.setOnClickListener {
+            nowPlayingViewModel.nextTrack()
+        }
+
         val initPos = 0
         binding.startDuration.text = initPos.toMSS()
         binding.endDuration.text = initPos.toMSS()
     }
 
     private fun updateUI(track: Track) = with(binding) {
-        // TODO Update cover art
         trackNameNowPlaying.text = track.title
         trackArtistNowPlaying.text = track.artist
         endDuration.text = track.duration.toMSS()
         seekBarNowPlaying.max = track.duration
+        loadImage(track)
     }
 
     private fun loadImage(track: Track) {

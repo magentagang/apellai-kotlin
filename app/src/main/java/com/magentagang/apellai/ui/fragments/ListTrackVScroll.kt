@@ -16,6 +16,7 @@ import com.magentagang.apellai.viewmodel.factory.ListTrackViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.magentagang.apellai.adapter.TrackListener
+import com.magentagang.apellai.repository.service.MediaSource
 import com.magentagang.apellai.repository.service.PlaybackService
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
 import com.magentagang.apellai.ui.albumscreen.AlbumScreenDirections
@@ -44,6 +45,7 @@ class ListTrackVScroll : Fragment() {
         val nowPlayingViewModelFactory = NowPlayingViewModelFactory(playbackServiceConnector)
         val nowPlayingViewModel = ViewModelProvider(this, nowPlayingViewModelFactory).get(
             NowPlayingViewModel::class.java)
+        val mediaSource = MediaSource.getInstance()
 
         binding.listTrackViewModel = listTrackViewModel
         binding.lifecycleOwner = this
@@ -54,7 +56,9 @@ class ListTrackVScroll : Fragment() {
 
         val adapter = ListTrackAdapter(TrackListener { id ->
             listTrackViewModel.onTrackClicked(id)
-            nowPlayingViewModel.sendQueueToConnector(listTrackViewModel.tracks.value)
+            listTrackViewModel.tracks.value?.let {
+                mediaSource.storeTracks(listTrackViewModel.tracks.value!!)
+            }
             nowPlayingViewModel.playTrack(id)
         })
 
