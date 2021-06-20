@@ -17,10 +17,13 @@ import com.magentagang.apellai.repository.service.EMPTY_PLAYBACK_STATE
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
 import com.magentagang.apellai.repository.service.SubsonicApi
 import com.magentagang.apellai.util.*
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import timber.log.Timber
 
 class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : ViewModel() {
@@ -132,7 +135,16 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
     fun sendQueueToConnector(queue: List<Track>?) {
         queue?.let {
             // TODO Convert list of tracks to JSON and send
-            playbackServiceConnector.transportControls.sendCustomAction(Constants.ADD_TO_QUEUE_ACTION, Bundle())
+            val moshi = Moshi.Builder().build()
+            val jsonAdapter: JsonAdapter<Track> = moshi.adapter<Track>(Track::class.java)
+            val jsonArray = JSONArray()
+            for(track in queue){
+                val json = jsonAdapter.toJson(track)
+                jsonArray.put(json)
+            }
+            val bundle = Bundle()
+            bundle.putString("queue", jsonArray.toString())
+            playbackServiceConnector.transportControls.sendCustomAction(Constants.ADD_TO_QUEUE_ACTION, bundle)
         }
     }
 

@@ -5,7 +5,7 @@ import androidx.room.*
 @Entity(tableName = "user_table")
 data class User(
     @PrimaryKey(autoGenerate = true)
-    val id: Long? = null, //TODO(check if implementation is correct)
+    val id: Long? = null,
     @ColumnInfo
     val server_id: String? = null,
     @ColumnInfo

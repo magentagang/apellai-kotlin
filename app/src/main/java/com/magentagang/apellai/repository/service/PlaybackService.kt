@@ -20,9 +20,13 @@ import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.util.Constants
 import com.magentagang.apellai.util.toMediaMetadataCompat
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
+import org.json.JSONArray
 import timber.log.Timber
 import java.lang.Exception
 
@@ -282,8 +286,17 @@ class PlaybackService : MediaBrowserServiceCompat() {
     inner class MediaSessionCallback : MediaSessionCompat.Callback() {
         override fun onCustomAction(action: String?, extras: Bundle?) {
             if (action == Constants.ADD_TO_QUEUE_ACTION) {
-                TODO("Extract string from bundle and convert it back to list of tracks\n" +
-                        "Convert the list of tracks to list of MediaMetadataCompat and assign to queue")
+//                TODO("Extract string from bundle and convert it back to list of tracks\n" +
+//                        "Convert the list of tracks to list of MediaMetadataCompat and assign to queue")
+                val moshi = Moshi.Builder().build()
+                val jsonAdapter: JsonAdapter<Track> = moshi.adapter<Track>(Track::class.java)
+                val queueStr = extras?.get("queue") ?: ""
+                Timber.i("JSON QUEUE: queueStr -> $queueStr")
+                val jsonArray = JSONArray(queueStr)
+                for(i in 0 until jsonArray.length()){
+                    val track = jsonAdapter.fromJson(jsonArray.get(i).toString())
+                    Timber.i("JSON QUEUE: trackId -> $track")
+                }
             }
         }
     }

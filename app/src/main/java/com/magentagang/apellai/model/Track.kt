@@ -3,8 +3,11 @@ package com.magentagang.apellai.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.squareup.moshi.JsonClass
+import com.squareup.moshi.ToJson
 
 
+@JsonClass(generateAdapter = true)
 @Entity(tableName = "track_table")
 data class Track(
     @PrimaryKey var id: String = "",
@@ -32,6 +35,5 @@ data class Track(
     @ColumnInfo(name = "artistId") var artistId: String = "",
     @ColumnInfo(name = "type") var type: String? = null,
     @ColumnInfo(name = "isVideo") var isVideo: Boolean? = null,
-    //TODO(add column info)
     var starred: String? = null,
 )
