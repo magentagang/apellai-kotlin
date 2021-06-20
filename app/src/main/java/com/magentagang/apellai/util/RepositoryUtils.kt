@@ -1,6 +1,8 @@
 package com.magentagang.apellai.util
 
 import android.net.Uri
+import android.widget.Toast
+import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.model.*
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.service.SubsonicApi
@@ -526,28 +528,6 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         val second = arr.get(1).toInt()
         val check = first * 100 + second
         return (check > 112)
-    }
-
-    fun storeCredentials(_username: String, _password: String)
-    {
-        CoroutineScope(Dispatchers.IO).launch{
-            val authDeferred = authenticate(_username, _password)
-            try{
-                val authActual = authDeferred.await()
-                if(authActual == true)
-                {
-                    val newUser = User(name = _username, password = _password, salt = Constants.SALT,
-                                    token = Constants.TOKEN, isActive = true)
-                    databaseDao.resetUser()
-                    databaseDao.insertUser(newUser)
-                }
-            }
-            catch (e: Exception)
-            {
-                e.printStackTrace()
-            }
-        }
-
     }
 
 }

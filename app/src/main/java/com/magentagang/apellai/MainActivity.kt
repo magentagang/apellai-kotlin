@@ -39,16 +39,11 @@ class MainActivity : AppCompatActivity() {
         //TODO(IT SHOULD RUN ONLY ONCE, DON'T KNOW WHERE TO PUT THE CODE)
         CoroutineScope(Dispatchers.IO).launch {
             Timber.i("Coroutine was launched")
-            val username = Constants.USER
-            val password =  "randomPassword" //wyT*6f7tzgSTU#s^k4L^
-            val boolDeferred = repositoryUtils.authenticate(_username = username, _password = password)
             val albumDeferred = repositoryUtils.fetchAlbumAsync(Constants.ALBUM_ID)
-            repositoryUtils.storeCredentials(username, password)
 
             val moshi = Moshi.Builder().build()
             val jsonAdapter: JsonAdapter<Track> = moshi.adapter<Track>(Track::class.java)
             try{
-                val boolActual = boolDeferred.await()
                 val album = albumDeferred.await()
                 val tracks = album?.songList
                 if(tracks == null) Timber.i("JSON: TRACKS ARE NULL")
@@ -68,7 +63,6 @@ class MainActivity : AppCompatActivity() {
                     Timber.i("JSON: trackId -> $track")
                 }
 
-                Timber.i("Authenticate : $boolActual with values u: $username, p: $password")
             }catch(e : Exception){
                 e.printStackTrace()
             }
