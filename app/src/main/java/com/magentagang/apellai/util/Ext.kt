@@ -32,6 +32,17 @@ fun List<Track>.toMediaMetadataCompat(): List<MediaMetadataCompat> {
     return mediaList
 }
 
+fun List<MediaMetadataCompat>.findIndex(compareTo: MediaMetadataCompat?): Int {
+    compareTo?.let {
+        for (index in this.indices) {
+            if (this[index].id == compareTo.id) {
+                return index
+            }
+        }
+    }
+    return -1
+}
+
 
 
 inline val MediaMetadataCompat.id: String?

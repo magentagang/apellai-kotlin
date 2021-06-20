@@ -1,5 +1,6 @@
 package com.magentagang.apellai
 
+import android.media.AudioManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         navView.setupWithNavController(navController)
 
+        volumeControlStream = AudioManager.STREAM_MUSIC
+
         // test codes
         val application = requireNotNull(this).application
         databaseDao = UserDatabase.getInstance(application).databaseDao()
@@ -36,37 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         // TODO(INSERT SEARCH HISTORY THIS WAY)
         // val searchHistory2 = SearchHistory("butum", DateTimeFormatter.ISO_INSTANT.format(Instant.now()))
-        //TODO(IT SHOULD RUN ONLY ONCE, DON'T KNOW WHERE TO PUT THE CODE)
-        CoroutineScope(Dispatchers.IO).launch {
-            Timber.i("Coroutine was launched")
-            val albumDeferred = repositoryUtils.fetchAlbumAsync(Constants.ALBUM_ID)
-
-            val moshi = Moshi.Builder().build()
-            val jsonAdapter: JsonAdapter<Track> = moshi.adapter<Track>(Track::class.java)
-            try{
-                val album = albumDeferred.await()
-                val tracks = album?.songList
-                if(tracks == null) Timber.i("JSON: TRACKS ARE NULL")
-                // json array converter stuff
-                val jsonArray = JSONArray()
-                if (tracks != null) {
-                    for(track in tracks){
-                        val json = jsonAdapter.toJson(track)
-                        jsonArray.put(json)
-                    }
-                }
-                Timber.i("JSON: $jsonArray")
-                Timber.i("-------------------------------------------------------------")
-                val jsonArray2 = JSONArray(jsonArray.toString())
-                for(i in 0 until jsonArray2.length()){
-                    val track = jsonAdapter.fromJson(jsonArray2.get(i).toString())
-                    Timber.i("JSON: trackId -> $track")
-                }
-
-            }catch(e : Exception){
-                e.printStackTrace()
-            }
-        }
+        // TODO(IT SHOULD RUN ONLY ONCE, DON'T KNOW WHERE TO PUT THE CODE)
         initializeCategories(repositoryUtils, databaseDao)
     }
 
@@ -94,6 +67,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        //TODO(DO WHAT?)
+        TODO("DO WHAT?")
     }
 }

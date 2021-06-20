@@ -22,17 +22,18 @@ import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.util.Constants
+import com.magentagang.apellai.util.findIndex
 import com.magentagang.apellai.util.toMediaMetadataCompat
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
 import org.json.JSONArray
 import timber.log.Timber
-import java.lang.Exception
 
 class PlaybackService : MediaBrowserServiceCompat() {
 
     private lateinit var notificationManager: NotificationManager
+    private val mediaSource = MediaSource.getInstance()
 
     private lateinit var player: Player
 
@@ -41,7 +42,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     lateinit var mediaSession: MediaSessionCompat
     lateinit var mediaSessionConnector: MediaSessionConnector
-    lateinit var mediaSessionCallback: MediaSessionCallback
+    lateinit var mediaPlaybackStateBuilder: PlaybackStateCompat.Builder
 
     private var currentMediaQueue: List<MediaMetadataCompat> = emptyList()
 
@@ -72,8 +73,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
             setSessionActivity(sessionActivityPendingIntent)
             isActive = true
         }
-        mediaSessionCallback = MediaSessionCallback()
-        mediaSession.setCallback(mediaSessionCallback)
 
         sessionToken = mediaSession.sessionToken
 
@@ -135,9 +134,10 @@ class PlaybackService : MediaBrowserServiceCompat() {
         trackToPlay: MediaMetadataCompat?,
         playWhenReady: Boolean
     ) {
-        val initialIndex = if (trackToPlay == null) 0 else fileList.indexOf(trackToPlay)
+
+        val initialIndex = if (trackToPlay == null) 0 else fileList.findIndex(trackToPlay)
+        Timber.v("initialIndex is $initialIndex")
         currentMediaQueue = fileList
-        // TODO remove the line above once the custom action is implemented
 
         player.playWhenReady = playWhenReady
         player.stop()
@@ -164,6 +164,15 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     private fun cacheCurrentSong() {
         // TODO Cache the last played song so that it can be retrieved on kill
+    }
+
+    private fun buildQueue(mediaMetadataCompat: MediaMetadataCompat): List<MediaMetadataCompat> {
+        val loadedQueue = mediaSource.loadTracks()
+        return if (loadedQueue.isEmpty()) {
+            listOf(mediaMetadataCompat)
+        } else {
+            loadedQueue.toMediaMetadataCompat()
+        }
     }
 
     inner class PlayerListener : Player.Listener {
@@ -226,16 +235,15 @@ class PlaybackService : MediaBrowserServiceCompat() {
                     Timber.v("Converted Track to MMC: $trackToPlay")
 
                     // TODO check queue and send here
-                    if (trackToPlay != null) {
+                    trackToPlay?.let {
                         Timber.v("Enqueued mediaId $mediaId to player")
                         enqueueToPlayer(
-                            listOf(trackToPlay!!),
+                            buildQueue(trackToPlay!!),
                             trackToPlay,
                             playWhenReady
                         )
                         Timber.v("Player State: ${player.playbackState}")
                     }
-
                 } catch (e: Exception) {
                     Timber.e(e.message.toString())
                     Timber.e("Failed to fetch track $mediaId")
@@ -280,24 +288,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
         override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
             stopForeground(true)
             stopSelf()
-        }
-    }
-
-    inner class MediaSessionCallback : MediaSessionCompat.Callback() {
-        override fun onCustomAction(action: String?, extras: Bundle?) {
-            if (action == Constants.ADD_TO_QUEUE_ACTION) {
-//                TODO("Extract string from bundle and convert it back to list of tracks\n" +
-//                        "Convert the list of tracks to list of MediaMetadataCompat and assign to queue")
-                val moshi = Moshi.Builder().build()
-                val jsonAdapter: JsonAdapter<Track> = moshi.adapter<Track>(Track::class.java)
-                val queueStr = extras?.get("queue") ?: ""
-                Timber.i("JSON QUEUE: queueStr -> $queueStr")
-                val jsonArray = JSONArray(queueStr)
-                for(i in 0 until jsonArray.length()){
-                    val track = jsonAdapter.fromJson(jsonArray.get(i).toString())
-                    Timber.i("JSON QUEUE: trackId -> $track")
-                }
-            }
         }
     }
 }
