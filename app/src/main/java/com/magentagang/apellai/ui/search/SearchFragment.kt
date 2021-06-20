@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.magentagang.apellai.R
-import com.magentagang.apellai.databinding.FragmentCardAlbumHScrollBinding
 import com.magentagang.apellai.databinding.FragmentSearchBinding
 import com.magentagang.apellai.viewmodel.CardAlbumHScrollViewModel
 import com.magentagang.apellai.viewmodel.factory.CardAlbumHScrollViewModelFactory
@@ -34,11 +33,10 @@ class SearchFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_search, container, false
         )
-
+        binding.chipAlbum.setOnClickListener {
+        }
         binding.searchViewModel = searchViewModel
         binding.lifecycleOwner = this
-
-
         searchViewModel.subsonicResponseRoot.observe(viewLifecycleOwner, {
             //Timber.i("ALBUMS SEARCH -> ${it.toString()}")
             if(it != null){
