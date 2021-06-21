@@ -2,6 +2,7 @@ package com.magentagang.apellai.ui.fragments
 
 import android.content.ComponentName
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ import com.magentagang.apellai.repository.service.PlaybackServiceConnector
 import com.magentagang.apellai.ui.nowplayingscreen.NowPlayingViewModel
 import com.magentagang.apellai.ui.nowplayingscreen.NowPlayingViewModelFactory
 import com.magentagang.apellai.util.RepositoryUtils
+import com.magentagang.apellai.util.getNightModeEnabled
 
 class NowPlayingMini : Fragment() {
 
@@ -118,11 +120,16 @@ class NowPlayingMini : Fragment() {
         val defaultColor = resources.getColor(R.color.primary_text, context?.theme)
         palette = Palette.from(image).generate()
         val lightColor = palette.getLightMutedColor(defaultColor)
+        val darkColor = palette.getDarkMutedColor(defaultColor)
+        val colorToApply = when(getNightModeEnabled(requireContext())) {
+            Configuration.UI_MODE_NIGHT_YES -> lightColor
+            else -> darkColor
+        }
 
-        binding.nowPlayingMiniTrackName.setTextColor(lightColor)
-        binding.nowPlayingMiniTrackArtist.setTextColor(lightColor)
-        binding.nowPlayingMiniProgressBar.progressTintList = ColorStateList.valueOf(lightColor)
-        binding.nowPlayingMiniPlayPauseButton.setColorFilter(lightColor)
+        binding.nowPlayingMiniTrackName.setTextColor(colorToApply)
+        binding.nowPlayingMiniTrackArtist.setTextColor(colorToApply)
+        binding.nowPlayingMiniProgressBar.progressTintList = ColorStateList.valueOf(colorToApply)
+        binding.nowPlayingMiniPlayPauseButton.setColorFilter(colorToApply)
     }
 
 }

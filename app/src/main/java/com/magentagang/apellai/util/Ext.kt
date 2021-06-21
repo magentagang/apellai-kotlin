@@ -1,5 +1,7 @@
 package com.magentagang.apellai.util
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.SystemClock
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -78,4 +80,8 @@ inline val PlaybackStateCompat.currentBufferPosition: Long
 
 fun Int.toMSS(): String {
     return this.div(60).toString() + ":" + (this.rem(60)).toString().padStart(2, '0')
+}
+
+fun getNightModeEnabled(context: Context): Int {
+    return context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 }

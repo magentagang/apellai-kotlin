@@ -64,9 +64,4 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Timber.i("on Start was invoked")
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        TODO("DO WHAT?")
-    }
 }
