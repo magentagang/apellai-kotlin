@@ -89,6 +89,13 @@ class SearchFragment : Fragment() {
                 searchViewModel.doneNavigating()
             }
         })
+        searchViewModel.navigateToArtistScreen.observe(viewLifecycleOwner, {id ->
+            id?.let {
+                val navController = this.findNavController()
+                navController.navigate(SearchFragmentDirections.actionNavigationSearchToArtistScreen(id))
+                searchViewModel.doneNavigating()
+            }
+        })
 
         searchViewModel.subsonicResponseRoot.observe(viewLifecycleOwner, {
             //Timber.i("ALBUMS SEARCH -> ${it.toString()}")
