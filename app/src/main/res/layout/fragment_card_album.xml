@@ -25,7 +25,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardAlbum"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="205dp"
             android:clipChildren="false"
             android:clipToPadding="false"
             app:cardBackgroundColor="@color/bg_card"
@@ -79,7 +79,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/fragment_album_padding"
                     android:layout_marginTop="4dp"
-                    android:layout_marginBottom="@dimen/fragment_album_padding"
                     android:ellipsize="end"
                     android:maxWidth="@dimen/album_item_size_grid"
                     android:singleLine="true"
@@ -87,7 +86,6 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/fragment_album_text_artist"
                     app:albumArtist="@{album}"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/albumName" />
             </androidx.constraintlayout.widget.ConstraintLayout>
