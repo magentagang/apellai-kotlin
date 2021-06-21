@@ -32,8 +32,6 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        // TODO APP CRASHES WHEN NOW PLAYING BROUGHT UP
-
         val application = requireNotNull(this.activity).application
         val viewModelFactory = SearchViewModelFactory(application)
         val searchViewModel = ViewModelProvider(this, viewModelFactory).get(
@@ -44,7 +42,6 @@ class SearchFragment : Fragment() {
         val nowPlayingViewModel = ViewModelProvider(this, nowPlayingViewModelFactory).get(
             NowPlayingViewModel::class.java)
         val mediaSource = MediaSource.getInstance()
-
 
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_search, container, false

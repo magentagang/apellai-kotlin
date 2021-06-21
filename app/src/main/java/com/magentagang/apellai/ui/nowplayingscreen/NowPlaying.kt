@@ -12,6 +12,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -54,9 +56,7 @@ class NowPlaying : Fragment() {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                Timber.v("Backstack entry count: ${requireActivity().supportFragmentManager.backStackEntryCount}")
-                // TODO THIS SEEMS TO MESS UP THE BACK BEHAVIOUR BASED ON HOW MANY TIMES NOW PLAYING IS CLICKED AND EXITED
-                requireActivity().supportFragmentManager.popBackStackImmediate()
+                findNavController().navigateUp()
                 MainActivity.showNowPlayingMini.postValue(true)
             }
         })

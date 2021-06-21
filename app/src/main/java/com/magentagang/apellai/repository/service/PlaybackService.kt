@@ -20,14 +20,10 @@ import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.util.Constants
 import com.magentagang.apellai.util.findIndex
 import com.magentagang.apellai.util.toMediaMetadataCompat
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
-import org.json.JSONArray
 import timber.log.Timber
 
 class PlaybackService : MediaBrowserServiceCompat() {
@@ -114,7 +110,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         parentId: String,
         result: Result<MutableList<MediaBrowserCompat.MediaItem>>
     ) {
-        TODO("Not yet implemented")
+        result.sendResult(mutableListOf())
     }
 
     override fun onDestroy() {
@@ -207,9 +203,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                     PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
         }
 
-        override fun onPrepare(playWhenReady: Boolean) {
-            TODO("Not yet implemented")
-        }
+        override fun onPrepare(playWhenReady: Boolean) {}
 
         override fun onPrepareFromMediaId(
             mediaId: String,
