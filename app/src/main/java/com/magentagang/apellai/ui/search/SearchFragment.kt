@@ -32,6 +32,8 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        // TODO APP CRASHES WHEN NOW PLAYING BROUGHT UP
+
         val application = requireNotNull(this.activity).application
         val viewModelFactory = SearchViewModelFactory(application)
         val searchViewModel = ViewModelProvider(this, viewModelFactory).get(

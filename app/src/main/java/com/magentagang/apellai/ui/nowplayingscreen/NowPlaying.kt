@@ -25,6 +25,7 @@ import com.magentagang.apellai.repository.service.PlaybackService
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
 import com.magentagang.apellai.util.RepositoryUtils
 import com.magentagang.apellai.util.toMSS
+import timber.log.Timber
 
 class NowPlaying : Fragment() {
 
@@ -53,7 +54,9 @@ class NowPlaying : Fragment() {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                requireActivity().supportFragmentManager.popBackStack()
+                Timber.v("Backstack entry count: ${requireActivity().supportFragmentManager.backStackEntryCount}")
+                // TODO THIS SEEMS TO MESS UP THE BACK BEHAVIOUR BASED ON HOW MANY TIMES NOW PLAYING IS CLICKED AND EXITED
+                requireActivity().supportFragmentManager.popBackStackImmediate()
                 MainActivity.showNowPlayingMini.postValue(true)
             }
         })
