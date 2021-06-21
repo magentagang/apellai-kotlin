@@ -1,5 +1,6 @@
 package com.magentagang.apellai.ui.search
 
+import android.content.ComponentName
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.magentagang.apellai.R
 import com.magentagang.apellai.adapter.*
 import com.magentagang.apellai.databinding.FragmentSearchBinding
+import com.magentagang.apellai.repository.service.MediaSource
+import com.magentagang.apellai.repository.service.PlaybackService
+import com.magentagang.apellai.repository.service.PlaybackServiceConnector
+import com.magentagang.apellai.ui.nowplayingscreen.NowPlayingViewModel
+import com.magentagang.apellai.ui.nowplayingscreen.NowPlayingViewModelFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
@@ -29,6 +35,12 @@ class SearchFragment : Fragment() {
         val viewModelFactory = SearchViewModelFactory(application)
         val searchViewModel = ViewModelProvider(this, viewModelFactory).get(
             SearchViewModel::class.java)
+        val playbackServiceConnector = PlaybackServiceConnector
+            .getInstance(requireContext(), ComponentName(requireContext(), PlaybackService::class.java))
+        val nowPlayingViewModelFactory = NowPlayingViewModelFactory(playbackServiceConnector)
+        val nowPlayingViewModel = ViewModelProvider(this, nowPlayingViewModelFactory).get(
+            NowPlayingViewModel::class.java)
+        val mediaSource = MediaSource.getInstance()
 
 
         binding = DataBindingUtil.inflate(
@@ -44,7 +56,11 @@ class SearchFragment : Fragment() {
             searchViewModel.onArtistClicked(ID)
         })
         val adapterTrack = ListTrackAdapter(TrackListener { ID ->
-            searchViewModel.onArtistClicked(ID)
+            searchViewModel.onTrackClicked(ID)
+            searchViewModel.tracks.value?.let {
+                mediaSource.storeTracks(searchViewModel.tracks.value!!)
+            }
+            nowPlayingViewModel.playTrack(ID)
         })
 
 
@@ -58,6 +74,11 @@ class SearchFragment : Fragment() {
         searchViewModel.artists.observe(viewLifecycleOwner, {
             it?.let {
                 adapterArtist.submitList(it)
+            }
+        })
+        searchViewModel.tracks.observe(viewLifecycleOwner, {
+            it?.let {
+                adapterTrack.submitList(it)
             }
         })
 
@@ -77,6 +98,11 @@ class SearchFragment : Fragment() {
                 adapterAlbum.submitList(it.subsonicResponse.searchResult3?.album)
                 adapterArtist.submitList(it.subsonicResponse.searchResult3?.artist)
                 adapterTrack.submitList(it.subsonicResponse.searchResult3?.song)
+
+                searchViewModel.albums.postValue(it.subsonicResponse.searchResult3?.album)
+                searchViewModel.artists.postValue(it.subsonicResponse.searchResult3?.artist)
+                searchViewModel.tracks.postValue(it.subsonicResponse.searchResult3?.song)
+
                 //TODO BUTUM HALA ETAR NAM SONG DISOS KEN TRACK HOBE
                 when(chipChecked)
                 {

@@ -34,6 +34,13 @@ fun TextView.setTrackName(item: Track?) {
     }
 }
 
+@BindingAdapter("trackArtist")
+fun TextView.setTrackArtist(item: Track?) {
+    item?.let {
+        text = item.artist
+    }
+}
+
 @BindingAdapter("trackNumber")
 fun TextView.setTrackNumber(item: Track?) {
     item?.let {
