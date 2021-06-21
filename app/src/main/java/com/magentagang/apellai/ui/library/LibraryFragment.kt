@@ -22,7 +22,7 @@ class LibraryFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val value = parent.getItemAtPosition(pos)
         val childFragmentManager = childFragmentManager
         val fragmentTransaction = childFragmentManager.beginTransaction()
-        if (value == "Artist") {
+        if (value == getString(R.string.artist)) {
             fragmentTransaction.replace(R.id.entityList, ListArtistVScroll()).commit()
         }
         else {

@@ -1,13 +1,16 @@
 package com.magentagang.apellai.ui.nowplayingscreen
 
 import android.content.ComponentName
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -24,6 +27,7 @@ class NowPlaying : Fragment() {
     private lateinit var playbackServiceConnector: PlaybackServiceConnector
     private lateinit var viewModelFactory: NowPlayingViewModelFactory
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
+    private lateinit var palette: Palette
 
     lateinit var binding: FragmentNowPlayingBinding
     private lateinit var imageView: ImageView
@@ -95,6 +99,7 @@ class NowPlaying : Fragment() {
         endDuration.text = track.duration.toMSS()
         seekBarNowPlaying.max = track.duration
         loadImage(track)
+        updatePalette()
     }
 
     private fun loadImage(track: Track) {
@@ -103,6 +108,16 @@ class NowPlaying : Fragment() {
             .load(RepositoryUtils.getCoverArtUrl(track.coverArt!!))
             .placeholder(R.drawable.placeholder_nocover)
             .into(imageView)
+    }
+
+    private fun updatePalette() {
+        val image = imageView.drawable.toBitmap()
+        val defaultColor = resources.getColor(R.color.primary_text, context?.theme)
+        palette = Palette.from(image).generate()
+        val lightColor = palette.getLightMutedColor(defaultColor)
+
+        binding.trackArtistNowPlaying.setTextColor(lightColor)
+        binding.seekBarNowPlaying.progressTintList = ColorStateList.valueOf(lightColor)
     }
 
 }

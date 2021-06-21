@@ -69,6 +69,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.14.1'
     implementation 'com.google.android.exoplayer:extension-mediasession:2.14.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.palette:palette-ktx:1.0.0'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

@@ -10,4 +10,5 @@
     <color name="primary_text">@color/black</color>
     <color name="bg_card">#FAFAFA</color>
     <color name="bg_main">@color/white</color>
+    <color name="love">#F06292</color>
 </resources>
