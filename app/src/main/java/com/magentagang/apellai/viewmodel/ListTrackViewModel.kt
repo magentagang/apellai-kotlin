@@ -48,18 +48,6 @@ class ListTrackViewModel(application : Application, albumId : String): AndroidVi
         }
     }
 
-    private val _navigateToNowPlayingScreen = MutableLiveData<String?>()
-    val navigateToNowPlayingScreen
-        get() = _navigateToNowPlayingScreen
-
-    fun onTrackClicked(id: String){
-        _navigateToNowPlayingScreen.value = id
-    }
-
-    fun doneNavigating() {
-        _navigateToNowPlayingScreen.value = null
-    }
-
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

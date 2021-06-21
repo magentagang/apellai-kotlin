@@ -7,21 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magentagang.apellai.R
 import com.magentagang.apellai.adapter.ListTrackAdapter
-import com.magentagang.apellai.databinding.FragmentListTrackVScrollBinding
-import com.magentagang.apellai.viewmodel.ListTrackViewModel
-import com.magentagang.apellai.viewmodel.factory.ListTrackViewModelFactory
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.magentagang.apellai.adapter.TrackListener
+import com.magentagang.apellai.databinding.FragmentListTrackVScrollBinding
 import com.magentagang.apellai.repository.service.MediaSource
 import com.magentagang.apellai.repository.service.PlaybackService
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
-import com.magentagang.apellai.ui.albumscreen.AlbumScreenDirections
 import com.magentagang.apellai.ui.nowplayingscreen.NowPlayingViewModel
 import com.magentagang.apellai.ui.nowplayingscreen.NowPlayingViewModelFactory
+import com.magentagang.apellai.viewmodel.ListTrackViewModel
+import com.magentagang.apellai.viewmodel.factory.ListTrackViewModelFactory
 
 //TODO same as ListAlbumVScroll
 class ListTrackVScroll : Fragment() {
@@ -55,7 +53,6 @@ class ListTrackVScroll : Fragment() {
         binding.trackVList.layoutManager = manager
 
         val adapter = ListTrackAdapter(TrackListener { id ->
-            listTrackViewModel.onTrackClicked(id)
             listTrackViewModel.tracks.value?.let {
                 mediaSource.storeTracks(listTrackViewModel.tracks.value!!)
             }
@@ -63,14 +60,6 @@ class ListTrackVScroll : Fragment() {
         })
 
         binding.trackVList.adapter = adapter
-
-        listTrackViewModel.navigateToNowPlayingScreen.observe(viewLifecycleOwner, { id ->
-            id?.let {
-                val navController = this.findNavController()
-                navController.navigate(AlbumScreenDirections.actionAlbumScreenToNowPlaying(id))
-                listTrackViewModel.doneNavigating()
-            }
-        })
 
         listTrackViewModel.tracks.observe(viewLifecycleOwner, {
             it?.let {

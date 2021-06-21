@@ -96,4 +96,11 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <action
+        android:id="@+id/action_nowPlayingMini_to_nowPlaying"
+        app:destination="@id/nowPlaying"
+        app:enterAnim="@anim/pop_in_up"
+        app:exitAnim="@anim/pop_in_down"
+        app:popEnterAnim="@anim/pop_out_up"
+        app:popExitAnim="@anim/pop_out_down" />
 </navigation>

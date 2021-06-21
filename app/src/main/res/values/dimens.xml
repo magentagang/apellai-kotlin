@@ -16,8 +16,10 @@
     <dimen name="album_item_size">275dp</dimen>
     <dimen name="album_item_size_list">80dp</dimen>
     <dimen name="track_item_size_list">60dp</dimen>
+    <dimen name="now_playing_mini_item_size">50dp</dimen>
     <dimen name="artist_item_size">200dp</dimen>
     <dimen name="header_top_margin">32dp</dimen>
     <dimen name="footer_spacing">72dp</dimen>
     <dimen name="album_art_circular">64dp</dimen>
+    <dimen name="now_playing_mini_button_size">32dp</dimen>
 </resources>

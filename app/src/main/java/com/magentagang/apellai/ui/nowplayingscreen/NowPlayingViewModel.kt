@@ -41,6 +41,10 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
         postValue(R.drawable.play_circle_line)
     }
 
+    val playPauseButtonResMini = MutableLiveData<Int>().apply {
+        postValue(R.drawable.play_fill)
+    }
+
     val seekBarChangeListener = OnSeekBarChangeListener()
 
     private var updatePos = true
@@ -64,6 +68,18 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
         it.playbackState.observeForever(playbackStateObserver)
         it.currentlyPlayingFile.observeForever(mediaMetadataObserver)
         updateTrackPos()
+    }
+
+    private val _navigateToNowPlayingScreen = MutableLiveData<String?>()
+    val navigateToNowPlayingScreen
+        get() = _navigateToNowPlayingScreen
+
+    fun onNowPlayingMiniClicked(id: String){
+        _navigateToNowPlayingScreen.value = id
+    }
+
+    fun doneNavigating() {
+        _navigateToNowPlayingScreen.value = null
     }
 
     override fun onCleared() {
@@ -107,6 +123,13 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
             when (playbackStateCompat.isPlaying) {
                 true -> R.drawable.pause_circle_line
                 else -> R.drawable.play_circle_line
+            }
+        )
+
+        playPauseButtonResMini.postValue(
+            when (playbackStateCompat.isPlaying) {
+                true -> R.drawable.pause_fill
+                else -> R.drawable.play_fill
             }
         )
     }
