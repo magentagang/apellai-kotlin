@@ -5,6 +5,10 @@ import android.content.res.Configuration
 import android.os.SystemClock
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.util.RepositoryUtils.Companion.getCoverArtUrl
 import com.magentagang.apellai.util.RepositoryUtils.Companion.getStreamUri
@@ -84,4 +88,28 @@ fun Int.toMSS(): String {
 
 fun getNightModeEnabled(context: Context): Int {
     return context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+}
+
+// Extremely hacky implementation since setCustomAnimations doesn't seem to work on fragment hide
+fun Fragment.hideWithAnimation(
+    context: Context,
+    fragmentManager: FragmentManager,
+    animationId: Int)
+{
+    val fragment = this
+    val exitAnimation = AnimationUtils.loadAnimation(context, animationId) .apply {
+        duration = 500
+        setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                fragmentManager.beginTransaction()
+                    .hide(fragment)
+                    .commit()
+            }
+
+            override fun onAnimationStart(animation: Animation?) {}
+        })
+    }
+    fragment.view?.startAnimation(exitAnimation)
 }

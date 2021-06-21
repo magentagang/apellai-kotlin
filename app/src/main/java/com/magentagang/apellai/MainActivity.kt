@@ -2,9 +2,6 @@ package com.magentagang.apellai
 
 import android.media.AudioManager
 import android.os.Bundle
-import android.view.animation.Animation
-import android.view.animation.Animation.AnimationListener
-import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.NavHostFragment
@@ -14,6 +11,7 @@ import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
 import com.magentagang.apellai.util.Constants
 import com.magentagang.apellai.util.RepositoryUtils
+import com.magentagang.apellai.util.hideWithAnimation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,28 +46,11 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val nowPlayingMiniFragment = fragmentManager.findFragmentById(R.id.nowPlayingMini)
 
-        // Extremely hacky implementation since setCustomAnimations doesn't seem to work on fragment hide
-        val exitAnimation = AnimationUtils.loadAnimation(this, R.anim.pop_out_down) .apply {
-            duration = 500
-            setAnimationListener(object : AnimationListener {
-                override fun onAnimationRepeat(animation: Animation?) {}
-
-                override fun onAnimationEnd(animation: Animation?) {
-                    fragmentManager.beginTransaction()
-                        .hide(nowPlayingMiniFragment!!)
-                        .commit()
-                }
-
-                override fun onAnimationStart(animation: Animation?) {}
-            })
-        }
-
-
         showNowPlayingMini.observe(this, {
             when(it) {
                 false -> {
                     nowPlayingMiniFragment?.let {
-                        nowPlayingMiniFragment.view?.startAnimation(exitAnimation)
+                        nowPlayingMiniFragment.hideWithAnimation(this, fragmentManager, R.anim.pop_out_down)
                     }
                 }
                 true -> {
