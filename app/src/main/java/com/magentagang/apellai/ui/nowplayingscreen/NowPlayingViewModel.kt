@@ -23,6 +23,8 @@ import timber.log.Timber
 
 class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : ViewModel() {
 
+    var shuffleMode = PlaybackStateCompat.SHUFFLE_MODE_NONE
+    var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -134,6 +136,23 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
 
     fun prevTrack() {
         playbackServiceConnector.transportControls.skipToPrevious()
+    }
+
+    fun toggleShuffle() {
+        shuffleMode = when(shuffleMode) {
+            PlaybackStateCompat.SHUFFLE_MODE_NONE -> PlaybackStateCompat.SHUFFLE_MODE_ALL
+            else -> PlaybackStateCompat.SHUFFLE_MODE_NONE
+        }
+        playbackServiceConnector.transportControls.setShuffleMode(shuffleMode)
+    }
+
+    fun toggleRepeat() {
+        repeatMode = when(repeatMode) {
+            PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
+            PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE
+            else -> PlaybackStateCompat.REPEAT_MODE_NONE
+        }
+        playbackServiceConnector.transportControls.setRepeatMode(repeatMode)
     }
 
     inner class OnSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {

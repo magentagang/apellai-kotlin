@@ -3,6 +3,7 @@ package com.magentagang.apellai.ui.nowplayingscreen
 import android.content.ComponentName
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -87,6 +88,41 @@ class NowPlaying : Fragment() {
 
         binding.nextButton.setOnClickListener {
             nowPlayingViewModel.nextTrack()
+        }
+
+        binding.shuffleButton.setOnClickListener {
+            nowPlayingViewModel.toggleShuffle()
+            val buttonColor = when(nowPlayingViewModel.shuffleMode) {
+                PlaybackStateCompat.SHUFFLE_MODE_ALL -> resources.getColor(
+                    R.color.primary_text,
+                    context.theme
+                )
+                else -> resources.getColor(
+                    R.color.disabled_toggle,
+                    context.theme
+                )
+            }
+            binding.shuffleButton.setColorFilter(buttonColor)
+        }
+
+        binding.repeatButton.setOnClickListener {
+            nowPlayingViewModel.toggleRepeat()
+            val buttonColor = when(nowPlayingViewModel.repeatMode) {
+                PlaybackStateCompat.REPEAT_MODE_NONE -> resources.getColor(
+                    R.color.disabled_toggle,
+                    context.theme
+                )
+                else -> resources.getColor(
+                    R.color.primary_text,
+                    context.theme
+                )
+            }
+            val buttonIcon = when(nowPlayingViewModel.repeatMode) {
+                PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.repeat_one_fill
+                else -> R.drawable.repeat_2_fill
+            }
+            binding.repeatButton.setColorFilter(buttonColor)
+            binding.repeatButton.setImageResource(buttonIcon)
         }
 
         val initPos = 0
