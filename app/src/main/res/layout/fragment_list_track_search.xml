@@ -11,58 +11,100 @@
             type="com.magentagang.apellai.adapter.TrackListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/listTrackSearchRoot"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
         android:onClick="@{()->clickListener.onClick(track)}">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/listTrackSearch"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/trackDuration"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/trackName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="@string/dummy_text"
-                android:textColor="@color/primary_text"
-                android:textSize="16sp"
-                app:trackName="@{track}" />
-
-            <TextView
-                android:id="@+id/trackArtist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="@string/dummy_text"
-                android:textColor="@color/primary_text"
-                android:textSize="16sp"
-                app:trackArtist="@{track}" />
-        </LinearLayout>
-
-
-
-
-
-        <TextView
-            android:id="@+id/trackDuration"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dummy_number"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:trackDuration="@{track}" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:cardBackgroundColor="@color/bg_card"
+            app:cardCornerRadius="@dimen/corner_album_small">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:cardBackgroundColor="@color/bg_card"
+                app:cardCornerRadius="@dimen/corner_album_small">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/trackArtRoundedContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/track_item_size_list"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:cardCornerRadius="@dimen/corner_album_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/trackArt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/dummy_text"
+                        android:src="@drawable/placeholder_nocover" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/trackDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="84dp"
+                    android:layout_marginEnd="60dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/trackDuration"
+                    app:layout_constraintStart_toEndOf="@id/trackArtRoundedContainer"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/trackName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="32dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@string/dummy_text"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18sp"
+                        app:trackName="@{track}" />
+
+                    <TextView
+                        android:id="@+id/trackArtist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="32dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@string/dummy_text"
+                        android:textColor="@color/primary_text"
+                        android:textSize="12sp"
+                        app:trackArtist="@{track}" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/trackDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/dummy_number"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:trackDuration="@{track}" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+
 </layout>

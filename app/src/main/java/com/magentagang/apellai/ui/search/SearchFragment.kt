@@ -55,7 +55,7 @@ class SearchFragment : Fragment() {
         val adapterArtist = ListArtistAdapter(ArtistListener { ID ->
             searchViewModel.onArtistClicked(ID)
         })
-        val adapterTrack = ListTrackAdapter(TrackListener { ID ->
+        val adapterTrack = ListTrackSearchAdapter(TrackListener { ID ->
             searchViewModel.onTrackClicked(ID)
             searchViewModel.tracks.value?.let {
                 mediaSource.storeTracks(searchViewModel.tracks.value!!)
