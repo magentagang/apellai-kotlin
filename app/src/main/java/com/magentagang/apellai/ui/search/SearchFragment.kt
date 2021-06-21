@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.R
 import com.magentagang.apellai.adapter.*
 import com.magentagang.apellai.databinding.FragmentSearchBinding
@@ -56,11 +57,11 @@ class SearchFragment : Fragment() {
             searchViewModel.onArtistClicked(ID)
         })
         val adapterTrack = ListTrackSearchAdapter(TrackListener { ID ->
-            searchViewModel.onTrackClicked(ID)
             searchViewModel.tracks.value?.let {
                 mediaSource.storeTracks(searchViewModel.tracks.value!!)
             }
             nowPlayingViewModel.playTrack(ID)
+            MainActivity.showNowPlayingMini.postValue(true)
         })
 
 

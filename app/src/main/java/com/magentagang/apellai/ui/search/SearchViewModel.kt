@@ -44,14 +44,6 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     val navigateToArtistScreen
         get() = _navigateToArtistScreen
 
-    private val _navigateToNowPlayingScreen = MutableLiveData<String?>()
-    val navigateToNowPlayingScreen
-        get() = _navigateToNowPlayingScreen
-
-    fun onTrackClicked(id: String){
-        _navigateToNowPlayingScreen.value = id
-    }
-
     fun onAlbumClicked(id: String) {
         _navigateToAlbumScreen.value = id
     }
@@ -61,7 +53,6 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     fun doneNavigating() {
         _navigateToAlbumScreen.value = null
         _navigateToArtistScreen.value = null
-        _navigateToNowPlayingScreen.value = null
     }
 
 

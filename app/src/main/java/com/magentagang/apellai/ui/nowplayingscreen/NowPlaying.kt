@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentNowPlayingBinding
 import com.magentagang.apellai.model.Track
@@ -45,6 +47,16 @@ class NowPlaying : Fragment() {
         binding = FragmentNowPlayingBinding.inflate(inflater, container, false)
         imageView = binding.albumArtNowPlaying
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().supportFragmentManager.popBackStack()
+                MainActivity.showNowPlayingMini.postValue(true)
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
