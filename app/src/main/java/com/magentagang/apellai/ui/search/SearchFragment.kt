@@ -95,9 +95,6 @@ class SearchFragment : Fragment() {
             if(it != null){
                 Timber.i("Search Result -> ${it.subsonicResponse.searchResult3?.album.toString()}")
                 val chipChecked = binding.chipGroup.checkedChipId
-                adapterAlbum.submitList(it.subsonicResponse.searchResult3?.album)
-                adapterArtist.submitList(it.subsonicResponse.searchResult3?.artist)
-                adapterTrack.submitList(it.subsonicResponse.searchResult3?.song)
 
                 searchViewModel.albums.postValue(it.subsonicResponse.searchResult3?.album)
                 searchViewModel.artists.postValue(it.subsonicResponse.searchResult3?.artist)
