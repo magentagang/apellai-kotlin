@@ -20,6 +20,21 @@
             android:layout_height="wrap_content"
             android:id="@+id/albumRoot">
 
+            <ImageButton
+                android:id="@+id/loveButtonAlbum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:contentDescription="@string/dummy_text"
+                android:elevation="2dp"
+                android:src="@drawable/heart_3_line"
+                android:translationZ="2dp"
+                app:layout_constraintEnd_toEndOf="@+id/albumArtRoundedContainerLarge"
+                app:layout_constraintTop_toTopOf="@id/albumArtRoundedContainerLarge"
+                app:tint="@color/love" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/albumArtRoundedContainerLarge"
                 android:layout_width="wrap_content"
