@@ -12,6 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentLoginScreenBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -33,7 +36,8 @@ class LoginScreenFragment : Fragment() {
         )
         binding.loginScreenViewModel = loginScreenViewModel
         binding.lifecycleOwner = this
-        Toast.makeText(application,"Logging Screen Created Successfully",Toast.LENGTH_LONG).show()
+        loginScreenViewModel.checkIfAlreadyLoggedIn()
+
 
         // TODO(Put authentication logic here)
         /*
@@ -49,14 +53,14 @@ class LoginScreenFragment : Fragment() {
         loginScreenViewModel.navigateToHomeScreen.observe(viewLifecycleOwner, { it ->
             it?.let {
                 if (it == true) {
-                    Toast.makeText(application,"Logged in successfully",Toast.LENGTH_LONG).show()
                     //TODO(Just navigate from here to home screen safely)
+                    Toast.makeText(application,"Login Successful",Toast.LENGTH_SHORT).show()
                     val mainIntent = Intent(activity, MainActivity::class.java)
                     mainIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(mainIntent)
                     loginScreenViewModel.setNavigateBooleanToNull()
                 }else if(!it){
-                    Toast.makeText(application,"Incorrect Credentials",Toast.LENGTH_LONG).show()
+                    Toast.makeText(application,"Incorrect Credentials",Toast.LENGTH_SHORT).show()
                     binding.password.text.clear()
                     loginScreenViewModel.setNavigateBooleanToNull()
                 }

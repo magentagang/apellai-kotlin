@@ -25,6 +25,9 @@ interface DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(user: User)
 
+    @Query("SELECT * FROM user_table WHERE isActive = 1 LIMIT 1")
+    fun getActiveUser(): User?
+
     @Query("SELECT * FROM server_table WHERE base_url = :key")
     fun getServer(key: String): Server?
 
@@ -137,6 +140,6 @@ interface DatabaseDao {
     @Query("DELETE FROM search_history_table")
     fun clearSearchHistory()
 
-    @Query("UPDATE user_table set isActive = 0 where isActive = 1")
-    fun resetUser()
+    @Query("UPDATE user_table SET isActive = 0 WHERE isActive = 1")
+    fun resetAllActiveUser()
 }

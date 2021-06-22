@@ -15,7 +15,7 @@ import com.magentagang.apellai.model.*
         Artist::class,
         SearchHistory::class,
     ),
-    version = 1
+    version = 2
 )
 
 abstract class UserDatabase : RoomDatabase() {

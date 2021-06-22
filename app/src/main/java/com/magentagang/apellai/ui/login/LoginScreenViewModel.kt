@@ -1,12 +1,11 @@
 package com.magentagang.apellai.ui.login
 
 import android.app.Application
+import android.content.Intent
 import android.widget.EditText
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import com.magentagang.apellai.model.SubsonicResponseRoot
+import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.model.User
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
@@ -14,16 +13,12 @@ import com.magentagang.apellai.util.Constants
 import com.magentagang.apellai.util.RepositoryUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class LoginScreenViewModel(application: Application): AndroidViewModel(application) {
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
-    var repositoryUtils: RepositoryUtils
-    init{
-        repositoryUtils = RepositoryUtils(databaseDao)
-    }
+    var repositoryUtils: RepositoryUtils = RepositoryUtils(databaseDao)
 
     fun storeCredentialsOrToast(serverAddress: EditText, username: EditText, password: EditText) {
         val _username = username.text.toString()
@@ -34,9 +29,9 @@ class LoginScreenViewModel(application: Application): AndroidViewModel(applicati
                 val authActual = authDeferred.await()
                 if(authActual)
                 {
-                    val newUser = User(name = _username, password = _password, salt = Constants.SALT,
+                    val newUser = User(name = Constants.USER, password = Constants.PASSWORD_HEX, salt = Constants.SALT,
                         token = Constants.TOKEN, isActive = true)
-                    databaseDao.resetUser()
+                    databaseDao.resetAllActiveUser()
                     databaseDao.insertUser(newUser)
                     _navigateToHomeScreen.postValue(true)
                 }else{
@@ -46,6 +41,19 @@ class LoginScreenViewModel(application: Application): AndroidViewModel(applicati
             catch (e: Exception)
             {
                 e.printStackTrace()
+            }
+        }
+    }
+
+    fun checkIfAlreadyLoggedIn(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val loggedInUser = databaseDao.getActiveUser()
+            if(loggedInUser != null){
+                Constants.USER = loggedInUser.name
+                Constants.PASSWORD_HEX = loggedInUser.password ?: ""
+                Constants.SALT = loggedInUser.salt ?: ""
+                Constants.TOKEN = loggedInUser.token ?: ""
+                _navigateToHomeScreen.postValue(true)
             }
         }
     }

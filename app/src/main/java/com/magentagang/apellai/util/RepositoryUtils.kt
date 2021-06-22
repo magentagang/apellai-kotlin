@@ -488,6 +488,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                         if (root.subsonicResponse.status == "ok") {
                             isUser = true
                             Constants.SALT = _salt
+                            Constants.USER = _username
                             Constants.TOKEN = _token!!
                         } else {
                             isUser = false
@@ -507,6 +508,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                         val root = pingDeferred.await()
                         if (root.subsonicResponse.status == "ok") {
                             isUser = true
+                            Constants.USER = _username
                             Constants.PASSWORD_HEX = _passwordHex
                         } else {
                             isUser = false
