@@ -99,7 +99,7 @@ class NowPlaying : Fragment() {
 
         binding.shuffleButton.setOnClickListener {
             nowPlayingViewModel.toggleShuffle()
-            val buttonColor = when(nowPlayingViewModel.shuffleMode) {
+            val buttonColor = when(nowPlayingViewModel.shuffleMode.value) {
                 PlaybackStateCompat.SHUFFLE_MODE_ALL -> resources.getColor(
                     R.color.primary_text,
                     context.theme

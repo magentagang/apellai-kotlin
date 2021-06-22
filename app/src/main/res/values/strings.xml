@@ -22,6 +22,7 @@
     <string name="artist">Artists</string>
     <string name="album">Albums</string>
     <string name="track">Tracks</string>
+    <string name="logout">Logout</string>
 
     <string-array name="spinner_library_array">
         <item>@string/artist</item>

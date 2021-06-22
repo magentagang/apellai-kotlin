@@ -2,8 +2,10 @@ package com.magentagang.apellai.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -15,16 +17,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
-    private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = HomeViewModelFactory(application)
         val homeViewModel = ViewModelProvider(this, viewModelFactory).get(
@@ -35,6 +36,7 @@ class HomeFragment : Fragment() {
         )
         binding.homeViewModel = homeViewModel
         binding.lifecycleOwner = this
+        binding.overflowMenuButton.setOnClickListener { showOverflow() }
 
         binding.swipeContainer.setOnRefreshListener {
             Toast.makeText(application, "Refreshing layout", Toast.LENGTH_SHORT).show()
@@ -49,5 +51,23 @@ class HomeFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    private fun showOverflow() {
+        PopupMenu(context, binding.overflowMenuButton).apply {
+            setOnMenuItemClickListener(this@HomeFragment)
+            inflate(R.menu.overflow_menu)
+            show()
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.logout_item -> {
+                // TODO Log out
+                true
+            }
+            else -> false
+        }
     }
 }

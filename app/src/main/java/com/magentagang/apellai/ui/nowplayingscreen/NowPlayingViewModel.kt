@@ -23,7 +23,10 @@ import timber.log.Timber
 
 class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : ViewModel() {
 
-    var shuffleMode = PlaybackStateCompat.SHUFFLE_MODE_NONE
+    // FIXME Shuffle and repeat icon reset bug
+    var shuffleMode = MutableLiveData<Int>().apply {
+        postValue(PlaybackStateCompat.SHUFFLE_MODE_NONE)
+    }
     var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -162,11 +165,11 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : 
     }
 
     fun toggleShuffle() {
-        shuffleMode = when(shuffleMode) {
+        shuffleMode.postValue(when(shuffleMode.value) {
             PlaybackStateCompat.SHUFFLE_MODE_NONE -> PlaybackStateCompat.SHUFFLE_MODE_ALL
             else -> PlaybackStateCompat.SHUFFLE_MODE_NONE
-        }
-        playbackServiceConnector.transportControls.setShuffleMode(shuffleMode)
+        })
+        playbackServiceConnector.transportControls.setShuffleMode(shuffleMode.value!!)
     }
 
     fun toggleRepeat() {

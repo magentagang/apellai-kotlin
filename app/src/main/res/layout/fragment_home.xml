@@ -25,6 +25,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageButton
+                    android:id="@+id/overflowMenuButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@null"
+                    android:contentDescription="@string/dummy_text"
+                    android:src="@drawable/more_2_fill"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/primary_text" />
+
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fragmentRecentlyAdded"
                     android:name="com.magentagang.apellai.ui.fragments.CardAlbumHScroll"

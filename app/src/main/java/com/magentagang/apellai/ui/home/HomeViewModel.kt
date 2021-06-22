@@ -8,14 +8,12 @@ import com.magentagang.apellai.util.Constants
 import com.magentagang.apellai.util.RepositoryUtils
 import kotlinx.coroutines.*
 
-class HomeViewModel(application: Application) : AndroidViewModel(application){
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
+
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
-    val viewModelJob = Job()
-    val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
-    var repositoryUtils: RepositoryUtils
-    init{
-        repositoryUtils = RepositoryUtils(databaseDao)
-    }
+    private val viewModelJob = Job()
+    private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
+    var repositoryUtils: RepositoryUtils = RepositoryUtils(databaseDao)
 
 
     // Function is async because I want the UI to show refreshing indicator
@@ -49,4 +47,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
         super.onCleared()
         viewModelJob.cancel()
     }
+
+
 }
