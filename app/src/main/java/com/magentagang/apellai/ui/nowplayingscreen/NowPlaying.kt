@@ -71,6 +71,19 @@ class NowPlaying : Fragment() {
         nowPlayingViewModel.playPauseButtonRes.observe(viewLifecycleOwner, { res ->
             binding.playPauseButton.setImageResource(res)
         })
+        nowPlayingViewModel.shuffleMode.observe(viewLifecycleOwner, { mode ->
+            val buttonColor = when(mode) {
+                PlaybackStateCompat.SHUFFLE_MODE_ALL -> resources.getColor(
+                    R.color.primary_text,
+                    context.theme
+                )
+                else -> resources.getColor(
+                    R.color.disabled_toggle,
+                    context.theme
+                )
+            }
+            binding.shuffleButton.setColorFilter(buttonColor)
+        })
         nowPlayingViewModel.trackPos.observe(viewLifecycleOwner, { currentPos ->
             binding.startDuration.text = currentPos.toInt().div(1000).toMSS()
             binding.seekBarNowPlaying.progress = currentPos.div(1000).toInt()
@@ -99,17 +112,6 @@ class NowPlaying : Fragment() {
 
         binding.shuffleButton.setOnClickListener {
             nowPlayingViewModel.toggleShuffle()
-            val buttonColor = when(nowPlayingViewModel.shuffleMode.value) {
-                PlaybackStateCompat.SHUFFLE_MODE_ALL -> resources.getColor(
-                    R.color.primary_text,
-                    context.theme
-                )
-                else -> resources.getColor(
-                    R.color.disabled_toggle,
-                    context.theme
-                )
-            }
-            binding.shuffleButton.setColorFilter(buttonColor)
         }
 
         binding.repeatButton.setOnClickListener {
