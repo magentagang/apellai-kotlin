@@ -39,6 +39,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun logOutUser(){
+        CoroutineScope(Dispatchers.IO).launch {
+            databaseDao.resetAllActiveUser()
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

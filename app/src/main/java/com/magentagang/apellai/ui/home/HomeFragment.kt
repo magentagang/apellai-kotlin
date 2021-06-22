@@ -1,5 +1,7 @@
 package com.magentagang.apellai.ui.home
 
+import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -10,6 +12,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.magentagang.apellai.LoginActivity
+import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentHomeBinding
 import kotlinx.coroutines.CoroutineScope
@@ -20,15 +24,17 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var homeViewModel : HomeViewModel
+    private lateinit var application : Application
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val application = requireNotNull(this.activity).application
+        application = requireNotNull(this.activity).application
         val viewModelFactory = HomeViewModelFactory(application)
-        val homeViewModel = ViewModelProvider(this, viewModelFactory).get(
+        homeViewModel = ViewModelProvider(this, viewModelFactory).get(
             HomeViewModel::class.java
         )
 
@@ -65,7 +71,12 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.logout_item -> {
-                // TODO Log out
+                homeViewModel.logOutUser()
+                Toast.makeText(application, "Logging Out", Toast.LENGTH_SHORT).show()
+                val mainIntent = Intent(activity, LoginActivity::class.java)
+                mainIntent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(mainIntent)
                 true
             }
             else -> false
