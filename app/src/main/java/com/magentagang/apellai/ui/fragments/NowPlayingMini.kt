@@ -88,7 +88,6 @@ class NowPlayingMini : Fragment() {
                 val navController = this.findNavController()
                 navController.navigate(MobileNavigationDirections.actionNowPlayingMiniToNowPlaying(id))
                 nowPlayingViewModel.doneNavigating()
-                MainActivity.showNowPlayingMini.postValue(false)
             }
         })
 

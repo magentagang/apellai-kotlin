@@ -2,6 +2,7 @@ package com.magentagang.apellai.ui.nowplayingscreen
 
 import android.content.ComponentName
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.repository.service.PlaybackService
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
 import com.magentagang.apellai.util.RepositoryUtils
+import com.magentagang.apellai.util.getNightModeEnabled
 import com.magentagang.apellai.util.toMSS
 import timber.log.Timber
 
@@ -50,16 +52,6 @@ class NowPlaying : Fragment() {
         binding = FragmentNowPlayingBinding.inflate(inflater, container, false)
         imageView = binding.albumArtNowPlaying
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigateUp()
-                MainActivity.showNowPlayingMini.postValue(true)
-            }
-        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -145,6 +137,16 @@ class NowPlaying : Fragment() {
         binding.endDuration.text = initPos.toMSS()
     }
 
+    override fun onStart() {
+        super.onStart()
+        MainActivity.showNowPlayingMini.postValue(false)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        MainActivity.showNowPlayingMini.postValue(true)
+    }
+
     private fun updateUI(track: Track) = with(binding) {
         trackNameNowPlaying.text = track.title
         trackArtistNowPlaying.text = track.artist
@@ -168,9 +170,14 @@ class NowPlaying : Fragment() {
         val defaultColor = resources.getColor(R.color.primary_text, context?.theme)
         palette = Palette.from(image).generate()
         val lightColor = palette.getLightMutedColor(defaultColor)
+        val darkColor = palette.getDarkMutedColor(defaultColor)
+        val colorToApply = when(getNightModeEnabled(requireContext())) {
+            Configuration.UI_MODE_NIGHT_YES -> lightColor
+            else -> darkColor
+        }
 
-        binding.trackArtistNowPlaying.setTextColor(lightColor)
-        binding.seekBarNowPlaying.progressTintList = ColorStateList.valueOf(lightColor)
+        binding.trackArtistNowPlaying.setTextColor(colorToApply)
+        binding.seekBarNowPlaying.progressTintList = ColorStateList.valueOf(colorToApply)
     }
 
 }
