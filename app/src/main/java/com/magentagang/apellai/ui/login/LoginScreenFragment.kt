@@ -52,6 +52,7 @@ class LoginScreenFragment : Fragment() {
                     Toast.makeText(application,"Logged in successfully",Toast.LENGTH_LONG).show()
                     //TODO(Just navigate from here to home screen safely)
                     val mainIntent = Intent(activity, MainActivity::class.java)
+                    mainIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(mainIntent)
                     loginScreenViewModel.setNavigateBooleanToNull()
                 }else if(!it){
