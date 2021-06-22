@@ -28,7 +28,8 @@ class HomeFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = HomeViewModelFactory(application)
         val homeViewModel = ViewModelProvider(this, viewModelFactory).get(
-            HomeViewModel::class.java)
+            HomeViewModel::class.java
+        )
 
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_home, container, false

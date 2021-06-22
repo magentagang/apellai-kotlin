@@ -31,8 +31,6 @@ class CardAlbumHScrollViewModel(application: Application, albumType : String) : 
             application.resources.getString(R.string.recently_played) -> databaseDao.getRecentAlbums().asLiveData()
             else -> databaseDao.getStarredAlbums().asLiveData()
         }
-        // TODO(MAKE IT SO THAT IT ONLY GETS CALLED WHEN FRAGMENT WAS CREATED THE FIRST TIME)
-        Timber.i("INIT CALLED")
     }
     private val _navigateToAlbumScreen: MutableLiveData<String?> = MutableLiveData<String?>()
     val navigateToAlbumScreen

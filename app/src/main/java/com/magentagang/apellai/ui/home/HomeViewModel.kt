@@ -8,12 +8,13 @@ import com.magentagang.apellai.util.Constants
 import com.magentagang.apellai.util.RepositoryUtils
 import kotlinx.coroutines.*
 
-class HomeViewModel(application: Application) : AndroidViewModel(application){
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
     val viewModelJob = Job()
     val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
     var repositoryUtils: RepositoryUtils
-    init{
+
+    init {
         repositoryUtils = RepositoryUtils(databaseDao)
     }
 
@@ -23,8 +24,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     // coroutine wait for response
 
     fun initializeCategories(): Deferred<Boolean> {
-        return viewModelScope.async{
-            try{
+        return viewModelScope.async {
+            try {
                 databaseDao.resetRandomAlbums()
                 databaseDao.resetFrequentAlbums()
                 databaseDao.resetRecentAlbums()
@@ -33,12 +34,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
                 repositoryUtils.fetchCategorizedChunk(Constants.TYPE_RECENT)
                 repositoryUtils.fetchCategorizedChunk(Constants.TYPE_FREQUENT)
                 repositoryUtils.fetchCategorizedChunk(Constants.TYPE_NEWEST)
-                // TODO(Check if we're supposed to retrieve all albums or artists here)
-                repositoryUtils.retrieveAllArtists()
-                repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
                 repositoryUtils.retrieveAndStarAllAlbums()
                 return@async true
-            }catch(e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
                 return@async false
             }

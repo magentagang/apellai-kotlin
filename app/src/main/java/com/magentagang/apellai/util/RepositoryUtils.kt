@@ -70,7 +70,6 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         }
 
 
-        //TODO(USE REAL TIME USER INFO INSTEAD AND PUT VALUE FOR SIZE)
          fun getCoverArtUrl(_id : String, _size: String = ""): String {
             // build URI and URL
             val uri = Uri.parse("https://apellai.duckdns.org").buildUpon().apply {
@@ -159,7 +158,6 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
 
     // Function to be called to retrieve all album data
     fun retrieveAllAlbums(type: String, genre: String = "", musicFolderId: String = "") {
-        //TODO(MIGHT NEED TO DO ALL THE MANUAL RESETTING OF isTHIS is THAT here)
         coroutineScope.launch {
             var nextCall = true
             var offset = 0
@@ -187,7 +185,6 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                     for (index in indices) {
                         val artistList = index.artistList
                         for (artist in artistList) {
-                            //TODO(SEE IF THIS IS APPROPRIATE FOR ARTIST INSERTION)
                             databaseDao.insertOrIgnoreArtist(artist)
                         }
                     }
@@ -236,12 +233,6 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                 if (root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.artist != null) {
                     val starredArtistList = root.subsonicResponse.starred2.artist
                     for (artist in starredArtistList!!) {
-//                        if (databaseDao.getArtist(artist.id) == null) {
-//                            insertArtist(artist, Constants.TYPE_STARRED)
-//                        } else {
-//                            updateArtistType(artist, Constants.TYPE_STARRED)
-//                        }
-                        //TODO(CAN'T WE JUST INSERT IN THIS CASE?)
                         artist.isStarred = true
                         databaseDao.insertArtist(artist)
                     }
@@ -327,13 +318,6 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                     result = root.subsonicResponse.albumRoot.albumListItemList
                     Timber.i("fetchCategorizedChunk -> returned ${result.size} items.")
                     for (album in result) {
-                        // insert if it didn't exist, update if it did
-//                        if (databaseDao.getAlbum(album.id) == null) {
-//                            insertAlbum(album, _type)
-//                        } else {
-//                            updateAlbumType(album, _type)
-//                        }
-                        // TODO(Check if its better than the commented out part above)
                         databaseDao.insertOrIgnoreAlbum(album)
                         updateAlbumType(album, _type)
 

@@ -12,9 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentLoginScreenBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -39,28 +36,27 @@ class LoginScreenFragment : Fragment() {
         loginScreenViewModel.checkIfAlreadyLoggedIn()
 
 
-        // TODO(Put authentication logic here)
-        /*
-            - If auth is successful, save & navigate
-            - If auth is unsuccessful, show toast, clear text fields
-         */
         binding.loginButton.setOnClickListener {
             // FIXME(Even though server address is sent, logic is implemented for one server only)
             Timber.i("Login Button Clicked: ${binding.serverAddress.text}, ${binding.username.text}, ${binding.password.text}")
-            loginScreenViewModel.storeCredentialsOrToast(binding.serverAddress, binding.username, binding.password)
+            loginScreenViewModel.storeCredentialsOrToast(
+                binding.serverAddress,
+                binding.username,
+                binding.password
+            )
         }
 
         loginScreenViewModel.navigateToHomeScreen.observe(viewLifecycleOwner, { it ->
             it?.let {
                 if (it == true) {
-                    //TODO(Just navigate from here to home screen safely)
-                    Toast.makeText(application,"Login Successful",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(application, "Login Successful", Toast.LENGTH_SHORT).show()
                     val mainIntent = Intent(activity, MainActivity::class.java)
-                    mainIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    mainIntent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(mainIntent)
                     loginScreenViewModel.setNavigateBooleanToNull()
-                }else if(!it){
-                    Toast.makeText(application,"Incorrect Credentials",Toast.LENGTH_SHORT).show()
+                } else if (!it) {
+                    Toast.makeText(application, "Incorrect Credentials", Toast.LENGTH_SHORT).show()
                     binding.password.text.clear()
                     loginScreenViewModel.setNavigateBooleanToNull()
                 }
