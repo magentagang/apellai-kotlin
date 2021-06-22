@@ -23,7 +23,6 @@ data class Album(
     var coverArt: String? = "", // add to database
     var isVideo: Boolean? = null,
     var album: String? = "",
-    //TODO(STARRED LOGIC INCORRECT)
     @ColumnInfo(name = "starred") var starred: String? = null, // add to database, manually add on callback
     @ColumnInfo(name = "isRandom") var isRandom: Boolean = false, // add to database, manually add on callback
     @ColumnInfo(name = "isNewest") var isNewest: Boolean = false, // add to database, manually add on callback

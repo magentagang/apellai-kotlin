@@ -253,7 +253,6 @@ interface SubsonicApiService {
     ): Deferred<SubsonicResponseRoot>
 
 
-    //TODO(ADD Other params and what what what)
     @GET("rest/stream")
     fun getStreamBinaryAsync(
         // Authentications

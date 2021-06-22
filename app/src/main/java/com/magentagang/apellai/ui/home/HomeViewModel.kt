@@ -9,7 +9,6 @@ import com.magentagang.apellai.util.RepositoryUtils
 import kotlinx.coroutines.*
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
-
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
@@ -31,9 +30,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 repositoryUtils.fetchCategorizedChunk(Constants.TYPE_RECENT)
                 repositoryUtils.fetchCategorizedChunk(Constants.TYPE_FREQUENT)
                 repositoryUtils.fetchCategorizedChunk(Constants.TYPE_NEWEST)
-                // TODO(Check if we're supposed to retrieve all albums or artists here)
-                repositoryUtils.retrieveAllArtists()
-                repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
                 repositoryUtils.retrieveAndStarAllAlbums()
                 return@async true
             }catch(e: Exception){
@@ -47,6 +43,4 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         super.onCleared()
         viewModelJob.cancel()
     }
-
-
 }
