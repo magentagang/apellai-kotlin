@@ -36,10 +36,10 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
             val trackListDeferred = SubsonicApi.retrofitService.getStarred2Async()
             try {
                 val root = trackListDeferred.await()
+                var isLovedAlready = false
                 if(root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.song != null)
                 {
                     val songList = root.subsonicResponse.starred2.song
-                    var isLovedAlready = false
                     Timber.i("LoveButton -> ${songList?:"LoveButton-> songList is null"}")
                     if(songList != null){
 
@@ -52,14 +52,14 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
                             }
                         }
                     }
-                    if(!isLovedAlready){
-                        _loveButtonLivedata.postValue(false)
-                    }
-                    Timber.i("LoveButton -> getLovedStatusAsync -> ${_loveButtonLivedata.value}")
                 }else if(root.subsonicResponse.status == "failed"){
                     //TODO(Log error messages using ErrorHandler Interface here)
                     Timber.i(root.subsonicResponse.error?.message?:"ERROR in getLovedStatusAsync()")
                 }
+                if(!isLovedAlready){
+                    _loveButtonLivedata.postValue(false)
+                }
+                Timber.i("LoveButton -> getLovedStatusAsync -> ${_loveButtonLivedata.value}")
             }
             catch(e: Exception){
                 e.printStackTrace()
@@ -82,8 +82,8 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
                         Timber.i("LoveButton -> Unstarring track successful")
                         _loveButtonLivedata.postValue(false)
                     }else{
-                        Timber.i("LoveButton -> Unstarring track successful")
-                        Timber.i("Error -> nowPlayingModel -> unstarTrack -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                        Timber.i("LoveButton -> Unstarring track unsuccessful")
+                        Timber.i("Error -> nowPlayingViewModel -> unstarTrack -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
                     }
                 }catch(e: Exception){
                     e.printStackTrace()
@@ -97,7 +97,8 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
                         Timber.i("LoveButton -> Starring track successful")
                         _loveButtonLivedata.postValue(true)
                     }else{
-                        Timber.i("LoveButton -> Starring track successful")
+                        Timber.i("LoveButton -> Starring track unsuccessful")
+                        Timber.i("Error -> nowPlayingViewModel -> unstarTrack -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
                     }
                 }catch(e: Exception){
                     e.printStackTrace()

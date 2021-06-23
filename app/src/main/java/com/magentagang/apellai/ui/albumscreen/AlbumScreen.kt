@@ -17,6 +17,7 @@ import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentAlbumScreenBinding
 import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.util.RepositoryUtils
+import timber.log.Timber
 
 class AlbumScreen : Fragment() {
     private lateinit var binding: FragmentAlbumScreenBinding
@@ -73,8 +74,42 @@ class AlbumScreen : Fragment() {
                     binding.albumArtistYear.text = "Unknown Year"
                 }
                 loadImage(it)
+                albumScreenViewModel.getLovedStatusAsync(it)
             }
         })
+
+
+        albumScreenViewModel.loveButtonLivedata.observe(viewLifecycleOwner, { value ->
+            value?.let {
+                if (value) {
+                    binding.loveButtonAlbum.setImageResource(R.drawable.heart_3_fill)
+                } else {
+                    binding.loveButtonAlbum.setImageResource(R.drawable.heart_3_line)
+                }
+            }
+        })
+
+        binding.loveButtonAlbum.setOnClickListener {
+            if (albumScreenViewModel.loveButtonLivedata.value != null) {
+                Timber.i("LoveButton -> NOT NULL")
+                try {
+                    if (albumScreenViewModel.loveButtonLivedata.value!!) {
+                        Timber.i("LoveButton -> NOT NULL true")
+                        albumScreenViewModel.unstarAlbum(true, albumScreenViewModel.album.value?.id ?: "")
+                        binding.loveButtonAlbum.setImageResource(R.drawable.heart_3_line)
+                    } else {
+                        Timber.i("LoveButton -> NOT NULL false")
+                        albumScreenViewModel.unstarAlbum(false, albumScreenViewModel.album.value?.id ?: "")
+                        binding.loveButtonAlbum.setImageResource(R.drawable.heart_3_fill)
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                }
+            } else {
+                //TODO(Live data value null)
+                Timber.i("LoveButton -> TAKING TOO LONG")
+            }
+        }
 
         return binding.root
     }
