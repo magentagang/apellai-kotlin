@@ -38,4 +38,5 @@ object Constants {
     const val ADD_TO_QUEUE_ACTION = "com.magentagang.apellai.ADD_TO_QUEUE_ACTION"
 
     var SHUFFLE_MODE = 0
+    var REPEAT_MODE = 0
 }

@@ -92,22 +92,6 @@ class NowPlaying : Fragment() {
             }
         })
 
-
-
-        nowPlayingViewModel.shuffleMode.observe(viewLifecycleOwner, { mode ->
-            Timber.i("Shuffle -> observer called $mode")
-            val buttonColor = when (mode) {
-                PlaybackStateCompat.SHUFFLE_MODE_ALL -> resources.getColor(
-                    R.color.primary_text,
-                    context.theme
-                )
-                else -> resources.getColor(
-                    R.color.disabled_toggle,
-                    context.theme
-                )
-            }
-            binding.shuffleButton.setColorFilter(buttonColor)
-        })
         nowPlayingViewModel.trackPos.observe(viewLifecycleOwner, { currentPos ->
             binding.startDuration.text = currentPos.toInt().div(1000).toMSS()
             binding.seekBarNowPlaying.progress = currentPos.div(1000).toInt()
@@ -133,21 +117,23 @@ class NowPlaying : Fragment() {
             nowPlayingViewModel.nextTrack()
         }
 
-        binding.shuffleButton.setOnClickListener {
-            nowPlayingViewModel.toggleShuffle()
-        }
-
         binding.loveButton.setOnClickListener {
             if (nowPlayingViewModel.loveButtonLivedata.value != null) {
                 Timber.i("LoveButton -> NOT NULL")
                 try {
                     if (nowPlayingViewModel.loveButtonLivedata.value!!) {
                         Timber.i("LoveButton -> NOT NULL true")
-                        nowPlayingViewModel.unstarTrack(true, nowPlayingViewModel.trackInfo.value?.id ?: "")
+                        nowPlayingViewModel.unstarTrack(
+                            true,
+                            nowPlayingViewModel.trackInfo.value?.id ?: ""
+                        )
                         binding.loveButton.setImageResource(R.drawable.heart_3_line)
                     } else {
                         Timber.i("LoveButton -> NOT NULL false")
-                        nowPlayingViewModel.unstarTrack(false, nowPlayingViewModel.trackInfo.value?.id ?: "")
+                        nowPlayingViewModel.unstarTrack(
+                            false,
+                            nowPlayingViewModel.trackInfo.value?.id ?: ""
+                        )
                         binding.loveButton.setImageResource(R.drawable.heart_3_fill)
                     }
                 } catch (e: NullPointerException) {
@@ -159,9 +145,32 @@ class NowPlaying : Fragment() {
             }
         }
 
+        binding.shuffleButton.setOnClickListener {
+            nowPlayingViewModel.toggleShuffle()
+        }
+
+
+        nowPlayingViewModel.shuffleMode.observe(viewLifecycleOwner, { mode ->
+            Timber.i("Shuffle -> observer called $mode")
+            val buttonColor = when (mode) {
+                PlaybackStateCompat.SHUFFLE_MODE_ALL -> resources.getColor(
+                    R.color.primary_text,
+                    context.theme
+                )
+                else -> resources.getColor(
+                    R.color.disabled_toggle,
+                    context.theme
+                )
+            }
+            binding.shuffleButton.setColorFilter(buttonColor)
+        })
+
         binding.repeatButton.setOnClickListener {
             nowPlayingViewModel.toggleRepeat()
-            val buttonColor = when (nowPlayingViewModel.repeatMode) {
+        }
+
+        nowPlayingViewModel.repeatMode.observe(viewLifecycleOwner, { mode ->
+            val buttonColor = when (mode) {
                 PlaybackStateCompat.REPEAT_MODE_NONE -> resources.getColor(
                     R.color.disabled_toggle,
                     context.theme
@@ -171,13 +180,13 @@ class NowPlaying : Fragment() {
                     context.theme
                 )
             }
-            val buttonIcon = when (nowPlayingViewModel.repeatMode) {
+            val buttonIcon = when (mode) {
                 PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.repeat_one_fill
                 else -> R.drawable.repeat_2_fill
             }
             binding.repeatButton.setColorFilter(buttonColor)
             binding.repeatButton.setImageResource(buttonIcon)
-        }
+        })
 
         val initPos = 0
         binding.startDuration.text = initPos.toMSS()
@@ -226,7 +235,6 @@ class NowPlaying : Fragment() {
         binding.trackArtistNowPlaying.setTextColor(colorToApply)
         binding.seekBarNowPlaying.progressTintList = ColorStateList.valueOf(colorToApply)
     }
-
 
 
 }

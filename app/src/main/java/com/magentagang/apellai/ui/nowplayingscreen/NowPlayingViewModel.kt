@@ -110,7 +110,10 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
     val _shuffleMode = MutableLiveData(Constants.SHUFFLE_MODE)
     val shuffleMode : LiveData<Int>
         get() = _shuffleMode
-    var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
+//    var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
+    val _repeatMode = MutableLiveData(Constants.REPEAT_MODE)
+    val repeatMode: LiveData<Int>
+        get() = _repeatMode
 
     private var playbackState: PlaybackStateCompat = EMPTY_PLAYBACK_STATE
     val trackInfo = MutableLiveData<Track>()
@@ -260,12 +263,13 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
     }
 
     fun toggleRepeat() {
-        repeatMode = when(repeatMode) {
+        Constants.REPEAT_MODE = when(_repeatMode.value) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
             PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE
             else -> PlaybackStateCompat.REPEAT_MODE_NONE
         }
-        playbackServiceConnector.transportControls.setRepeatMode(repeatMode)
+        _repeatMode.postValue(Constants.REPEAT_MODE)
+        playbackServiceConnector.transportControls.setRepeatMode(Constants.REPEAT_MODE)
     }
 
     inner class OnSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
