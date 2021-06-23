@@ -8,6 +8,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
 import androidx.lifecycle.*
 import com.magentagang.apellai.R
+import com.magentagang.apellai.model.ErrorHandler
 import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.repository.service.BLANK_TRACK
 import com.magentagang.apellai.repository.service.EMPTY_PLAYBACK_STATE
@@ -82,6 +83,7 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
                         _loveButtonLivedata.postValue(false)
                     }else{
                         Timber.i("LoveButton -> Unstarring track successful")
+                        Timber.i("Error -> nowPlayingModel -> unstarTrack -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
                     }
                 }catch(e: Exception){
                     e.printStackTrace()
