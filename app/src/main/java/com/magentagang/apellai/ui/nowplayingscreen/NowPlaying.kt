@@ -6,10 +6,12 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +26,7 @@ import com.magentagang.apellai.databinding.FragmentNowPlayingBinding
 import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.repository.service.PlaybackService
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
+import com.magentagang.apellai.util.Constants
 import com.magentagang.apellai.util.RepositoryUtils
 import com.magentagang.apellai.util.getNightModeEnabled
 import com.magentagang.apellai.util.toMSS
@@ -31,6 +34,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+
 
 class NowPlaying : Fragment() {
 
@@ -128,6 +132,10 @@ class NowPlaying : Fragment() {
                             nowPlayingViewModel.trackInfo.value?.id ?: ""
                         )
                         binding.loveButton.setImageResource(R.drawable.heart_3_line)
+                        val toast =
+                            Toast.makeText(application, "Track Unstarred", Toast.LENGTH_SHORT)
+                        toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+                        toast.show()
                     } else {
                         Timber.i("LoveButton -> NOT NULL false")
                         nowPlayingViewModel.unstarTrack(
@@ -135,6 +143,9 @@ class NowPlaying : Fragment() {
                             nowPlayingViewModel.trackInfo.value?.id ?: ""
                         )
                         binding.loveButton.setImageResource(R.drawable.heart_3_fill)
+                        val toast = Toast.makeText(application, "Track Starred", Toast.LENGTH_SHORT)
+                        toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+                        toast.show()
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -147,6 +158,18 @@ class NowPlaying : Fragment() {
 
         binding.shuffleButton.setOnClickListener {
             nowPlayingViewModel.toggleShuffle()
+            when (Constants.SHUFFLE_MODE) {
+                PlaybackStateCompat.SHUFFLE_MODE_ALL -> {
+                    val toast = Toast.makeText(application, "Shuffle on", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+                    toast.show()
+                }
+                else -> {
+                    val toast = Toast.makeText(application, "Shuffle off", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+                    toast.show()
+                }
+            }
         }
 
 
@@ -167,6 +190,25 @@ class NowPlaying : Fragment() {
 
         binding.repeatButton.setOnClickListener {
             nowPlayingViewModel.toggleRepeat()
+            when (Constants.REPEAT_MODE) {
+                PlaybackStateCompat.REPEAT_MODE_ONE -> {
+                    val toast =
+                        Toast.makeText(application, "Track on repeat", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+                    toast.show()
+                }
+                PlaybackStateCompat.REPEAT_MODE_ALL -> {
+                    val toast =
+                        Toast.makeText(application, "Queue on repeat", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+                    toast.show()
+                }
+                PlaybackStateCompat.REPEAT_MODE_NONE -> {
+                    val toast = Toast.makeText(application, "Repeating off", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+                    toast.show()
+                }
+            }
         }
 
         nowPlayingViewModel.repeatMode.observe(viewLifecycleOwner, { mode ->

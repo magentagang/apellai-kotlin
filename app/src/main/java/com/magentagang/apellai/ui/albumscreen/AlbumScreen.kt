@@ -1,10 +1,12 @@
 package com.magentagang.apellai.ui.albumscreen
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -97,10 +99,16 @@ class AlbumScreen : Fragment() {
                         Timber.i("LoveButton -> NOT NULL true")
                         albumScreenViewModel.unstarAlbum(true, albumScreenViewModel.album.value?.id ?: "")
                         binding.loveButtonAlbum.setImageResource(R.drawable.heart_3_line)
+                        val toast = Toast.makeText(application, "Album unstarred", Toast.LENGTH_SHORT)
+                        toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+                        toast.show()
                     } else {
                         Timber.i("LoveButton -> NOT NULL false")
                         albumScreenViewModel.unstarAlbum(false, albumScreenViewModel.album.value?.id ?: "")
                         binding.loveButtonAlbum.setImageResource(R.drawable.heart_3_fill)
+                        val toast = Toast.makeText(application, "Album Starred", Toast.LENGTH_SHORT)
+                        toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+                        toast.show()
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
