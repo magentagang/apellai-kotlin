@@ -78,6 +78,9 @@ interface DatabaseDao {
     @Query("UPDATE album_table set isFrequent = 0 where isFrequent = 1")
     fun resetFrequentAlbums()
 
+    @Query("UPDATE album_table SET isStarred = 0 WHERE isStarred = 1")
+    fun resetStarredAlbums()
+
 
 //    @Query("UPDATE album_table set isStarred = 0 where isStarred = 1")
 //    fun resetStarredAlbums()

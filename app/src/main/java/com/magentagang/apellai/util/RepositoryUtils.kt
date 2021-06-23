@@ -207,6 +207,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
             try {
                 val root = starredAlbumsDeferred.await()
                 if (root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.album != null) {
+                    databaseDao.resetStarredAlbums()
                     val starredAlbumList = root.subsonicResponse.starred2.album
                     for (album in starredAlbumList!!) {
                         if (databaseDao.getAlbum(album.id) == null) {
