@@ -28,6 +28,7 @@ import com.magentagang.apellai.ui.nowplayingscreen.NowPlayingViewModel
 import com.magentagang.apellai.ui.nowplayingscreen.NowPlayingViewModelFactory
 import com.magentagang.apellai.util.RepositoryUtils
 import com.magentagang.apellai.util.getNightModeEnabled
+import timber.log.Timber
 
 class NowPlayingMini : Fragment() {
 
@@ -76,6 +77,10 @@ class NowPlayingMini : Fragment() {
         nowPlayingViewModel.trackBufferPos.observe(viewLifecycleOwner, {
                 currentBufferPos ->
             binding.nowPlayingMiniProgressBar.secondaryProgress = currentBufferPos.div(1000).toInt()
+        })
+
+        nowPlayingViewModel.shuffleMode.observe(viewLifecycleOwner, { mode ->
+            Timber.i("Shuffle -> nowPlayingMini $mode")
         })
 
         binding.nowPlayingMiniDetails.setOnClickListener {

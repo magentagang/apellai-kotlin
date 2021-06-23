@@ -69,6 +69,8 @@ class NowPlaying : Fragment() {
         nowPlayingViewModel = ViewModelProvider(this, viewModelFactory)
             .get(NowPlayingViewModel::class.java)
 
+        Timber.i("Shuffle -> manual check -> ${nowPlayingViewModel.shuffleMode.value}")
+
         nowPlayingViewModel.trackInfo.observe(viewLifecycleOwner, { track ->
             updateUI(track)
             Timber.i("LoveButton -> $track")
@@ -93,6 +95,7 @@ class NowPlaying : Fragment() {
 
 
         nowPlayingViewModel.shuffleMode.observe(viewLifecycleOwner, { mode ->
+            Timber.i("Shuffle -> observer called $mode")
             val buttonColor = when (mode) {
                 PlaybackStateCompat.SHUFFLE_MODE_ALL -> resources.getColor(
                     R.color.primary_text,
@@ -223,5 +226,7 @@ class NowPlaying : Fragment() {
         binding.trackArtistNowPlaying.setTextColor(colorToApply)
         binding.seekBarNowPlaying.progressTintList = ColorStateList.valueOf(colorToApply)
     }
+
+
 
 }

@@ -29,8 +29,6 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
     private val coroutineScopeIO = CoroutineScope(viewModelJob + Dispatchers.IO)
 
-
-
     fun getLovedStatusAsync(track: Track) {
         CoroutineScope(Dispatchers.IO).launch {
             val trackListDeferred = SubsonicApi.retrofitService.getStarred2Async()
@@ -109,9 +107,9 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
 
 
     // FIXME Shuffle and repeat icon reset bug
-    var shuffleMode = MutableLiveData<Int>().apply {
-        postValue(PlaybackStateCompat.SHUFFLE_MODE_NONE)
-    }
+    val _shuffleMode = MutableLiveData(Constants.SHUFFLE_MODE)
+    val shuffleMode : LiveData<Int>
+        get() = _shuffleMode
     var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
 
     private var playbackState: PlaybackStateCompat = EMPTY_PLAYBACK_STATE
@@ -248,11 +246,17 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
     }
 
     fun toggleShuffle() {
-        shuffleMode.postValue(when(shuffleMode.value) {
-            PlaybackStateCompat.SHUFFLE_MODE_NONE -> PlaybackStateCompat.SHUFFLE_MODE_ALL
-            else -> PlaybackStateCompat.SHUFFLE_MODE_NONE
-        })
-        playbackServiceConnector.transportControls.setShuffleMode(shuffleMode.value!!)
+        Timber.i("Shuffle -> ${_shuffleMode.value}")
+        when(_shuffleMode.value) {
+            PlaybackStateCompat.SHUFFLE_MODE_NONE -> {
+                Constants.SHUFFLE_MODE = PlaybackStateCompat.SHUFFLE_MODE_ALL
+            }
+            else -> {
+                Constants.SHUFFLE_MODE = PlaybackStateCompat.SHUFFLE_MODE_NONE
+            }
+        }
+        _shuffleMode.postValue(Constants.SHUFFLE_MODE)
+        playbackServiceConnector.transportControls.setShuffleMode(_shuffleMode.value!!)
     }
 
     fun toggleRepeat() {

@@ -36,4 +36,6 @@ object Constants {
     const val SEEKBAR_UPDATE_INTERVAL = 100L
 
     const val ADD_TO_QUEUE_ACTION = "com.magentagang.apellai.ADD_TO_QUEUE_ACTION"
+
+    var SHUFFLE_MODE = 0
 }
