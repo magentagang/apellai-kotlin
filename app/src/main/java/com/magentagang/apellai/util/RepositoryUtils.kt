@@ -56,7 +56,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         fun generateSalt(_length : Long) : String{
             var length = _length
             if(length < 6){
-                println("Salt lenght needs to be atlease six characters")
+                println("Salt length needs to be atlease six characters")
                 length = 6
             }
             val sourceOne = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -216,6 +216,10 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                         }
                     }
                 }
+                else
+                {
+                    Timber.i("Error -> RepositoryUtils -> retrieveAndStarAllAlbums -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                }
             } catch (e: Exception) { // TODO(Error handling correct implementations)
                 e.printStackTrace()
             }
@@ -236,6 +240,10 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                         artist.isStarred = true
                         databaseDao.insertArtist(artist)
                     }
+                }
+                else
+                {
+                    Timber.i("Error -> RepositoryUtils -> retrieveAndStarAllArtists -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
                 }
             } catch (e: Exception) { // TODO(Error handling correct implementations)
                 e.printStackTrace()
@@ -281,6 +289,9 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                     } else {
                         retrieveAndStarAllAlbums()
                     }
+                } else if(root.subsonicResponse.status=="failed")
+                {
+                    Timber.i("Error -> RepositoryUtils -> retrieveAlbumChunk-> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
                 } else {
                     Timber.i("LIST IS NULL WHEN -> retrieveAlbumChunk() called with -> size: ${_size}, offset: $_offset")
                 }
@@ -323,7 +334,12 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
 
                     }
                     Timber.i("Fetched all -> $_type")
-                } else {
+                }
+                else if(root.subsonicResponse.status=="failed")
+                {
+                    Timber.i("Error -> RepositoryUtils -> fetchCategorizedChunk -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                }
+                else {
                     Timber.i("LIST IS NULL-> fetchCategorizedChunk")
                 }
 
@@ -369,7 +385,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
 
     fun fetchSearchResultFlow(_query: String): Flow<SubsonicResponseRoot> {
         return flow {
-            // exectute API call and map to UI object
+            // execute API call and map to UI object
             val fooList = SubsonicApi.retrofitService.search3(query = _query)
             // Emit the list to the stream
             emit(fooList)
@@ -388,6 +404,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                     album = root.subsonicResponse.album
                 }else {
                     Timber.i("No album response was found")
+                    Timber.i("Error -> RepositoryUtils -> fetchAlbumAsync -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
                 }
             }catch(e: Exception){
                 e.printStackTrace()
@@ -407,6 +424,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                     artist = root.subsonicResponse.artist
                 }else {
                     Timber.i("No Artist response was found")
+                    Timber.i("Error -> RepositoryUtils -> fetchArtistAsync -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
                 }
             }catch(e: Exception){
                 e.printStackTrace()
@@ -426,6 +444,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                     track = root.subsonicResponse.track
                 }else {
                     Timber.i("No Track response was found")
+                    Timber.i("Error -> RepositoryUtils -> fetchTrackAsync -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
                 }
             }catch(e: Exception){
                 e.printStackTrace()
