@@ -38,7 +38,7 @@ class SearchFragment : Fragment() {
             SearchViewModel::class.java)
         val playbackServiceConnector = PlaybackServiceConnector
             .getInstance(requireContext(), ComponentName(requireContext(), PlaybackService::class.java))
-        val nowPlayingViewModelFactory = NowPlayingViewModelFactory(playbackServiceConnector)
+        val nowPlayingViewModelFactory = NowPlayingViewModelFactory(playbackServiceConnector, application)
         val nowPlayingViewModel = ViewModelProvider(this, nowPlayingViewModelFactory).get(
             NowPlayingViewModel::class.java)
         val mediaSource = MediaSource.getInstance()

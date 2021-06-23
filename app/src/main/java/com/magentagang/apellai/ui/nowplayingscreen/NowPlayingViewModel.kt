@@ -1,13 +1,12 @@
 package com.magentagang.apellai.ui.nowplayingscreen
 
+import android.app.Application
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.magentagang.apellai.R
 import com.magentagang.apellai.model.Track
 import com.magentagang.apellai.repository.service.BLANK_TRACK
@@ -15,21 +14,102 @@ import com.magentagang.apellai.repository.service.EMPTY_PLAYBACK_STATE
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
 import com.magentagang.apellai.repository.service.SubsonicApi
 import com.magentagang.apellai.util.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 
-class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector) : ViewModel() {
+class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, application: Application) : AndroidViewModel(application){
+
+    val _loveButtonLivedata = MutableLiveData<Boolean?>(null)
+
+    val loveButtonLivedata: LiveData<Boolean?>
+     get() = _loveButtonLivedata
+
+    private val viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+    private val coroutineScopeIO = CoroutineScope(viewModelJob + Dispatchers.IO)
+
+
+
+    fun getLovedStatusAsync(track: Track) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val trackListDeferred = SubsonicApi.retrofitService.getStarred2Async()
+            try {
+                val root = trackListDeferred.await()
+                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.song != null)
+                {
+                    val songList = root.subsonicResponse.starred2.song
+                    var isLovedAlready = false
+                    Timber.i("LoveButton -> ${songList?:"LoveButton-> songList is null"}")
+                    if(songList != null){
+
+                        for(starredSongs in songList)
+                        {
+                            if(starredSongs.id==track.id) {
+                                Timber.i("LoveButton -> $starredSongs")
+                                _loveButtonLivedata.postValue(true)
+                                isLovedAlready = true
+                            }
+                        }
+                    }
+                    if(!isLovedAlready){
+                        _loveButtonLivedata.postValue(false)
+                    }
+                    Timber.i("LoveButton -> getLovedStatusAsync -> ${_loveButtonLivedata.value}")
+                }else if(root.subsonicResponse.status == "failed"){
+                    //TODO(Log error messages using ErrorHandler Interface here)
+                    Timber.i(root.subsonicResponse.error?.message?:"ERROR in getLovedStatusAsync()")
+                }
+            }
+            catch(e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun setLoveButtonLiveDataToNull(){
+        _loveButtonLivedata.postValue(null)
+    }
+
+    fun unstarTrack(b: Boolean, _id: String) {
+        coroutineScopeIO.launch {
+            if(b){
+                Timber.i("LoveButton -> Unstarring track")
+                val unstarTrackDeferred = SubsonicApi.retrofitService.unstarSongAsync(id = _id)
+                try{
+                    val root = unstarTrackDeferred.await()
+                    if(root.subsonicResponse.status != "failed"){
+                        Timber.i("LoveButton -> Unstarring track successful")
+                        _loveButtonLivedata.postValue(false)
+                    }else{
+                        Timber.i("LoveButton -> Unstarring track successful")
+                    }
+                }catch(e: Exception){
+                    e.printStackTrace()
+                }
+            }else{
+                Timber.i("LoveButton -> Starring track")
+                val starTrackDeferred = SubsonicApi.retrofitService.starSongAsync(id = _id)
+                try{
+                    val root = starTrackDeferred.await()
+                    if(root.subsonicResponse.status != "failed"){
+                        Timber.i("LoveButton -> Starring track successful")
+                        _loveButtonLivedata.postValue(true)
+                    }else{
+                        Timber.i("LoveButton -> Starring track successful")
+                    }
+                }catch(e: Exception){
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
 
     // FIXME Shuffle and repeat icon reset bug
     var shuffleMode = MutableLiveData<Int>().apply {
         postValue(PlaybackStateCompat.SHUFFLE_MODE_NONE)
     }
     var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
-    private val viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     private var playbackState: PlaybackStateCompat = EMPTY_PLAYBACK_STATE
     val trackInfo = MutableLiveData<Track>()

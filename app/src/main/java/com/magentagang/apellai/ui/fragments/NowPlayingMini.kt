@@ -56,10 +56,11 @@ class NowPlayingMini : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val context = activity ?: return
+        val application = requireNotNull(this.activity).application
 
         playbackServiceConnector = PlaybackServiceConnector
             .getInstance(context, ComponentName(context, PlaybackService::class.java))
-        viewModelFactory = NowPlayingViewModelFactory(playbackServiceConnector)
+        viewModelFactory = NowPlayingViewModelFactory(playbackServiceConnector, application)
         nowPlayingViewModel = ViewModelProvider(this, viewModelFactory)
             .get(NowPlayingViewModel::class.java)
 
