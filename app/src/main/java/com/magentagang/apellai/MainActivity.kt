@@ -88,6 +88,11 @@ class MainActivity : AppCompatActivity() {
         Timber.i("on Start was invoked")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        showNowPlayingMini.postValue(false)
+    }
+
     companion object {
         val showNowPlayingMini = MutableLiveData<Boolean>()
             .apply { postValue(false) }
