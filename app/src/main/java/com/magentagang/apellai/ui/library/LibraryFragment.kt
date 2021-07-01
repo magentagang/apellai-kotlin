@@ -11,12 +11,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.magentagang.apellai.R
-import com.magentagang.apellai.databinding.FragmentHomeBinding
 import com.magentagang.apellai.databinding.FragmentLibraryBinding
 import com.magentagang.apellai.ui.fragments.ListAlbumVScroll
 import com.magentagang.apellai.ui.fragments.ListArtistVScroll
-import com.magentagang.apellai.ui.home.HomeViewModel
-import com.magentagang.apellai.ui.home.HomeViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

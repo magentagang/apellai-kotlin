@@ -6,7 +6,10 @@ import android.os.Looper
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.magentagang.apellai.R
 import com.magentagang.apellai.model.ErrorHandler
 import com.magentagang.apellai.model.Track
@@ -15,7 +18,10 @@ import com.magentagang.apellai.repository.service.EMPTY_PLAYBACK_STATE
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
 import com.magentagang.apellai.repository.service.SubsonicApi
 import com.magentagang.apellai.util.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, application: Application) : AndroidViewModel(application){

@@ -37,8 +37,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
-    lateinit var mediaSession: MediaSessionCompat
-    lateinit var mediaSessionConnector: MediaSessionConnector
+    private lateinit var mediaSession: MediaSessionCompat
+    private lateinit var mediaSessionConnector: MediaSessionConnector
     lateinit var mediaPlaybackStateBuilder: PlaybackStateCompat.Builder
 
     private var currentMediaQueue: List<MediaMetadataCompat> = emptyList()

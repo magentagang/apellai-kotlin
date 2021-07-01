@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
-import com.squareup.moshi.ToJson
 
 
 @JsonClass(generateAdapter = true)

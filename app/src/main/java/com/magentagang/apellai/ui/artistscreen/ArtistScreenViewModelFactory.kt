@@ -3,8 +3,6 @@ package com.magentagang.apellai.ui.artistscreen
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.magentagang.apellai.ui.albumscreen.AlbumScreenViewModel
-
 
 
 class ArtistScreenViewModelFactory (private val application: Application, private val id : String)

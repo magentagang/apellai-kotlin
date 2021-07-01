@@ -1,8 +1,6 @@
 package com.magentagang.apellai.util
 
 import android.net.Uri
-import android.widget.Toast
-import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.model.*
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.service.SubsonicApi
@@ -457,7 +455,7 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
     // Async fun for version checking
     private suspend fun versionCheckAsync(): Deferred<String> {
         return coroutineScope.async {
-            var version: String = "1.16.1"
+            var version = "1.16.1"
             val versionDeferred = SubsonicApi.retrofitService.getPingForVersionAsync()
             try {
                 val root = versionDeferred.await()

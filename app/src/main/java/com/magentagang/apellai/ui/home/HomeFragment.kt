@@ -13,7 +13,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.magentagang.apellai.LoginActivity
-import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentHomeBinding
 import kotlinx.coroutines.CoroutineScope

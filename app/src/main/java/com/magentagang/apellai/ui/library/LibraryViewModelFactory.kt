@@ -3,7 +3,6 @@ package com.magentagang.apellai.ui.library
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.magentagang.apellai.ui.home.HomeViewModel
 
 class LibraryViewModelFactory (private val application: Application)
     : ViewModelProvider.Factory {

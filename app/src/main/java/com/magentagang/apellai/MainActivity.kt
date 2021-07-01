@@ -9,7 +9,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
-import com.magentagang.apellai.repository.service.MediaSource
 import com.magentagang.apellai.util.Constants
 import com.magentagang.apellai.util.RepositoryUtils
 import com.magentagang.apellai.util.hideWithAnimation
@@ -87,7 +86,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Timber.i("on Start was invoked")
-        showNowPlayingMini.postValue(!MediaSource.getInstance().isQueueEmpty())
+        // FIXME Light/Dark mode configuration change resets miniplayer visibility
+//        showNowPlayingMini.postValue(!MediaSource.getInstance().isQueueEmpty())
     }
 
     override fun onDestroy() {

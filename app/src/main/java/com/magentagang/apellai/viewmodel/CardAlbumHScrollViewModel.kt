@@ -10,8 +10,9 @@ import com.magentagang.apellai.model.Album
 import com.magentagang.apellai.repository.database.DatabaseDao
 import com.magentagang.apellai.repository.database.UserDatabase
 import com.magentagang.apellai.util.RepositoryUtils
-import kotlinx.coroutines.*
-import timber.log.Timber
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 
 
 class CardAlbumHScrollViewModel(application: Application, albumType : String) : AndroidViewModel(application) {

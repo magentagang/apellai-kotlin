@@ -1,7 +1,6 @@
 package com.magentagang.apellai.ui.search
 
 import android.widget.SearchView
-import timber.log.Timber
 
 inline fun SearchView.onQueryTextChanged(crossinline  listener: (String) -> Unit){
     this.setOnQueryTextListener(object : SearchView.OnQueryTextListener{

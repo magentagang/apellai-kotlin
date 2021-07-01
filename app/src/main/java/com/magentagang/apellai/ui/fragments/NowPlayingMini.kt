@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.MobileNavigationDirections
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentNowPlayingMiniBinding
