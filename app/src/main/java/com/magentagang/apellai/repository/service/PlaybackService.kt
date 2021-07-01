@@ -285,7 +285,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
         override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
             stopForeground(true)
             isForegroundService = false
-            stopSelf()
+            // FIXME Find a solution to service not restarting on app kill on alternating launches
+//            stopSelf()
         }
     }
 }
