@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.nowplayingscreen.NowPlaying">
 
+    <ImageButton
+        android:id="@+id/loveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:contentDescription="@string/dummy_text"
+        android:elevation="2dp"
+        android:src="@drawable/heart_3_line"
+        android:translationZ="2dp"
+        app:layout_constraintEnd_toEndOf="@+id/albumArtRoundedContainerNowPlaying"
+        app:layout_constraintTop_toTopOf="@id/albumArtRoundedContainerNowPlaying"
+        app:tint="@color/love" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/albumArtRoundedContainerNowPlaying"
         android:layout_width="wrap_content"
@@ -31,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ellipsize="end"
+        android:gravity="center_horizontal"
         android:maxWidth="@dimen/album_item_size"
         android:maxLines="2"
         android:text="@string/dummy_text"
@@ -59,11 +75,11 @@
         android:id="@+id/startDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/dummy_number"
         android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@id/albumArtRoundedContainerNowPlaying"
-        app:layout_constraintTop_toBottomOf="@id/trackArtistNowPlaying" />
+        app:layout_constraintBottom_toTopOf="@id/playerControls"
+        app:layout_constraintEnd_toStartOf="@id/albumArtRoundedContainerNowPlaying" />
 
     <TextView
         android:id="@+id/endDuration"
@@ -79,20 +95,33 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
         android:thumbTint="@color/primary_text"
         app:layout_constraintEnd_toStartOf="@id/endDuration"
         app:layout_constraintStart_toEndOf="@id/startDuration"
         app:layout_constraintTop_toTopOf="@id/startDuration" />
 
     <LinearLayout
+        android:id="@+id/playerControls"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="108dp"
         android:gravity="center"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/albumArtRoundedContainerNowPlaying"
-        app:layout_constraintStart_toStartOf="@id/albumArtRoundedContainerNowPlaying"
-        app:layout_constraintTop_toBottomOf="@id/seekBarNowPlaying">
+        app:layout_constraintStart_toStartOf="@id/albumArtRoundedContainerNowPlaying">
+
+        <ImageButton
+            android:id="@+id/repeatButton"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/dummy_text"
+            android:scaleType="fitCenter"
+            android:src="@drawable/repeat_2_fill"
+            app:tint="@color/disabled_toggle" />
 
         <ImageButton
             android:id="@+id/prevButton"
@@ -113,7 +142,7 @@
             android:background="@null"
             android:contentDescription="@string/dummy_text"
             android:scaleType="fitCenter"
-            android:src="@drawable/play_fill"
+            android:src="@drawable/play_circle_line"
             app:tint="@color/primary_text" />
 
         <ImageButton
@@ -126,5 +155,16 @@
             android:scaleType="fitCenter"
             android:src="@drawable/skip_forward_fill"
             app:tint="@color/primary_text" />
+
+        <ImageButton
+            android:id="@+id/shuffleButton"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/dummy_text"
+            android:scaleType="fitCenter"
+            android:src="@drawable/shuffle_fill"
+            app:tint="@color/disabled_toggle" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

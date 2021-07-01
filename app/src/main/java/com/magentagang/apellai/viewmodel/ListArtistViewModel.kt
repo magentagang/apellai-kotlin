@@ -4,22 +4,24 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.magentagang.apellai.model.Album
+import androidx.lifecycle.asLiveData
 import com.magentagang.apellai.model.Artist
+import com.magentagang.apellai.repository.database.DatabaseDao
+import com.magentagang.apellai.repository.database.UserDatabase
+import com.magentagang.apellai.util.Constants
+import com.magentagang.apellai.util.RepositoryUtils
 
 class ListArtistViewModel ( application: Application) : AndroidViewModel(application) {
-    private var artist = MutableLiveData<Artist?>()
-    private val _artists = MutableLiveData<List<Artist>>().apply {
-        postValue(listOf(
-            Artist("1"),
-            Artist("2"),
-            Artist("3"),
-            Artist("4"),
-            Artist("5")
-        ))
+    var repositoryUtils: RepositoryUtils
+    var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
+    private val dataSource = UserDatabase.getInstance(application).databaseDao()
+    val artists : LiveData<List<Artist>>
+    init{
+        repositoryUtils = RepositoryUtils(databaseDao)
+        repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
+        dataSource.getAllArtists().asLiveData().also { artists = it }
     }
-    val artists : LiveData<List<Artist>> = _artists
+
 
     private val _navigateToArtistScreen = MutableLiveData<String?>()
     val navigateToArtistScreen

@@ -57,6 +57,7 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/fragment_album_text_album_list"
                     android:textStyle="bold"
+                    app:artistName="@{artist}"
                     app:layout_constraintBottom_toBottomOf="@id/artistPic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

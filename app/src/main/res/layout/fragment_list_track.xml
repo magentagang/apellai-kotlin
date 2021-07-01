@@ -6,11 +6,15 @@
         <variable
             name="track"
             type="com.magentagang.apellai.model.Track" />
+        <variable
+            name="clickListener"
+            type="com.magentagang.apellai.adapter.TrackListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:onClick="@{()->clickListener.onClick(track)}">
 
         <TextView
             android:id="@+id/trackNumber"

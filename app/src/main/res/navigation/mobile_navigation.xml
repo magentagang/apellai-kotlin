@@ -9,13 +9,36 @@
         android:id="@+id/navigation_home"
         android:name="com.magentagang.apellai.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_albumScreen"
+            app:destination="@id/albumScreen"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.magentagang.apellai.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_navigation_search_to_albumScreen"
+            app:destination="@id/albumScreen"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_navigation_search_to_artistScreen"
+            app:destination="@id/artistScreen"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_library"
@@ -24,10 +47,18 @@
         tools:layout="@layout/fragment_library" >
         <action
             android:id="@+id/action_navigation_library_to_albumScreen"
-            app:destination="@id/albumScreen" />
+            app:destination="@id/albumScreen"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_navigation_library_to_artistScreen"
-            app:destination="@id/artistScreen" />
+            app:destination="@id/artistScreen"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/albumScreen"
@@ -37,6 +68,13 @@
             android:name="id"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_albumScreen_to_nowPlaying"
+            app:destination="@id/nowPlaying"
+            app:enterAnim="@anim/pop_in_up"
+            app:exitAnim="@anim/pop_in_down"
+            app:popEnterAnim="@anim/pop_out_up"
+            app:popExitAnim="@anim/pop_out_down" />
     </fragment>
     <fragment
         android:id="@+id/artistScreen"
@@ -48,6 +86,26 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_artistScreen_to_albumScreen"
-            app:destination="@id/albumScreen" />
+            app:destination="@id/albumScreen"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/nowPlaying"
+        android:name="com.magentagang.apellai.ui.nowplayingscreen.NowPlaying"
+        android:label="NowPlaying" >
+        <argument
+            android:name="id"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <action
+        android:id="@+id/action_nowPlayingMini_to_nowPlaying"
+        app:destination="@id/nowPlaying"
+        app:enterAnim="@anim/pop_in_up"
+        app:exitAnim="@anim/pop_in_down"
+        app:popEnterAnim="@anim/pop_out_up"
+        app:popExitAnim="@anim/pop_out_down" />
 </navigation>

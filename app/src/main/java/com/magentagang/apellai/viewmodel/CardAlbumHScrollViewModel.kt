@@ -4,16 +4,46 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import com.magentagang.apellai.R
 import com.magentagang.apellai.model.Album
+import com.magentagang.apellai.repository.database.DatabaseDao
+import com.magentagang.apellai.repository.database.UserDatabase
+import com.magentagang.apellai.util.RepositoryUtils
+import kotlinx.coroutines.*
+import timber.log.Timber
 
-class CardAlbumHScrollViewModel(application: Application) : AndroidViewModel(application) {
-    private var album = MutableLiveData<Album?>()
-    private val _albums = MutableLiveData<List<Album>>().apply {
-        postValue(listOf(
-            Album("1"),
-            Album("2"),
-            Album("3"),
-        ))
+
+class CardAlbumHScrollViewModel(application: Application, albumType : String) : AndroidViewModel(application) {
+    var albums: LiveData<List<Album>>
+    var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
+    var repositoryUtils:RepositoryUtils = RepositoryUtils(databaseDao)
+    var viewModelJob = SupervisorJob()
+    private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
+
+    init{
+        albums = when(albumType)
+        {
+            application.resources.getString(R.string.loved_albums) -> databaseDao.getStarredAlbums().asLiveData()
+            application.resources.getString(R.string.most_played) -> databaseDao.getFrequentAlbums().asLiveData()
+            application.resources.getString(R.string.recently_added) -> databaseDao.getNewestAlbums().asLiveData()
+            application.resources.getString(R.string.random) -> databaseDao.getRandomAlbums().asLiveData()
+            application.resources.getString(R.string.recently_played) -> databaseDao.getRecentAlbums().asLiveData()
+            else -> databaseDao.getStarredAlbums().asLiveData()
+        }
     }
-    val albums : LiveData<List<Album>> = _albums
+    private val _navigateToAlbumScreen: MutableLiveData<String?> = MutableLiveData<String?>()
+    val navigateToAlbumScreen
+        get() = _navigateToAlbumScreen
+
+    fun onAlbumClicked(id: String) {
+        _navigateToAlbumScreen.value = id
+    }
+    fun doneNavigating() {
+        _navigateToAlbumScreen.value = null
+    }
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
 }
