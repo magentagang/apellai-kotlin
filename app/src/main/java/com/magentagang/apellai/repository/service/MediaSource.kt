@@ -12,6 +12,8 @@ class MediaSource {
 
     fun loadTracks(): List<Track> = queue
 
+    fun isQueueEmpty(): Boolean = queue.isEmpty()
+
     companion object {
         @Volatile
         private var instance: MediaSource? = null
