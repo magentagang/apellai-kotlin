@@ -30,6 +30,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     private lateinit var notificationManager: NotificationManager
     private val mediaSource = MediaSource.getInstance()
+    private var isForegroundService = false
 
     private lateinit var player: Player
 
@@ -180,6 +181,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                         // TODO Save song to SharedPrefs/DB
                         if (!playWhenReady) {
                             stopForeground(false)
+                            isForegroundService = false
                         }
                     }
                 }
@@ -277,10 +279,12 @@ class PlaybackService : MediaBrowserServiceCompat() {
             )
 
             startForeground(notificationId, notification)
+            isForegroundService = true
         }
 
         override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
             stopForeground(true)
+            isForegroundService = false
             stopSelf()
         }
     }

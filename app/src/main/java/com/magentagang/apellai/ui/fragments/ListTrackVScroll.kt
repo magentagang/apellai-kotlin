@@ -49,7 +49,6 @@ class ListTrackVScroll : Fragment() {
         binding.listTrackViewModel = listTrackViewModel
         binding.lifecycleOwner = this
 
-
         val manager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.trackVList.layoutManager = manager
 
