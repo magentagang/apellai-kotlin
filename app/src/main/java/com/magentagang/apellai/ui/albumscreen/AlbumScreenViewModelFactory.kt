@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 
-class AlbumScreenViewModelFactory (private val application: Application, private val id : String)
-    : ViewModelProvider.Factory {
+class AlbumScreenViewModelFactory(private val application: Application, private val id: String) :
+    ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AlbumScreenViewModel::class.java)) {

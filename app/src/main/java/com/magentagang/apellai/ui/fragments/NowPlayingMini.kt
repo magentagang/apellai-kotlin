@@ -73,8 +73,7 @@ class NowPlayingMini : Fragment() {
         nowPlayingViewModel.trackPos.observe(viewLifecycleOwner, { currentPos ->
             binding.nowPlayingMiniProgressBar.progress = currentPos.div(1000).toInt()
         })
-        nowPlayingViewModel.trackBufferPos.observe(viewLifecycleOwner, {
-                currentBufferPos ->
+        nowPlayingViewModel.trackBufferPos.observe(viewLifecycleOwner, { currentBufferPos ->
             binding.nowPlayingMiniProgressBar.secondaryProgress = currentBufferPos.div(1000).toInt()
         })
 
@@ -91,7 +90,11 @@ class NowPlayingMini : Fragment() {
         nowPlayingViewModel.navigateToNowPlayingScreen.observe(viewLifecycleOwner, { id ->
             id?.let {
                 val navController = this.findNavController()
-                navController.navigate(MobileNavigationDirections.actionNowPlayingMiniToNowPlaying(id))
+                navController.navigate(
+                    MobileNavigationDirections.actionNowPlayingMiniToNowPlaying(
+                        id
+                    )
+                )
                 nowPlayingViewModel.doneNavigating()
             }
         })
@@ -127,7 +130,7 @@ class NowPlayingMini : Fragment() {
         palette = Palette.from(image).generate()
         val lightColor = palette.getLightMutedColor(defaultColor)
         val darkColor = palette.getDarkMutedColor(defaultColor)
-        val colorToApply = when(getNightModeEnabled(requireContext())) {
+        val colorToApply = when (getNightModeEnabled(requireContext())) {
             Configuration.UI_MODE_NIGHT_YES -> lightColor
             else -> darkColor
         }

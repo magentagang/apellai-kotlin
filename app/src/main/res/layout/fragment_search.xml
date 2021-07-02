@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="searchViewModel"
             type="com.magentagang.apellai.ui.search.SearchViewModel" />

@@ -31,7 +31,8 @@ class CardAlbumHScroll : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val viewModelFactory = CardAlbumHScrollViewModelFactory(application, albumListType)
-        val cardAlbumHScrollViewModel = ViewModelProvider(this, viewModelFactory).get(CardAlbumHScrollViewModel::class.java)
+        val cardAlbumHScrollViewModel =
+            ViewModelProvider(this, viewModelFactory).get(CardAlbumHScrollViewModel::class.java)
 
         binding.categoryHeader.text = albumListType
         binding.cardAlbumHScrollViewModel = cardAlbumHScrollViewModel

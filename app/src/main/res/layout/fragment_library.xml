@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="libraryViewModel"
             type="com.magentagang.apellai.ui.library.LibraryViewModel" />
@@ -13,39 +14,40 @@
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.library.LibraryFragment">
 
-        <Spinner
-            android:id="@+id/spinnerLibrary"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="@dimen/header_top_margin"
-            android:layout_marginEnd="16dp"
-            android:text="@string/dummy_text"
-            android:textColor="@color/primary_text"
-            android:background="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            tools:context=".ui.library.LibraryFragment">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/entityList"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingBottom="64dp"
-            app:layout_constraintEnd_toEndOf="@id/spinnerLibrary"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/spinnerLibrary"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerLibrary"
-            android:tag="all">
+            <Spinner
+                android:id="@+id/spinnerLibrary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/header_top_margin"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:text="@string/dummy_text"
+                android:textColor="@color/primary_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.fragment.app.FragmentContainerView>
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/entityList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingBottom="64dp"
+                android:tag="all"
+                app:layout_constraintEnd_toEndOf="@id/spinnerLibrary"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/spinnerLibrary"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerLibrary">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.fragment.app.FragmentContainerView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

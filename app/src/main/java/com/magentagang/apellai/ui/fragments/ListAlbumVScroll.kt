@@ -30,8 +30,9 @@ class ListAlbumVScroll : Fragment() {
         )
         val albumListType = container?.tag.toString()
         val application = requireNotNull(this.activity).application
-        val viewModelFactory = ListAlbumViewModelFactory(application,albumListType)
-        val listAlbumViewModel = ViewModelProvider(this, viewModelFactory).get(ListAlbumViewModel::class.java)
+        val viewModelFactory = ListAlbumViewModelFactory(application, albumListType)
+        val listAlbumViewModel =
+            ViewModelProvider(this, viewModelFactory).get(ListAlbumViewModel::class.java)
         binding.listAlbumViewModel = listAlbumViewModel
         binding.lifecycleOwner = this
         val manager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -45,8 +46,16 @@ class ListAlbumVScroll : Fragment() {
             id?.let {
                 val navController = this.findNavController()
                 when (navController.currentDestination?.id) {
-                    R.id.navigation_library -> navController.navigate(LibraryFragmentDirections.actionNavigationLibraryToAlbumScreen(id))
-                    R.id.artistScreen -> navController.navigate(ArtistScreenDirections.actionArtistScreenToAlbumScreen(id))
+                    R.id.navigation_library -> navController.navigate(
+                        LibraryFragmentDirections.actionNavigationLibraryToAlbumScreen(
+                            id
+                        )
+                    )
+                    R.id.artistScreen -> navController.navigate(
+                        ArtistScreenDirections.actionArtistScreenToAlbumScreen(
+                            id
+                        )
+                    )
                 }
                 listAlbumViewModel.doneNavigating()
             }

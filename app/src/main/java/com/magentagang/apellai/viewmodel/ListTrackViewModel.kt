@@ -16,7 +16,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class ListTrackViewModel(application : Application, albumId : String): AndroidViewModel(application)  {
+class ListTrackViewModel(application: Application, albumId: String) :
+    AndroidViewModel(application) {
 
     var repositoryUtils: RepositoryUtils
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
@@ -27,23 +28,23 @@ class ListTrackViewModel(application : Application, albumId : String): AndroidVi
     private var _track = MutableLiveData<List<Track>>()
     private val album = MutableLiveData<Album?>()
 
-    init{
+    init {
         repositoryUtils = RepositoryUtils(databaseDao)
         repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
         coroutineScope.launch {
 
-                val albumDeferred = repositoryUtils.fetchAlbumAsync(albumId)
-                try {
-                    val albumVal = albumDeferred.await()
-                    if (albumVal != null) {
-                        album.postValue(albumVal)
-                        _track.postValue(albumVal.songList)
-                    } else {
-                        Timber.i("AlbumScreenViewModel-> Response albumVal value is null")
-                    }
-                } catch (e : Exception) {
-                    e.printStackTrace()
+            val albumDeferred = repositoryUtils.fetchAlbumAsync(albumId)
+            try {
+                val albumVal = albumDeferred.await()
+                if (albumVal != null) {
+                    album.postValue(albumVal)
+                    _track.postValue(albumVal.songList)
+                } else {
+                    Timber.i("AlbumScreenViewModel-> Response albumVal value is null")
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
         }
     }

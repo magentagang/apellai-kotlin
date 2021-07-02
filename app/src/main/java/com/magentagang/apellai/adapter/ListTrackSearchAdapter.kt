@@ -16,8 +16,8 @@ import com.magentagang.apellai.util.RepositoryUtils
 
 class ListTrackSearchAdapter(val clickListener: TrackListener) : ListAdapter<Track,
         ListTrackSearchAdapter.ViewHolder>(GridTrackDiffCallback()) {
-    class ViewHolder private constructor(val binding: FragmentListTrackSearchBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: FragmentListTrackSearchBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         private val glideOptions = RequestOptions()
             .fallback(R.drawable.placeholder_nocover)

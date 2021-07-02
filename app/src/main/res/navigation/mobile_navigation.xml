@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.magentagang.apellai.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_albumScreen"
             app:destination="@id/albumScreen"
@@ -23,7 +23,7 @@
         android:id="@+id/navigation_search"
         android:name="com.magentagang.apellai.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_navigation_search_to_albumScreen"
             app:destination="@id/albumScreen"
@@ -44,7 +44,7 @@
         android:id="@+id/navigation_library"
         android:name="com.magentagang.apellai.ui.library.LibraryFragment"
         android:label="@string/title_library"
-        tools:layout="@layout/fragment_library" >
+        tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/action_navigation_library_to_albumScreen"
             app:destination="@id/albumScreen"
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/albumScreen"
         android:name="com.magentagang.apellai.ui.albumscreen.AlbumScreen"
-        android:label="AlbumScreen" >
+        android:label="AlbumScreen">
         <argument
             android:name="id"
             app:argType="string"
@@ -79,7 +79,7 @@
     <fragment
         android:id="@+id/artistScreen"
         android:name="com.magentagang.apellai.ui.artistscreen.ArtistScreen"
-        android:label="ArtistScreen" >
+        android:label="ArtistScreen">
         <argument
             android:name="id"
             app:argType="string"
@@ -95,7 +95,7 @@
     <fragment
         android:id="@+id/nowPlaying"
         android:name="com.magentagang.apellai.ui.nowplayingscreen.NowPlaying"
-        android:label="NowPlaying" >
+        android:label="NowPlaying">
         <argument
             android:name="id"
             app:argType="string"

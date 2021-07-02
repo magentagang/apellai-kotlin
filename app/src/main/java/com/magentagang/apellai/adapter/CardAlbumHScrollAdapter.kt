@@ -17,8 +17,8 @@ import com.magentagang.apellai.util.RepositoryUtils
 class CardAlbumHScrollAdapter(val clickListener: AlbumHListener) : ListAdapter<Album,
         CardAlbumHScrollAdapter.ViewHolder>(CardAlbumDiffCallback()) {
 
-    class ViewHolder private constructor(val binding: FragmentCardAlbumBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: FragmentCardAlbumBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         // glide related code
         private val glideOptions = RequestOptions()
@@ -26,7 +26,7 @@ class CardAlbumHScrollAdapter(val clickListener: AlbumHListener) : ListAdapter<A
             .diskCacheStrategy(DiskCacheStrategy.DATA)
 
 
-        fun bind(item: Album,clickListener: AlbumHListener) {
+        fun bind(item: Album, clickListener: AlbumHListener) {
             binding.album = item
             // glide related code
             Glide.with(binding.root)
@@ -64,9 +64,10 @@ class CardAlbumHScrollAdapter(val clickListener: AlbumHListener) : ListAdapter<A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position),clickListener)
+        holder.bind(getItem(position), clickListener)
     }
 }
+
 class AlbumHListener(val clickListener: (ID: String) -> Unit) {
     fun onClick(album: Album) = clickListener(album.id)
 }

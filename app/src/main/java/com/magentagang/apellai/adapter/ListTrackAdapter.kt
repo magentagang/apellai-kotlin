@@ -10,8 +10,8 @@ import com.magentagang.apellai.model.Track
 
 class ListTrackAdapter(val clickListener: TrackListener) : ListAdapter<Track,
         ListTrackAdapter.ViewHolder>(GridTrackDiffCallback()) {
-    class ViewHolder private constructor(val binding: FragmentListTrackBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: FragmentListTrackBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Track, clickListener: TrackListener) {
             binding.track = item

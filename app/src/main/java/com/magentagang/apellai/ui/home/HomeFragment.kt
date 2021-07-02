@@ -23,8 +23,8 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var homeViewModel : HomeViewModel
-    private lateinit var application : Application
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var application: Application
 
     override fun onCreateView(
         inflater: LayoutInflater,

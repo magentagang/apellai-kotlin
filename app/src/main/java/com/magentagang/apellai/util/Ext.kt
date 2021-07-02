@@ -50,7 +50,6 @@ fun List<MediaMetadataCompat>.findIndex(compareTo: MediaMetadataCompat?): Int {
 }
 
 
-
 inline val MediaMetadataCompat.id: String?
     get() = getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
 
@@ -94,10 +93,10 @@ fun getNightModeEnabled(context: Context): Int {
 fun Fragment.hideWithAnimation(
     context: Context,
     fragmentManager: FragmentManager,
-    animationId: Int)
-{
+    animationId: Int
+) {
     val fragment = this
-    val exitAnimation = AnimationUtils.loadAnimation(context, animationId) .apply {
+    val exitAnimation = AnimationUtils.loadAnimation(context, animationId).apply {
         duration = 500
         setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {}

@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.magentagang.apellai.viewmodel.CardAlbumHScrollViewModel
 
-class CardAlbumHScrollViewModelFactory (private val application: Application, private val AlbumType: String)
-    : ViewModelProvider.Factory {
+class CardAlbumHScrollViewModelFactory(
+    private val application: Application,
+    private val AlbumType: String
+) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CardAlbumHScrollViewModel::class.java)) {

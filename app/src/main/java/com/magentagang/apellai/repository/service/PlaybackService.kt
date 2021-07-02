@@ -150,7 +150,9 @@ class PlaybackService : MediaBrowserServiceCompat() {
         for (file in fileList) {
             concatenatingMediaSource.addMediaSource(
                 ProgressiveMediaSource.Factory(factory).createMediaSource(
-                    MediaItem.fromUri(file.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI))))
+                    MediaItem.fromUri(file.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI))
+                )
+            )
         }
 
         exoPlayer.prepare()
@@ -261,7 +263,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
         ) = false
     }
 
-    inner class TimelineQueueNavigator(mediaSession: MediaSessionCompat) : com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator(mediaSession) {
+    inner class TimelineQueueNavigator(mediaSession: MediaSessionCompat) :
+        com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator(mediaSession) {
         override fun getMediaDescription(player: Player, windowIndex: Int): MediaDescriptionCompat {
             return currentMediaQueue[windowIndex].description
         }

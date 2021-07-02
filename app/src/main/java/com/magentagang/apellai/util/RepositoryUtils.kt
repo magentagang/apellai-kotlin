@@ -51,9 +51,9 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         }
 
 
-        fun generateSalt(_length : Long) : String{
+        fun generateSalt(_length: Long): String {
             var length = _length
-            if(length < 6){
+            if (length < 6) {
                 println("Salt length needs to be atlease six characters")
                 length = 6
             }
@@ -68,14 +68,14 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
         }
 
 
-         fun getCoverArtUrl(_id : String, _size: String = ""): String {
+        fun getCoverArtUrl(_id: String, _size: String = ""): String {
             // build URI and URL
             val uri = Uri.parse("https://apellai.duckdns.org").buildUpon().apply {
                 // Append path first
                 appendPath("rest")
                 appendPath("getCoverArt")
                 // Add required queries
-                appendQueryParameter("c",  Constants.CLIENT)
+                appendQueryParameter("c", Constants.CLIENT)
                 appendQueryParameter("u", Constants.USER)
                 appendQueryParameter("v", Constants.VERSION)
                 // Authorization related params
@@ -105,18 +105,15 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                 .build()
         }
 
-        fun convertToHex(inputString : String): String
-        {
-            var outputString  = ""
-            for(char in inputString)
-            {
-                outputString+=Integer.toHexString(char.code)
+        fun convertToHex(inputString: String): String {
+            var outputString = ""
+            for (char in inputString) {
+                outputString += Integer.toHexString(char.code)
             }
             return outputString
         }
 
-        fun generateToken(password : String, salt : String): String?
-        {
+        fun generateToken(password: String, salt: String): String? {
             val outputToken = getMd5(password + salt)
             return outputToken
         }
@@ -214,10 +211,14 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                             updateAlbumType(album, Constants.TYPE_STARRED)
                         }
                     }
-                }
-                else
-                {
-                    Timber.i("Error -> RepositoryUtils -> retrieveAndStarAllAlbums -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                } else {
+                    Timber.i(
+                        "Error -> RepositoryUtils -> retrieveAndStarAllAlbums -> ${
+                            ErrorHandler.logErrorMessage(
+                                subsonicResponseError = root.subsonicResponse.error
+                            )
+                        }"
+                    )
                 }
             } catch (e: Exception) { // TODO(Error handling correct implementations)
                 e.printStackTrace()
@@ -239,10 +240,14 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                         artist.isStarred = true
                         databaseDao.insertArtist(artist)
                     }
-                }
-                else
-                {
-                    Timber.i("Error -> RepositoryUtils -> retrieveAndStarAllArtists -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                } else {
+                    Timber.i(
+                        "Error -> RepositoryUtils -> retrieveAndStarAllArtists -> ${
+                            ErrorHandler.logErrorMessage(
+                                subsonicResponseError = root.subsonicResponse.error
+                            )
+                        }"
+                    )
                 }
             } catch (e: Exception) { // TODO(Error handling correct implementations)
                 e.printStackTrace()
@@ -288,9 +293,14 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
                     } else {
                         retrieveAndStarAllAlbums()
                     }
-                } else if(root.subsonicResponse.status=="failed")
-                {
-                    Timber.i("Error -> RepositoryUtils -> retrieveAlbumChunk-> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                } else if (root.subsonicResponse.status == "failed") {
+                    Timber.i(
+                        "Error -> RepositoryUtils -> retrieveAlbumChunk-> ${
+                            ErrorHandler.logErrorMessage(
+                                subsonicResponseError = root.subsonicResponse.error
+                            )
+                        }"
+                    )
                 } else {
                     Timber.i("LIST IS NULL WHEN -> retrieveAlbumChunk() called with -> size: ${_size}, offset: $_offset")
                 }
@@ -333,12 +343,15 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
 
                     }
                     Timber.i("Fetched all -> $_type")
-                }
-                else if(root.subsonicResponse.status=="failed")
-                {
-                    Timber.i("Error -> RepositoryUtils -> fetchCategorizedChunk -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
-                }
-                else {
+                } else if (root.subsonicResponse.status == "failed") {
+                    Timber.i(
+                        "Error -> RepositoryUtils -> fetchCategorizedChunk -> ${
+                            ErrorHandler.logErrorMessage(
+                                subsonicResponseError = root.subsonicResponse.error
+                            )
+                        }"
+                    )
+                } else {
                     Timber.i("LIST IS NULL-> fetchCategorizedChunk")
                 }
 
@@ -388,24 +401,31 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
             val fooList = SubsonicApi.retrofitService.search3(query = _query)
             // Emit the list to the stream
             emit(fooList)
-        }.catch { e -> e.printStackTrace() }.flowOn(Dispatchers.IO) // Use the IO thread for this Flow
+        }.catch { e -> e.printStackTrace() }
+            .flowOn(Dispatchers.IO) // Use the IO thread for this Flow
     }
 
 
     // Async fun for returning album data using getalbum, call in a coroutine
-    suspend fun fetchAlbumAsync(_id: String):Deferred<Album?>{
+    suspend fun fetchAlbumAsync(_id: String): Deferred<Album?> {
         return coroutineScope.async {
             val albumDeferred = SubsonicApi.retrofitService.getAlbumAsync(id = _id)
-            var album : Album? = null
-            try{
+            var album: Album? = null
+            try {
                 val root = albumDeferred.await()
-                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.album != null){
+                if (root.subsonicResponse.status != "failed" && root.subsonicResponse.album != null) {
                     album = root.subsonicResponse.album
-                }else {
+                } else {
                     Timber.i("No album response was found")
-                    Timber.i("Error -> RepositoryUtils -> fetchAlbumAsync -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                    Timber.i(
+                        "Error -> RepositoryUtils -> fetchAlbumAsync -> ${
+                            ErrorHandler.logErrorMessage(
+                                subsonicResponseError = root.subsonicResponse.error
+                            )
+                        }"
+                    )
                 }
-            }catch(e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
             return@async album
@@ -413,19 +433,25 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
     }
 
     // Async fun for returning album data using getalbum, call in a coroutine
-    suspend fun fetchArtistAsync(_id: String):Deferred<Artist?>{
+    suspend fun fetchArtistAsync(_id: String): Deferred<Artist?> {
         return coroutineScope.async {
             val artistDeferred = SubsonicApi.retrofitService.getArtistAsync(id = _id)
-            var artist : Artist? = null
-            try{
+            var artist: Artist? = null
+            try {
                 val root = artistDeferred.await()
-                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.artist != null){
+                if (root.subsonicResponse.status != "failed" && root.subsonicResponse.artist != null) {
                     artist = root.subsonicResponse.artist
-                }else {
+                } else {
                     Timber.i("No Artist response was found")
-                    Timber.i("Error -> RepositoryUtils -> fetchArtistAsync -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                    Timber.i(
+                        "Error -> RepositoryUtils -> fetchArtistAsync -> ${
+                            ErrorHandler.logErrorMessage(
+                                subsonicResponseError = root.subsonicResponse.error
+                            )
+                        }"
+                    )
                 }
-            }catch(e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
             return@async artist
@@ -433,19 +459,25 @@ class RepositoryUtils(private val databaseDao: DatabaseDao) {
     }
 
     // Async fun for fetching track data, call in a coroutine
-    suspend fun fetchTrackAsync(_id: String):Deferred<Track?>{
+    suspend fun fetchTrackAsync(_id: String): Deferred<Track?> {
         return coroutineScope.async {
             val trackDeferred = SubsonicApi.retrofitService.getTrackAsync(id = _id)
-            var track : Track? = null
-            try{
+            var track: Track? = null
+            try {
                 val root = trackDeferred.await()
-                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.track != null){
+                if (root.subsonicResponse.status != "failed" && root.subsonicResponse.track != null) {
                     track = root.subsonicResponse.track
-                }else {
+                } else {
                     Timber.i("No Track response was found")
-                    Timber.i("Error -> RepositoryUtils -> fetchTrackAsync -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                    Timber.i(
+                        "Error -> RepositoryUtils -> fetchTrackAsync -> ${
+                            ErrorHandler.logErrorMessage(
+                                subsonicResponseError = root.subsonicResponse.error
+                            )
+                        }"
+                    )
                 }
-            }catch(e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
             return@async track

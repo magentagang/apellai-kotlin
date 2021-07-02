@@ -105,7 +105,10 @@ class NotificationManager(
                 Glide.with(context).applyDefaultRequestOptions(glideOptions)
                     .asBitmap()
                     .load(uri)
-                    .submit(Constants.NOTIFICATION_LARGE_ICON_SIZE, Constants.NOTIFICATION_LARGE_ICON_SIZE)
+                    .submit(
+                        Constants.NOTIFICATION_LARGE_ICON_SIZE,
+                        Constants.NOTIFICATION_LARGE_ICON_SIZE
+                    )
                     .get()
             }
         }

@@ -17,7 +17,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class ListAlbumViewModel(application: Application, albumListType : String) : AndroidViewModel(application) {
+class ListAlbumViewModel(application: Application, albumListType: String) :
+    AndroidViewModel(application) {
     var repositoryUtils: RepositoryUtils
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
     var viewModelJob = Job()
@@ -27,13 +28,13 @@ class ListAlbumViewModel(application: Application, albumListType : String) : And
     var _album = MutableLiveData<List<Album>>()
     private val artist = MutableLiveData<Artist?>()
     private val dataSource = UserDatabase.getInstance(application).databaseDao()
+
     init {
         Timber.i(albumListType)
 
         repositoryUtils = RepositoryUtils(databaseDao)
         coroutineScope.launch {
-            if (albumListType != "all")
-            {
+            if (albumListType != "all") {
                 val artistDeferred = repositoryUtils.fetchArtistAsync(albumListType)
                 try {
                     val artistVal = artistDeferred.await()
@@ -43,15 +44,14 @@ class ListAlbumViewModel(application: Application, albumListType : String) : And
                     } else {
                         Timber.i("AlbumScreenViewModel-> Response albumVal value is null")
                     }
-                } catch (e : Exception) {
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
 
         }
 
-        if (albumListType == "all")
-        {
+        if (albumListType == "all") {
             repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
             _album = dataSource.getAllAlbums().asLiveData() as MutableLiveData
         }
@@ -66,9 +66,11 @@ class ListAlbumViewModel(application: Application, albumListType : String) : And
     fun onAlbumClicked(id: String) {
         _navigateToAlbumScreen.value = id
     }
+
     fun doneNavigating() {
         _navigateToAlbumScreen.value = null
     }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

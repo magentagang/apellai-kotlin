@@ -131,7 +131,7 @@ interface DatabaseDao {
 
     // Search related
     @Query("SELECT * FROM album_table WHERE name LIKE '%' || :searchQuery || '%'")
-    fun getAlbumsSearch(searchQuery: String):Flow<List<Album>>
+    fun getAlbumsSearch(searchQuery: String): Flow<List<Album>>
 
     @Query("SELECT * FROM search_history_table ORDER BY searchTime DESC LIMIT 5")
     fun getRecentSearches(): List<SearchHistory>

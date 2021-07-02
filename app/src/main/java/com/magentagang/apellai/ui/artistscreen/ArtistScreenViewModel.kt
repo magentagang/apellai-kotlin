@@ -14,7 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class ArtistScreenViewModel(application: Application, id : String) : AndroidViewModel(application) {
+class ArtistScreenViewModel(application: Application, id: String) : AndroidViewModel(application) {
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
     var repositoryUtils: RepositoryUtils = RepositoryUtils(databaseDao)
     val viewModelJob = Job()
@@ -27,14 +27,14 @@ class ArtistScreenViewModel(application: Application, id : String) : AndroidView
     init {
         coroutineScope.launch {
             val artistDeferred = repositoryUtils.fetchArtistAsync(id)
-            try{
+            try {
                 val artistVal = artistDeferred.await()
-                if(artistVal != null){
+                if (artistVal != null) {
                     _artist.postValue(artistVal)
-                }else{
+                } else {
                     Timber.i("AlbumScreenViewModel-> Response albumVal value is null")
                 }
-            }catch (e : Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }

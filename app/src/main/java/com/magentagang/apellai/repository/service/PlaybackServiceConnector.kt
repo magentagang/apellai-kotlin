@@ -42,7 +42,7 @@ class PlaybackServiceConnector(context: Context, serviceComponent: ComponentName
     private inner class MediaBrowserCompatConnectionCallback(private val context: Context) :
         MediaBrowserCompat.ConnectionCallback() {
         override fun onConnected() {
-            Timber.v("${object{}.javaClass.enclosingMethod?.name.toString()} executed")
+            Timber.v("${object {}.javaClass.enclosingMethod?.name.toString()} executed")
             mediaControllerCompat = MediaControllerCompat(context, mediaBrowser.sessionToken)
                 .apply { registerCallback(mediaControllerCompatCallback) }
             isConnected.postValue(true)
@@ -60,12 +60,12 @@ class PlaybackServiceConnector(context: Context, serviceComponent: ComponentName
     private inner class MediaControllerCompatCallback : MediaControllerCompat.Callback() {
 
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-            Timber.v("${object{}.javaClass.enclosingMethod?.name.toString()} executed")
+            Timber.v("${object {}.javaClass.enclosingMethod?.name.toString()} executed")
             playbackState.postValue(state ?: EMPTY_PLAYBACK_STATE)
         }
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-            Timber.v("${object{}.javaClass.enclosingMethod?.name.toString()} executed")
+            Timber.v("${object {}.javaClass.enclosingMethod?.name.toString()} executed")
             currentlyPlayingFile.postValue(
                 if (metadata?.id == null) {
                     BLANK_TRACK

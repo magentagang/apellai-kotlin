@@ -1,21 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <font-family xmlns:app="http://schemas.android.com/apk/res-auto">
-    <font app:fontStyle="normal" app:fontWeight="100" app:font="@font/public_sans_thin" />
-    <font app:fontStyle="italic" app:fontWeight="100" app:font="@font/public_sans_thinitalic" />
-    <font app:fontStyle="normal" app:fontWeight="200" app:font="@font/public_sans_extralight" />
-    <font app:fontStyle="italic" app:fontWeight="200" app:font="@font/public_sans_extralightitalic" />
-    <font app:fontStyle="normal" app:fontWeight="300" app:font="@font/public_sans_light" />
-    <font app:fontStyle="italic" app:fontWeight="300" app:font="@font/public_sans_lightitalic" />
-    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/public_sans_regular" />
-    <font app:fontStyle="italic" app:fontWeight="400" app:font="@font/public_sans_italic" />
-    <font app:fontStyle="normal" app:fontWeight="500" app:font="@font/public_sans_medium" />
-    <font app:fontStyle="italic" app:fontWeight="500" app:font="@font/public_sans_mediumitalic" />
-    <font app:fontStyle="normal" app:fontWeight="600" app:font="@font/public_sans_semibold" />
-    <font app:fontStyle="italic" app:fontWeight="600" app:font="@font/public_sans_semibolditalic" />
-    <font app:fontStyle="normal" app:fontWeight="700" app:font="@font/public_sans_bold" />
-    <font app:fontStyle="italic" app:fontWeight="700" app:font="@font/public_sans_bolditalic" />
-    <font app:fontStyle="normal" app:fontWeight="800" app:font="@font/public_sans_extrabold" />
-    <font app:fontStyle="italic" app:fontWeight="800" app:font="@font/public_sans_extrabolditalic" />
-    <font app:fontStyle="normal" app:fontWeight="900" app:font="@font/public_sans_black" />
-    <font app:fontStyle="italic" app:fontWeight="900" app:font="@font/public_sans_blackitalic" />
+    <font
+        app:font="@font/public_sans_thin"
+        app:fontStyle="normal"
+        app:fontWeight="100" />
+    <font
+        app:font="@font/public_sans_thinitalic"
+        app:fontStyle="italic"
+        app:fontWeight="100" />
+    <font
+        app:font="@font/public_sans_extralight"
+        app:fontStyle="normal"
+        app:fontWeight="200" />
+    <font
+        app:font="@font/public_sans_extralightitalic"
+        app:fontStyle="italic"
+        app:fontWeight="200" />
+    <font
+        app:font="@font/public_sans_light"
+        app:fontStyle="normal"
+        app:fontWeight="300" />
+    <font
+        app:font="@font/public_sans_lightitalic"
+        app:fontStyle="italic"
+        app:fontWeight="300" />
+    <font
+        app:font="@font/public_sans_regular"
+        app:fontStyle="normal"
+        app:fontWeight="400" />
+    <font
+        app:font="@font/public_sans_italic"
+        app:fontStyle="italic"
+        app:fontWeight="400" />
+    <font
+        app:font="@font/public_sans_medium"
+        app:fontStyle="normal"
+        app:fontWeight="500" />
+    <font
+        app:font="@font/public_sans_mediumitalic"
+        app:fontStyle="italic"
+        app:fontWeight="500" />
+    <font
+        app:font="@font/public_sans_semibold"
+        app:fontStyle="normal"
+        app:fontWeight="600" />
+    <font
+        app:font="@font/public_sans_semibolditalic"
+        app:fontStyle="italic"
+        app:fontWeight="600" />
+    <font
+        app:font="@font/public_sans_bold"
+        app:fontStyle="normal"
+        app:fontWeight="700" />
+    <font
+        app:font="@font/public_sans_bolditalic"
+        app:fontStyle="italic"
+        app:fontWeight="700" />
+    <font
+        app:font="@font/public_sans_extrabold"
+        app:fontStyle="normal"
+        app:fontWeight="800" />
+    <font
+        app:font="@font/public_sans_extrabolditalic"
+        app:fontStyle="italic"
+        app:fontWeight="800" />
+    <font
+        app:font="@font/public_sans_black"
+        app:fontStyle="normal"
+        app:fontWeight="900" />
+    <font
+        app:font="@font/public_sans_blackitalic"
+        app:fontStyle="italic"
+        app:fontWeight="900" />
 </font-family>

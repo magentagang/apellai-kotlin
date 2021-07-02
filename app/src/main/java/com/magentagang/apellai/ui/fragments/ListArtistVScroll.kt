@@ -30,9 +30,10 @@ class ListArtistVScroll : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val viewModelFactory = ListArtistViewModelFactory(application)
-        val listArtistViewModel = ViewModelProvider(this, viewModelFactory).get(ListArtistViewModel::class.java)
+        val listArtistViewModel =
+            ViewModelProvider(this, viewModelFactory).get(ListArtistViewModel::class.java)
 
-        binding.listArtistViewModel= listArtistViewModel
+        binding.listArtistViewModel = listArtistViewModel
         binding.lifecycleOwner = this
 
         val manager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -42,9 +43,10 @@ class ListArtistVScroll : Fragment() {
             listArtistViewModel.onArtistClicked(ID)
         })
 
-       listArtistViewModel.navigateToArtistScreen.observe(viewLifecycleOwner, { id ->
+        listArtistViewModel.navigateToArtistScreen.observe(viewLifecycleOwner, { id ->
             id?.let {
-                this.findNavController().navigate(LibraryFragmentDirections.actionNavigationLibraryToArtistScreen(id))
+                this.findNavController()
+                    .navigate(LibraryFragmentDirections.actionNavigationLibraryToArtistScreen(id))
                 listArtistViewModel.doneNavigating()
             }
         })

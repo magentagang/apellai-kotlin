@@ -20,8 +20,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     // coroutine wait for response
 
     fun initializeCategories(): Deferred<Boolean> {
-        return viewModelScope.async{
-            try{
+        return viewModelScope.async {
+            try {
                 databaseDao.resetRandomAlbums()
                 databaseDao.resetFrequentAlbums()
                 databaseDao.resetRecentAlbums()
@@ -32,14 +32,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 repositoryUtils.fetchCategorizedChunk(Constants.TYPE_NEWEST)
                 repositoryUtils.retrieveAndStarAllAlbums()
                 return@async true
-            }catch(e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
                 return@async false
             }
         }
     }
 
-    fun logOutUser(){
+    fun logOutUser() {
         CoroutineScope(Dispatchers.IO).launch {
             databaseDao.resetAllActiveUser()
         }
