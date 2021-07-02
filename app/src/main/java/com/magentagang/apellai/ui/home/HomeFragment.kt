@@ -13,7 +13,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.magentagang.apellai.LoginActivity
-import com.magentagang.apellai.MainActivity
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentHomeBinding
 import kotlinx.coroutines.CoroutineScope
@@ -24,8 +23,8 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var homeViewModel : HomeViewModel
-    private lateinit var application : Application
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var application: Application
 
     override fun onCreateView(
         inflater: LayoutInflater,

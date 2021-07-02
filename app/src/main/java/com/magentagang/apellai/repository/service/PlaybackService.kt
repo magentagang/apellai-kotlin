@@ -37,8 +37,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
-    lateinit var mediaSession: MediaSessionCompat
-    lateinit var mediaSessionConnector: MediaSessionConnector
+    private lateinit var mediaSession: MediaSessionCompat
+    private lateinit var mediaSessionConnector: MediaSessionConnector
     lateinit var mediaPlaybackStateBuilder: PlaybackStateCompat.Builder
 
     private var currentMediaQueue: List<MediaMetadataCompat> = emptyList()
@@ -150,7 +150,9 @@ class PlaybackService : MediaBrowserServiceCompat() {
         for (file in fileList) {
             concatenatingMediaSource.addMediaSource(
                 ProgressiveMediaSource.Factory(factory).createMediaSource(
-                    MediaItem.fromUri(file.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI))))
+                    MediaItem.fromUri(file.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI))
+                )
+            )
         }
 
         exoPlayer.prepare()
@@ -261,7 +263,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
         ) = false
     }
 
-    inner class TimelineQueueNavigator(mediaSession: MediaSessionCompat) : com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator(mediaSession) {
+    inner class TimelineQueueNavigator(mediaSession: MediaSessionCompat) :
+        com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator(mediaSession) {
         override fun getMediaDescription(player: Player, windowIndex: Int): MediaDescriptionCompat {
             return currentMediaQueue[windowIndex].description
         }
@@ -285,7 +288,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
         override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
             stopForeground(true)
             isForegroundService = false
-            stopSelf()
+            // FIXME Find a solution to service not restarting on app kill on alternating launches
+//            stopSelf()
         }
     }
 }

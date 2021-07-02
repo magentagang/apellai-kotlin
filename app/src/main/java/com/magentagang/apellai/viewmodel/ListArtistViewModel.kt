@@ -11,12 +11,13 @@ import com.magentagang.apellai.repository.database.UserDatabase
 import com.magentagang.apellai.util.Constants
 import com.magentagang.apellai.util.RepositoryUtils
 
-class ListArtistViewModel ( application: Application) : AndroidViewModel(application) {
+class ListArtistViewModel(application: Application) : AndroidViewModel(application) {
     var repositoryUtils: RepositoryUtils
     var databaseDao: DatabaseDao = UserDatabase.getInstance(application).databaseDao()
     private val dataSource = UserDatabase.getInstance(application).databaseDao()
-    val artists : LiveData<List<Artist>>
-    init{
+    val artists: LiveData<List<Artist>>
+
+    init {
         repositoryUtils = RepositoryUtils(databaseDao)
         repositoryUtils.retrieveAllAlbums(Constants.TYPE_ALPHABETICAL_BY_NAME)
         dataSource.getAllArtists().asLiveData().also { artists = it }
@@ -27,9 +28,10 @@ class ListArtistViewModel ( application: Application) : AndroidViewModel(applica
     val navigateToArtistScreen
         get() = _navigateToArtistScreen
 
-    fun onArtistClicked(id: String){
+    fun onArtistClicked(id: String) {
         _navigateToArtistScreen.value = id
     }
+
     fun doneNavigating() {
         _navigateToArtistScreen.value = null
     }

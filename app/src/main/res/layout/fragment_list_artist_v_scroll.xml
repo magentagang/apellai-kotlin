@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="listArtistViewModel"
             type="com.magentagang.apellai.viewmodel.ListArtistViewModel" />

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="homeViewModel"
             type="com.magentagang.apellai.ui.home.HomeViewModel" />
@@ -85,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/header_top_margin"
                     android:layout_marginBottom="@dimen/footer_spacing"
+                    android:paddingBottom="64dp"
                     android:tag="@string/most_played"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

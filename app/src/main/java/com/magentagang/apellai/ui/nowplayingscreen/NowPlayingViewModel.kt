@@ -6,7 +6,10 @@ import android.os.Looper
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.magentagang.apellai.R
 import com.magentagang.apellai.model.ErrorHandler
 import com.magentagang.apellai.model.Track
@@ -15,15 +18,21 @@ import com.magentagang.apellai.repository.service.EMPTY_PLAYBACK_STATE
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
 import com.magentagang.apellai.repository.service.SubsonicApi
 import com.magentagang.apellai.util.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, application: Application) : AndroidViewModel(application){
+class NowPlayingViewModel(
+    playbackServiceConnector: PlaybackServiceConnector,
+    application: Application
+) : AndroidViewModel(application) {
 
     val _loveButtonLivedata = MutableLiveData<Boolean?>(null)
 
     val loveButtonLivedata: LiveData<Boolean?>
-     get() = _loveButtonLivedata
+        get() = _loveButtonLivedata
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -35,70 +44,81 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
             try {
                 val root = trackListDeferred.await()
                 var isLovedAlready = false
-                if(root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.song != null)
-                {
+                if (root.subsonicResponse.status != "failed" && root.subsonicResponse.starred2?.song != null) {
                     val songList = root.subsonicResponse.starred2.song
-                    Timber.i("LoveButton -> ${songList?:"LoveButton-> songList is null"}")
-                    if(songList != null){
+                    Timber.i("LoveButton -> ${songList ?: "LoveButton-> songList is null"}")
+                    if (songList != null) {
 
-                        for(starredSongs in songList)
-                        {
-                            if(starredSongs.id==track.id) {
+                        for (starredSongs in songList) {
+                            if (starredSongs.id == track.id) {
                                 Timber.i("LoveButton -> $starredSongs")
                                 _loveButtonLivedata.postValue(true)
                                 isLovedAlready = true
                             }
                         }
                     }
-                }else if(root.subsonicResponse.status == "failed"){
+                } else if (root.subsonicResponse.status == "failed") {
                     //TODO(Log error messages using ErrorHandler Interface here)
-                    Timber.i(root.subsonicResponse.error?.message?:"ERROR in getLovedStatusAsync()")
+                    Timber.i(
+                        root.subsonicResponse.error?.message ?: "ERROR in getLovedStatusAsync()"
+                    )
                 }
-                if(!isLovedAlready){
+                if (!isLovedAlready) {
                     _loveButtonLivedata.postValue(false)
                 }
                 Timber.i("LoveButton -> getLovedStatusAsync -> ${_loveButtonLivedata.value}")
-            }
-            catch(e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
 
-    fun setLoveButtonLiveDataToNull(){
+    fun setLoveButtonLiveDataToNull() {
         _loveButtonLivedata.postValue(null)
     }
 
     fun unstarTrack(b: Boolean, _id: String) {
         coroutineScopeIO.launch {
-            if(b){
+            if (b) {
                 Timber.i("LoveButton -> Unstarring track")
                 val unstarTrackDeferred = SubsonicApi.retrofitService.unstarSongAsync(id = _id)
-                try{
+                try {
                     val root = unstarTrackDeferred.await()
-                    if(root.subsonicResponse.status != "failed"){
+                    if (root.subsonicResponse.status != "failed") {
                         Timber.i("LoveButton -> Unstarring track successful")
                         _loveButtonLivedata.postValue(false)
-                    }else{
+                    } else {
                         Timber.i("LoveButton -> Unstarring track unsuccessful")
-                        Timber.i("Error -> nowPlayingViewModel -> unstarTrack -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                        Timber.i(
+                            "Error -> nowPlayingViewModel -> unstarTrack -> ${
+                                ErrorHandler.logErrorMessage(
+                                    subsonicResponseError = root.subsonicResponse.error
+                                )
+                            }"
+                        )
                     }
-                }catch(e: Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
-            }else{
+            } else {
                 Timber.i("LoveButton -> Starring track")
                 val starTrackDeferred = SubsonicApi.retrofitService.starSongAsync(id = _id)
-                try{
+                try {
                     val root = starTrackDeferred.await()
-                    if(root.subsonicResponse.status != "failed"){
+                    if (root.subsonicResponse.status != "failed") {
                         Timber.i("LoveButton -> Starring track successful")
                         _loveButtonLivedata.postValue(true)
-                    }else{
+                    } else {
                         Timber.i("LoveButton -> Starring track unsuccessful")
-                        Timber.i("Error -> nowPlayingViewModel -> unstarTrack -> ${ErrorHandler.logErrorMessage(subsonicResponseError = root.subsonicResponse.error)}")
+                        Timber.i(
+                            "Error -> nowPlayingViewModel -> unstarTrack -> ${
+                                ErrorHandler.logErrorMessage(
+                                    subsonicResponseError = root.subsonicResponse.error
+                                )
+                            }"
+                        )
                     }
-                }catch(e: Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
@@ -108,9 +128,10 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
 
     // FIXME Shuffle and repeat icon reset bug
     val _shuffleMode = MutableLiveData(Constants.SHUFFLE_MODE)
-    val shuffleMode : LiveData<Int>
+    val shuffleMode: LiveData<Int>
         get() = _shuffleMode
-//    var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
+
+    //    var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
     val _repeatMode = MutableLiveData(Constants.REPEAT_MODE)
     val repeatMode: LiveData<Int>
         get() = _repeatMode
@@ -161,7 +182,7 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
     val navigateToNowPlayingScreen
         get() = _navigateToNowPlayingScreen
 
-    fun onNowPlayingMiniClicked(id: String){
+    fun onNowPlayingMiniClicked(id: String) {
         _navigateToNowPlayingScreen.value = id
     }
 
@@ -250,7 +271,7 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
 
     fun toggleShuffle() {
         Timber.i("Shuffle -> ${_shuffleMode.value}")
-        when(_shuffleMode.value) {
+        when (_shuffleMode.value) {
             PlaybackStateCompat.SHUFFLE_MODE_NONE -> {
                 Constants.SHUFFLE_MODE = PlaybackStateCompat.SHUFFLE_MODE_ALL
             }
@@ -263,7 +284,7 @@ class NowPlayingViewModel(playbackServiceConnector: PlaybackServiceConnector, ap
     }
 
     fun toggleRepeat() {
-        Constants.REPEAT_MODE = when(_repeatMode.value) {
+        Constants.REPEAT_MODE = when (_repeatMode.value) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
             PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE
             else -> PlaybackStateCompat.REPEAT_MODE_NONE

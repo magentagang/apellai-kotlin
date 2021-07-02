@@ -17,8 +17,8 @@ import com.magentagang.apellai.util.RepositoryUtils
 class ListAlbumAdapter(val clickListener: AlbumListener) : ListAdapter<Album,
         ListAlbumAdapter.ViewHolder>(GridAlbumDiffCallback()) {
 
-    class ViewHolder private constructor(val binding: FragmentListAlbumBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: FragmentListAlbumBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
 
         // glide related code
@@ -36,7 +36,7 @@ class ListAlbumAdapter(val clickListener: AlbumListener) : ListAdapter<Album,
                 .placeholder(R.drawable.placeholder_nocover)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.albumArt)
-            
+
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }

@@ -25,8 +25,9 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     var albums = MutableLiveData<List<Album>>()
     var artists = MutableLiveData<List<Artist>>()
     var tracks = MutableLiveData<List<Track>>()
-    var subsonicResponseRoot:LiveData<SubsonicResponseRoot>
-    init{
+    var subsonicResponseRoot: LiveData<SubsonicResponseRoot>
+
+    init {
 
         val subsonicResponseRootFlow = searchQuery.flatMapLatest {
             repositoryUtils.fetchSearchResultFlow(it)
@@ -47,15 +48,15 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     fun onAlbumClicked(id: String) {
         _navigateToAlbumScreen.value = id
     }
-    fun onArtistClicked(id: String){
+
+    fun onArtistClicked(id: String) {
         _navigateToArtistScreen.value = id
     }
+
     fun doneNavigating() {
         _navigateToAlbumScreen.value = null
         _navigateToArtistScreen.value = null
     }
-
-
 
 
 }

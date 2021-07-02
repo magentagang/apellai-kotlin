@@ -35,12 +35,18 @@ class SearchFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = SearchViewModelFactory(application)
         val searchViewModel = ViewModelProvider(this, viewModelFactory).get(
-            SearchViewModel::class.java)
+            SearchViewModel::class.java
+        )
         val playbackServiceConnector = PlaybackServiceConnector
-            .getInstance(requireContext(), ComponentName(requireContext(), PlaybackService::class.java))
-        val nowPlayingViewModelFactory = NowPlayingViewModelFactory(playbackServiceConnector, application)
+            .getInstance(
+                requireContext(),
+                ComponentName(requireContext(), PlaybackService::class.java)
+            )
+        val nowPlayingViewModelFactory =
+            NowPlayingViewModelFactory(playbackServiceConnector, application)
         val nowPlayingViewModel = ViewModelProvider(this, nowPlayingViewModelFactory).get(
-            NowPlayingViewModel::class.java)
+            NowPlayingViewModel::class.java
+        )
         val mediaSource = MediaSource.getInstance()
 
         binding = DataBindingUtil.inflate(
@@ -85,21 +91,29 @@ class SearchFragment : Fragment() {
         searchViewModel.navigateToAlbumScreen.observe(viewLifecycleOwner, { id ->
             id?.let {
                 val navController = this.findNavController()
-                navController.navigate(SearchFragmentDirections.actionNavigationSearchToAlbumScreen(id))
+                navController.navigate(
+                    SearchFragmentDirections.actionNavigationSearchToAlbumScreen(
+                        id
+                    )
+                )
                 searchViewModel.doneNavigating()
             }
         })
-        searchViewModel.navigateToArtistScreen.observe(viewLifecycleOwner, {id ->
+        searchViewModel.navigateToArtistScreen.observe(viewLifecycleOwner, { id ->
             id?.let {
                 val navController = this.findNavController()
-                navController.navigate(SearchFragmentDirections.actionNavigationSearchToArtistScreen(id))
+                navController.navigate(
+                    SearchFragmentDirections.actionNavigationSearchToArtistScreen(
+                        id
+                    )
+                )
                 searchViewModel.doneNavigating()
             }
         })
 
         searchViewModel.subsonicResponseRoot.observe(viewLifecycleOwner, {
             //Timber.i("ALBUMS SEARCH -> ${it.toString()}")
-            if(it != null){
+            if (it != null) {
                 Timber.i("Search Result -> ${it.subsonicResponse.searchResult3?.album.toString()}")
                 val chipChecked = binding.chipGroup.checkedChipId
 
@@ -108,14 +122,13 @@ class SearchFragment : Fragment() {
                 searchViewModel.tracks.postValue(it.subsonicResponse.searchResult3?.song)
 
                 //TODO BUTUM HALA ETAR NAM SONG DISOS KEN TRACK HOBE
-                when(chipChecked)
-                {
+                when (chipChecked) {
                     binding.chipAlbum.id -> adapterAlbum.notifyDataSetChanged()
                     binding.chipArtist.id -> adapterArtist.notifyDataSetChanged()
                     binding.chipTrack.id -> adapterTrack.notifyDataSetChanged()
                 }
 
-            }else{
+            } else {
                 Timber.i("Search Result -> subsonicResponseRoot is null")
             }
         })

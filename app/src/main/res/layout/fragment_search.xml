@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="searchViewModel"
             type="com.magentagang.apellai.ui.search.SearchViewModel" />
@@ -71,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="156dp"
-            android:layout_marginBottom="?attr/actionBarSize"
+            android:layout_marginBottom="128dp"
             android:tag="all"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"

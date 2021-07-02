@@ -37,13 +37,19 @@ class ListTrackVScroll : Fragment() {
         val albumId = container?.tag.toString()
         val application = requireNotNull(this.activity).application
         val viewModelFactory = ListTrackViewModelFactory(application, albumId)
-        val listTrackViewModel = ViewModelProvider(this, viewModelFactory).get(ListTrackViewModel::class.java)
+        val listTrackViewModel =
+            ViewModelProvider(this, viewModelFactory).get(ListTrackViewModel::class.java)
 
         val playbackServiceConnector = PlaybackServiceConnector
-            .getInstance(requireContext(), ComponentName(requireContext(), PlaybackService::class.java))
-        val nowPlayingViewModelFactory = NowPlayingViewModelFactory(playbackServiceConnector, application)
+            .getInstance(
+                requireContext(),
+                ComponentName(requireContext(), PlaybackService::class.java)
+            )
+        val nowPlayingViewModelFactory =
+            NowPlayingViewModelFactory(playbackServiceConnector, application)
         val nowPlayingViewModel = ViewModelProvider(this, nowPlayingViewModelFactory).get(
-            NowPlayingViewModel::class.java)
+            NowPlayingViewModel::class.java
+        )
         val mediaSource = MediaSource.getInstance()
 
         binding.listTrackViewModel = listTrackViewModel

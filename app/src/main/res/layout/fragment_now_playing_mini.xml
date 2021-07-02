@@ -11,10 +11,10 @@
         style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        app:mpb_progressBackgroundTint="@color/disabled_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:mpb_progressBackgroundTint="@color/disabled_toggle"
         app:mpb_progressStyle="horizontal"
         app:mpb_useIntrinsicPadding="false" />
 

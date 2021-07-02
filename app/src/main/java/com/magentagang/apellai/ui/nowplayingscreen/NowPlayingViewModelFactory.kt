@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.magentagang.apellai.repository.service.PlaybackServiceConnector
 
-class NowPlayingViewModelFactory (private val playbackServiceConnector: PlaybackServiceConnector, private val application: Application)
-    : ViewModelProvider.Factory {
+class NowPlayingViewModelFactory(
+    private val playbackServiceConnector: PlaybackServiceConnector,
+    private val application: Application
+) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NowPlayingViewModel::class.java)) {

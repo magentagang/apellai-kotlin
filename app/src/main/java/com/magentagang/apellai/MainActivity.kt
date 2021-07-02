@@ -47,16 +47,25 @@ class MainActivity : AppCompatActivity() {
         val nowPlayingMiniFragment = fragmentManager.findFragmentById(R.id.nowPlayingMini)
 
         showNowPlayingMini.observe(this, {
-            when(it) {
+            when (it) {
                 false -> {
                     nowPlayingMiniFragment?.let {
-                        nowPlayingMiniFragment.hideWithAnimation(this, fragmentManager, R.anim.pop_out_down)
+                        nowPlayingMiniFragment.hideWithAnimation(
+                            this,
+                            fragmentManager,
+                            R.anim.pop_out_down
+                        )
                     }
                 }
                 true -> {
                     nowPlayingMiniFragment?.let {
                         fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.pop_in_up, R.anim.pop_in_down, R.anim.pop_in_up, R.anim.pop_in_down)
+                            .setCustomAnimations(
+                                R.anim.pop_in_up,
+                                R.anim.pop_in_down,
+                                R.anim.pop_in_up,
+                                R.anim.pop_in_down
+                            )
                             .show(nowPlayingMiniFragment)
                             .commit()
                     }
@@ -67,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeCategories(repositoryUtils: RepositoryUtils, databaseDao: DatabaseDao) {
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
             databaseDao.resetRandomAlbums()
             databaseDao.resetFrequentAlbums()
             databaseDao.resetRecentAlbums()
@@ -86,6 +95,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Timber.i("on Start was invoked")
+        // FIXME Light/Dark mode configuration change resets miniplayer visibility
+//        showNowPlayingMini.postValue(!MediaSource.getInstance().isQueueEmpty())
     }
 
     override fun onDestroy() {

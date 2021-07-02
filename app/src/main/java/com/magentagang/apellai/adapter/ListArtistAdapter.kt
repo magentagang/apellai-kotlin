@@ -11,8 +11,8 @@ import com.magentagang.apellai.model.Artist
 class ListArtistAdapter(val clickListener: ArtistListener) : ListAdapter<Artist,
         ListArtistAdapter.ViewHolder>(GridArtistDiffCallback()) {
 
-    class ViewHolder private constructor(val binding: FragmentListArtistBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: FragmentListArtistBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Artist, clickListener: ArtistListener) {
             binding.artist = item

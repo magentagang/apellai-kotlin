@@ -4,24 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.magentagang.apellai.R
 import com.magentagang.apellai.adapter.AlbumListener
 import com.magentagang.apellai.adapter.ListAlbumAdapter
 import com.magentagang.apellai.databinding.FragmentListAlbumVScrollBinding
-import com.magentagang.apellai.ui.albumscreen.AlbumScreenArgs
-import com.magentagang.apellai.ui.artistscreen.ArtistScreenArgs
 import com.magentagang.apellai.ui.artistscreen.ArtistScreenDirections
 import com.magentagang.apellai.ui.library.LibraryFragmentDirections
 import com.magentagang.apellai.viewmodel.ListAlbumViewModel
 import com.magentagang.apellai.viewmodel.factory.ListAlbumViewModelFactory
-import timber.log.Timber
 
 class ListAlbumVScroll : Fragment() {
 
@@ -35,8 +30,9 @@ class ListAlbumVScroll : Fragment() {
         )
         val albumListType = container?.tag.toString()
         val application = requireNotNull(this.activity).application
-        val viewModelFactory = ListAlbumViewModelFactory(application,albumListType)
-        val listAlbumViewModel = ViewModelProvider(this, viewModelFactory).get(ListAlbumViewModel::class.java)
+        val viewModelFactory = ListAlbumViewModelFactory(application, albumListType)
+        val listAlbumViewModel =
+            ViewModelProvider(this, viewModelFactory).get(ListAlbumViewModel::class.java)
         binding.listAlbumViewModel = listAlbumViewModel
         binding.lifecycleOwner = this
         val manager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -50,8 +46,16 @@ class ListAlbumVScroll : Fragment() {
             id?.let {
                 val navController = this.findNavController()
                 when (navController.currentDestination?.id) {
-                    R.id.navigation_library -> navController.navigate(LibraryFragmentDirections.actionNavigationLibraryToAlbumScreen(id))
-                    R.id.artistScreen -> navController.navigate(ArtistScreenDirections.actionArtistScreenToAlbumScreen(id))
+                    R.id.navigation_library -> navController.navigate(
+                        LibraryFragmentDirections.actionNavigationLibraryToAlbumScreen(
+                            id
+                        )
+                    )
+                    R.id.artistScreen -> navController.navigate(
+                        ArtistScreenDirections.actionArtistScreenToAlbumScreen(
+                            id
+                        )
+                    )
                 }
                 listAlbumViewModel.doneNavigating()
             }

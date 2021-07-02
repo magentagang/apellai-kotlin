@@ -1,19 +1,18 @@
 package com.magentagang.apellai.ui.artistscreen
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.magentagang.apellai.R
 import com.magentagang.apellai.databinding.FragmentArtistScreenBinding
-import com.magentagang.apellai.ui.albumscreen.AlbumScreenViewModel
 
 class ArtistScreen : Fragment() {
     private lateinit var binding: FragmentArtistScreenBinding
@@ -21,15 +20,18 @@ class ArtistScreen : Fragment() {
         .fallback(R.drawable.placeholder_nocover)
         .diskCacheStrategy(DiskCacheStrategy.DATA)
 
-    private lateinit var imageView : ImageView
+    private lateinit var imageView: ImageView
+
     companion object {
         fun newInstance() = ArtistScreen()
     }
 
     private lateinit var artistScreenViewModel: ArtistScreenViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val application = requireNotNull(this.activity).application
 
         val artistScreenArgs: ArtistScreenArgs by navArgs()

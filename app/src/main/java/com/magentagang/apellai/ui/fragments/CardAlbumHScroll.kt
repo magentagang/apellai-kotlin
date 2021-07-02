@@ -13,12 +13,9 @@ import com.magentagang.apellai.R
 import com.magentagang.apellai.adapter.AlbumHListener
 import com.magentagang.apellai.adapter.CardAlbumHScrollAdapter
 import com.magentagang.apellai.databinding.FragmentCardAlbumHScrollBinding
-import com.magentagang.apellai.ui.artistscreen.ArtistScreenDirections
 import com.magentagang.apellai.ui.home.HomeFragmentDirections
-import com.magentagang.apellai.ui.library.LibraryFragmentDirections
 import com.magentagang.apellai.viewmodel.CardAlbumHScrollViewModel
 import com.magentagang.apellai.viewmodel.factory.CardAlbumHScrollViewModelFactory
-import timber.log.Timber
 
 class CardAlbumHScroll : Fragment() {
 
@@ -34,7 +31,8 @@ class CardAlbumHScroll : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val viewModelFactory = CardAlbumHScrollViewModelFactory(application, albumListType)
-        val cardAlbumHScrollViewModel = ViewModelProvider(this, viewModelFactory).get(CardAlbumHScrollViewModel::class.java)
+        val cardAlbumHScrollViewModel =
+            ViewModelProvider(this, viewModelFactory).get(CardAlbumHScrollViewModel::class.java)
 
         binding.categoryHeader.text = albumListType
         binding.cardAlbumHScrollViewModel = cardAlbumHScrollViewModel

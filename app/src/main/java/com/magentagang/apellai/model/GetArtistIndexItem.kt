@@ -4,5 +4,5 @@ import com.squareup.moshi.Json
 
 data class GetArtistIndexItem(
     val name: String?,
-    @Json(name = "artist") val artistList : List<Artist>,
+    @Json(name = "artist") val artistList: List<Artist>,
 )
