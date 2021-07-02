@@ -127,12 +127,11 @@ class NowPlayingViewModel(
 
 
     // FIXME Shuffle and repeat icon reset bug
-    val _shuffleMode = MutableLiveData(Constants.SHUFFLE_MODE)
+    private val _shuffleMode = MutableLiveData(Constants.SHUFFLE_MODE)
     val shuffleMode: LiveData<Int>
         get() = _shuffleMode
 
-    //    var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
-    val _repeatMode = MutableLiveData(Constants.REPEAT_MODE)
+    private val _repeatMode = MutableLiveData(Constants.REPEAT_MODE)
     val repeatMode: LiveData<Int>
         get() = _repeatMode
 
@@ -270,7 +269,7 @@ class NowPlayingViewModel(
     }
 
     fun toggleShuffle() {
-        Timber.i("Shuffle -> ${_shuffleMode.value}")
+        Timber.v("Shuffle -> ${_shuffleMode.value}")
         when (_shuffleMode.value) {
             PlaybackStateCompat.SHUFFLE_MODE_NONE -> {
                 Constants.SHUFFLE_MODE = PlaybackStateCompat.SHUFFLE_MODE_ALL
@@ -280,7 +279,7 @@ class NowPlayingViewModel(
             }
         }
         _shuffleMode.postValue(Constants.SHUFFLE_MODE)
-        playbackServiceConnector.transportControls.setShuffleMode(_shuffleMode.value!!)
+        playbackServiceConnector.transportControls.setShuffleMode(Constants.SHUFFLE_MODE)
     }
 
     fun toggleRepeat() {
