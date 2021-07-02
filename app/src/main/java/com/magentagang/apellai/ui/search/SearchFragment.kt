@@ -112,6 +112,7 @@ class SearchFragment : Fragment() {
         })
 
         searchViewModel.subsonicResponseRoot.observe(viewLifecycleOwner, {
+
             //Timber.i("ALBUMS SEARCH -> ${it.toString()}")
             if (it != null) {
                 Timber.i("Search Result -> ${it.subsonicResponse.searchResult3?.album.toString()}")
@@ -121,12 +122,15 @@ class SearchFragment : Fragment() {
                 searchViewModel.artists.postValue(it.subsonicResponse.searchResult3?.artist)
                 searchViewModel.tracks.postValue(it.subsonicResponse.searchResult3?.song)
 
-                //TODO BUTUM HALA ETAR NAM SONG DISOS KEN TRACK HOBE
-                when (chipChecked) {
-                    binding.chipAlbum.id -> adapterAlbum.notifyDataSetChanged()
-                    binding.chipArtist.id -> adapterArtist.notifyDataSetChanged()
-                    binding.chipTrack.id -> adapterTrack.notifyDataSetChanged()
-                }
+                adapterAlbum.notifyDataSetChanged()
+                adapterArtist.notifyDataSetChanged()
+                adapterTrack.notifyDataSetChanged()
+
+//                when (chipChecked) {
+//                    binding.chipAlbum.id -> adapterAlbum.notifyDataSetChanged()
+//                    binding.chipArtist.id -> adapterArtist.notifyDataSetChanged()
+//                    binding.chipTrack.id -> adapterTrack.notifyDataSetChanged()
+//                }
 
             } else {
                 Timber.i("Search Result -> subsonicResponseRoot is null")
@@ -149,7 +153,13 @@ class SearchFragment : Fragment() {
 
         binding.searchView.onQueryTextChanged {
             Timber.i("Search View Text: $it")
-            searchViewModel.searchQuery.value = it
+            if (it.trim().isNotEmpty()) {
+                searchViewModel.searchQuery.value = it
+            } else {
+                adapterAlbum.submitList(emptyList())
+                adapterArtist.submitList(emptyList())
+                adapterTrack.submitList(emptyList())
+            }
         }
         return binding.root
     }

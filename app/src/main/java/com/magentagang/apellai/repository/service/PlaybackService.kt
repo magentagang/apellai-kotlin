@@ -61,6 +61,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
     override fun onCreate() {
         super.onCreate()
 
+        Timber.v("PlaybackService started")
+
         val sessionActivityPendingIntent =
             packageManager?.getLaunchIntentForPackage(packageName)?.let { sessionIntent ->
                 PendingIntent.getActivity(this, 0, sessionIntent, 0)
@@ -124,6 +126,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
         exoPlayer.removeListener(playerListener)
         exoPlayer.release()
+        Timber.v("PlaybackService destroyed")
     }
 
     private fun enqueueToPlayer(
